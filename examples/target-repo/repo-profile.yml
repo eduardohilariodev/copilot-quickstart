@@ -1,0 +1,69 @@
+# Repo Profile: acme/web-platform
+# yaml-language-server: $schema=../../schemas/repo-profile.schema.json
+
+name: "acme/web-platform"
+description: "Customer-facing web platform with dashboard, auth, and billing"
+
+languages:
+  - typescript
+  - sql
+
+frameworks:
+  - nextjs
+  - prisma
+  - tailwindcss
+  - vitest
+  - playwright
+
+build_commands:
+  install: "pnpm install"
+  build: "pnpm turbo build"
+  test: "pnpm turbo test"
+  lint: "pnpm turbo lint"
+  format: "pnpm prettier --write ."
+
+architecture: monorepo
+
+deployment:
+  platform: vercel
+  strategy: staged
+  environments:
+    - development
+    - staging
+    - production
+
+risk_level: medium
+
+conventions:
+  naming: "camelCase variables, PascalCase components, kebab-case files"
+  git_workflow: "github-flow with required PR reviews"
+  testing_strategy: "unit (Vitest) + e2e (Playwright), 80% coverage target"
+  documentation_style: "JSDoc for public APIs, README per package"
+
+protected_paths:
+  - "prisma/migrations/"
+  - ".env*"
+  - "packages/config/"
+
+monorepo:
+  tool: turborepo
+  packages:
+    - name: web
+      path: apps/web
+      type: app
+    - name: api
+      path: apps/api
+      type: app
+    - name: ui
+      path: packages/ui
+      type: library
+    - name: db
+      path: packages/db
+      type: library
+    - name: config
+      path: packages/config
+      type: config
+
+providers:
+  - copilot
+  - claude

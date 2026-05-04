@@ -1,0 +1,53 @@
+# Agent Definition: {{agent_name}}
+
+# yaml-language-server: $schema=../schemas/agent.schema.json
+
+name: {{agent_name}}
+role: "{{agent_role}}"
+version: 1.0.0
+
+persona:
+  identity: "{{agent_identity}}"
+  tone: "{{agent_tone}}"
+  expertise:
+    - {{expertise_1}}
+    - {{expertise_2}}
+
+tools:
+  - name: read_file
+    permission: read
+    scope: "**/*"
+  - name: edit_file
+    permission: write
+    scope: "{{editable_scope}}"
+  - name: run_command
+    permission: execute
+    scope: "{{command_scope}}"
+
+constraints:
+  prohibited_actions:
+    - "{{prohibited_1}}"
+    - "{{prohibited_2}}"
+  require_approval:
+    - "{{approval_1}}"
+    - "{{approval_2}}"
+  max_iterations: {{max_iterations}}
+
+escalation:
+  - condition: "unsure about user intent"
+    action: ask_user
+  - condition: "action would delete or overwrite files"
+    action: ask_user
+  - condition: "{{custom_escalation_condition}}"
+    action: "{{custom_escalation_action}}"
+
+skills:
+  - {{skill_1}}
+  - {{skill_2}}
+
+context:
+  documentation_files:
+    - AGENTS.md
+    - README.md
+  instruction_files:
+    - .github/copilot-instructions.md

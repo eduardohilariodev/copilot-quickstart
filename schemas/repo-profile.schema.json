@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Repository Intake Profile",
+  "description": "Describes a target repository's characteristics for config generation. This is the input contract for all meta-skills.",
+  "type": "object",
+  "required": ["name", "languages", "risk_level"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Repository name (owner/repo format)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of what this repo does"
+    },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Primary languages used (e.g., ['typescript', 'python'])"
+    },
+    "frameworks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Frameworks in use (e.g., ['nextjs', 'prisma', 'tailwind'])"
+    },
+    "build_commands": {
+      "type": "object",
+      "properties": {
+        "install": { "type": "string" },
+        "build": { "type": "string" },
+        "test": { "type": "string" },
+        "lint": { "type": "string" },
+        "format": { "type": "string" }
+      },
+      "description": "Commands to build, test, and lint the project"
+    },
+    "architecture": {
+      "type": "string",
+      "enum": ["monolith", "monorepo", "microservices", "library", "cli", "serverless"],
+      "description": "High-level architecture pattern"
+    },
+    "deployment": {
+      "type": "object",
+      "properties": {
+        "platform": { "type": "string", "description": "e.g., vercel, aws, gcp, azure, self-hosted" },
+        "strategy": { "type": "string", "enum": ["continuous", "manual", "staged"] },
+        "environments": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "e.g., ['development', 'staging', 'production']"
+        }
+      }
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "description": "Security risk classification per security-governance.md"
+    },
+    "conventions": {
+      "type": "object",
+      "properties": {
+        "naming": { "type": "string", "description": "e.g., 'camelCase variables, PascalCase components'" },
+        "git_workflow": { "type": "string", "description": "e.g., 'trunk-based', 'gitflow', 'github-flow'" },
+        "testing_strategy": { "type": "string", "description": "e.g., 'unit + integration, 80% coverage target'" },
+        "documentation_style": { "type": "string", "description": "e.g., 'JSDoc for public APIs, README per module'" }
+      },
+      "description": "Project-specific conventions"
+    },
+    "protected_paths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths that should not be auto-modified (e.g., ['migrations/', '.env*'])"
+    },
+    "monorepo": {
+      "type": "object",
+      "properties": {
+        "tool": { "type": "string", "description": "e.g., 'turborepo', 'nx', 'lerna'" },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "path": { "type": "string" },
+              "type": { "type": "string", "enum": ["app", "library", "config", "tool"] }
+            }
+          }
+        }
+      },
+      "description": "Only relevant if architecture is 'monorepo'"
+    },
+    "providers": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["copilot", "claude", "cursor"] },
+      "description": "AI providers to generate configs for"
+    }
+  }
+}

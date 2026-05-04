@@ -19,6 +19,7 @@ copilot-quickstart/
 │   ├── design-standards.md       # Agent/skill/instruction boundaries & taxonomy
 │   ├── prompt-engineering-guide.md  # Writing patterns, format, anti-patterns
 │   ├── security-governance.md    # Security constraints & governance policies
+│   ├── maintenance-principles.md # Lifecycle, pruning, size thresholds, drift prevention
 │   └── anti-patterns.md          # What NOT to do (with examples)
 ├── schemas/                      # Machine-readable contracts
 │   ├── repo-profile.schema.json  # Target repo intake specification
@@ -31,12 +32,35 @@ copilot-quickstart/
 │   ├── SKILL.md                  # Skill definition template
 │   ├── agent-definition.yml      # Agent config template
 │   └── eval-suite.md             # Evaluation checklist template
-├── meta-skills/                  # Skills that create other configurations
+├── meta-skills/                  # Skills that create and maintain configurations
+│   │
+│   │ # Bootstrap (create from scratch)
 │   ├── create-skill/SKILL.md     # Generates new skill definitions
 │   ├── create-instructions/SKILL.md  # Generates instruction files
 │   ├── create-agent/SKILL.md     # Generates agent definitions
-│   ├── evaluate-config/SKILL.md  # Audits existing configs
-│   └── sync-config/SKILL.md      # Syncs across Copilot/Claude/Cursor
+│   ├── evaluate-config/SKILL.md  # Audits existing configs against standards
+│   ├── sync-config/SKILL.md      # Syncs across Copilot/Claude/Cursor
+│   │
+│   │ # Maintenance — Instruction Cleanup
+│   ├── refactor-instructions/SKILL.md  # Progressive disclosure refactoring
+│   ├── lint-instructions/SKILL.md      # Instruction file linter
+│   ├── detect-drift/SKILL.md           # Cross-provider drift detection
+│   │
+│   │ # Maintenance — Skill Hygiene
+│   ├── audit-skills/SKILL.md           # Skill catalog auditor
+│   ├── prune-skills/SKILL.md           # Skill lifecycle/deprecation manager
+│   ├── check-compatibility/SKILL.md    # Tool version compatibility checker
+│   │
+│   │ # Maintenance — Orchestration
+│   ├── health-dashboard/SKILL.md       # Config health report generator
+│   ├── batch-maintain/SKILL.md         # Multi-repo batch maintenance
+│   │
+│   │ # Maintenance — Upgrade & Migration
+│   ├── upgrade-assistant/SKILL.md      # Model/tool upgrade helper
+│   │
+│   │ # Maintenance — Governance & Safety
+│   ├── audit-tool-safety/SKILL.md      # Tool/script safety auditor
+│   └── check-policy/SKILL.md           # Org policy conformance checker
 └── examples/
     └── target-repo/              # Fully populated example output
         ├── repo-profile.yml      # Input profile
@@ -85,6 +109,71 @@ copilot instructions for my repo based on the repo-profile.yml"
 "Using copilot-quickstart/meta-skills/sync-config, sync my Copilot 
 instructions to CLAUDE.md and Cursor rules"
 ```
+
+## Maintenance Workflow
+
+After initial setup, the maintenance meta-skills keep configs clean over time:
+
+### The Maintenance Cycle
+
+```
+MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
+```
+
+### Regular Maintenance
+
+```
+# Check overall health (weekly)
+"Run health-dashboard on my repo and show priorities"
+
+# Lint instruction quality
+"Run lint-instructions on my .github/copilot-instructions.md"
+
+# Detect drift between providers
+"Check for drift between my Copilot and Claude configs"
+
+# Audit skill catalog (monthly)
+"Audit all my skills for compliance and hygiene issues"
+
+# Prune unused skills (quarterly)
+"Identify skills that should be deprecated or archived"
+```
+
+### After Tool Upgrades
+
+```
+# Check compatibility with new versions
+"Run check-compatibility after my Copilot extension update"
+
+# Migrate configs to new standards
+"Run upgrade-assistant to migrate from standards v1.0 to v1.1"
+```
+
+### Organization-Wide
+
+```
+# Batch maintenance across repos
+"Run batch-maintain on all repos in my org with health + lint checks"
+
+# Policy conformance (before audit)
+"Check policy conformance for acme/api-service"
+```
+
+### Maintenance Meta-Skills Reference
+
+| Category | Skill | Purpose |
+|----------|-------|---------|
+| **Instruction Cleanup** | `refactor-instructions` | Progressive disclosure — split oversized files |
+| | `lint-instructions` | Quality lint with rule-level fix suggestions |
+| | `detect-drift` | Find inconsistencies across providers + codebase |
+| **Skill Hygiene** | `audit-skills` | Structural audit of skill catalog |
+| | `prune-skills` | Lifecycle management: deprecate, archive, merge |
+| | `check-compatibility` | Verify configs work with current tool versions |
+| **Orchestration** | `health-dashboard` | Aggregate health report with scores and priorities |
+| | `batch-maintain` | Multi-repo maintenance with issue/PR creation |
+| **Upgrade** | `upgrade-assistant` | Migration helper for tool/standards version bumps |
+| **Governance** | `audit-tool-safety` | Tool permission and safety pattern audit |
+| | `check-policy` | Org-level policy conformance verification |
 
 ## Design Principles
 

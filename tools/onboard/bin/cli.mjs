@@ -39,6 +39,7 @@ import {
   STAGING_DIR_NAME,
   ARCHITECTURES,
   PROVIDERS,
+  SKILL_RECOMMENDATIONS,
 } from "../lib/constants.mjs";
 import { runValidate } from "../lib/validate.mjs";
 
@@ -116,6 +117,54 @@ function parseArgs(argv) {
   if (!command) command = "onboard";
 
   return { command, target: resolve(target), flags };
+}
+
+// ─── Smart Recommendations ──────────────────────────────────────────────────
+
+/**
+ * Determine which skills are recommended based on scan signals.
+ */
+function getRecommendedSkills(scan) {
+  const recommended = new Set();
+
+  // Always recommend general skills
+  for (const s of SKILL_RECOMMENDATIONS.general) recommended.add(s);
+  for (const s of SKILL_RECOMMENDATIONS.onboarding) recommended.add(s);
+
+  // Git repo — always true if we got this far
+  for (const s of SKILL_RECOMMENDATIONS.git) recommended.add(s);
+
+  // CI detected
+  if (scan.ci && Object.keys(scan.ci).length > 0) {
+    for (const s of SKILL_RECOMMENDATIONS.ci) recommended.add(s);
+  }
+
+  // Test frameworks detected
+  const testFrameworks = ["vitest", "jest", "mocha", "playwright", "cypress"];
+  if (scan.frameworks?.some((f) => testFrameworks.includes(f))) {
+    for (const s of SKILL_RECOMMENDATIONS.testing) recommended.add(s);
+  }
+
+  // Deployment detected
+  if (scan.deployment?.length > 0) {
+    for (const s of SKILL_RECOMMENDATIONS.deployment) recommended.add(s);
+  }
+
+  return recommended;
+}
+
+/**
+ * Build a contextual hint for each artifact in the multiselect.
+ */
+function buildArtifactHint(artifact, recommended) {
+  if (artifact.action === "propose") {
+    return "exists — will propose update";
+  }
+  // For skill-type artifacts, add "recommended" marker if matched
+  if (artifact.category === "skills" && recommended.size > 0) {
+    return `${artifact.description} ★ matched your stack`;
+  }
+  return artifact.description;
 }
 
 // ─── Help ───────────────────────────────────────────────────────────────────
@@ -347,6 +396,8 @@ async function wizardOnboard(target, flags) {
   const defaultSelections = allArtifacts
     .filter((a) => {
       if (a.id === "starter-skills") return flags.skills || answers.include_skills;
+      if (a.id === "starter-agents") return flags.skills || answers.include_skills;
+      if (a.id === "maintenance-skills") return true; // always recommend
       return a.action !== "skip";
     })
     .map((a) => a.id);
@@ -356,13 +407,16 @@ async function wizardOnboard(target, flags) {
   if (flags.nonInteractive) {
     selectedItems = defaultSelections;
   } else {
+    // Build recommended skill set based on detection
+    const recommended = getRecommendedSkills(scan);
+
     // Show plan with toggleable items
     selectedItems = await p.multiselect({
       message: `What to generate ${pc.dim(`(staging to ${STAGING_DIR_NAME}/)`)}`,
       options: allArtifacts.map((a) => ({
         value: a.id,
         label: a.label,
-        hint: a.action === "propose" ? "exists — will propose update" : a.description,
+        hint: buildArtifactHint(a, recommended),
       })),
       initialValues: defaultSelections,
       required: true,

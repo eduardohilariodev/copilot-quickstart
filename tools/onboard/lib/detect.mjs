@@ -9,6 +9,7 @@ import {
   IGNORE_DIRS,
   LANGUAGE_INDICATORS,
   FRAMEWORK_MAP,
+  DEPLOYMENT_INDICATORS,
 } from "./constants.mjs";
 
 /**
@@ -349,6 +350,53 @@ export function detectMonorepoTool(target) {
   return "unknown";
 }
 
+// ─── Deployment Detection ───────────────────────────────────────────────────
+
+export function detectDeployment(target) {
+  const platforms = new Set();
+
+  for (const [file, platform] of Object.entries(DEPLOYMENT_INDICATORS)) {
+    if (fileExists(target, file)) {
+      platforms.add(platform);
+    }
+  }
+
+  // Check for terraform directory or .tf files
+  if (dirExists(target, "terraform")) {
+    platforms.add("terraform");
+  } else {
+    const topLevel = listTopLevel(target);
+    if (topLevel.some((e) => e.isFile() && e.name.endsWith(".tf"))) {
+      platforms.add("terraform");
+    }
+  }
+
+  return [...platforms];
+}
+
+// ─── Agent Definitions Detection ────────────────────────────────────────────
+
+export function detectAgentDefinitions(target) {
+  const found = [];
+  const searchDirs = ["agents", ".github/agents", ".ai/agents"];
+
+  for (const dir of searchDirs) {
+    const fullPath = join(target, dir);
+    if (existsSync(fullPath) && statSync(fullPath).isDirectory()) {
+      try {
+        const files = readdirSync(fullPath).filter(
+          (f) => f.endsWith(".yml") || f.endsWith(".yaml")
+        );
+        for (const file of files) {
+          found.push(`${dir}/${file}`);
+        }
+      } catch {}
+    }
+  }
+
+  return found;
+}
+
 // ─── Full Scan ──────────────────────────────────────────────────────────────
 
 /**
@@ -366,6 +414,8 @@ export function scanRepo(target) {
   const existingConfigs = detectExistingConfigs(resolvedTarget);
   const providers = detectProviders(existingConfigs);
   const ci = detectCI(resolvedTarget);
+  const deployment = detectDeployment(resolvedTarget);
+  const agentDefinitions = detectAgentDefinitions(resolvedTarget);
 
   const scan = {
     target: resolvedTarget,
@@ -376,6 +426,8 @@ export function scanRepo(target) {
     existing_configs: existingConfigs,
     providers,
     ci,
+    deployment,
+    agent_definitions: agentDefinitions,
   };
 
   // Monorepo details

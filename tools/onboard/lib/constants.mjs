@@ -94,3 +94,40 @@ export const ARCHITECTURES = [
   "cli",
 ];
 export const PROVIDERS = ["copilot", "claude", "cursor"];
+
+// Meta-skills directory
+export const META_SKILLS_DIR = join(LIBRARY_ROOT, "meta-skills");
+
+// Maintenance meta-skills to copy into target repos for self-maintenance
+export const MAINTENANCE_SKILLS = [
+  "detect-drift",
+  "health-dashboard",
+  "audit-skills",
+  "lint-instructions",
+  "sync-config",
+];
+
+// Deployment platform indicators
+export const DEPLOYMENT_INDICATORS = {
+  "vercel.json": "vercel",
+  "netlify.toml": "netlify",
+  "fly.toml": "fly",
+  "railway.json": "railway",
+  "railway.toml": "railway",
+  "render.yaml": "render",
+  "serverless.yml": "serverless",
+  "serverless.yaml": "serverless",
+  "Dockerfile": "docker",
+  "docker-compose.yml": "docker",
+  "docker-compose.yaml": "docker",
+};
+
+// Map detected signals to recommended starter skills
+export const SKILL_RECOMMENDATIONS = {
+  ci: ["ci-health-check", "ci-cd-starter"],
+  testing: ["test-generator", "test-failure-diagnoser", "test-strategy-doc"],
+  git: ["git-commit-message", "git-branch-and-pr", "git-cleanup"],
+  deployment: ["deploy-playbook", "infra-sanity"],
+  general: ["safe-refactor", "plan-and-scope-change", "shell-ops"],
+  onboarding: ["project-onboarding", "context-curator"],
+};

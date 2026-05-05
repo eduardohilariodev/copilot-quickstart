@@ -303,6 +303,11 @@ export async function runValidate(options = {}) {
       const line = mdLines[i];
       let idx = 0;
       while ((idx = line.indexOf("{{", idx)) !== -1) {
+        // Skip GitHub Actions expressions like ${{ ... }}
+        if (idx > 0 && line[idx - 1] === "$") {
+          idx += 2;
+          continue;
+        }
         // Extract the potential placeholder starting at idx
         const rest = line.slice(idx);
         const fullMatch = rest.match(/^\{\{[a-z_]+[a-z0-9_]*\}\}/);

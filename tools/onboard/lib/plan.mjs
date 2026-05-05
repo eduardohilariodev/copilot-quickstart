@@ -149,6 +149,34 @@ export function buildArtifactPlan(scan, profile, selectedItems) {
     });
   }
 
+  // Starter agents
+  if (shouldInclude("starter-agents", scan, selectedItems)) {
+    artifacts.push({
+      id: "starter-agents",
+      label: "agents/ (5 starter agent definitions)",
+      description: "Agent role definitions: onboard, refactor, review, deploy, test",
+      stagePath: "agents/",
+      targetPath: "agents/",
+      category: "agents",
+      action: "create",
+      isDirectory: true,
+    });
+  }
+
+  // Maintenance skills (self-maintenance meta-skills for Copilot)
+  if (shouldInclude("maintenance-skills", scan, selectedItems)) {
+    artifacts.push({
+      id: "maintenance-skills",
+      label: ".github/skills/ (5 maintenance skills)",
+      description: "Self-maintenance: detect-drift, health-dashboard, audit, lint, sync",
+      stagePath: ".github/skills/",
+      targetPath: ".github/skills/",
+      category: "skills",
+      action: "create",
+      isDirectory: true,
+    });
+  }
+
   return artifacts;
 }
 

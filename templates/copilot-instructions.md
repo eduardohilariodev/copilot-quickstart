@@ -7,9 +7,16 @@
   For deeper context, see AGENTS.md at repo root.
 -->
 
+## Standards Reference
+
+Read `.ai/system/standards.json` for this repo's standards version and file layout.
+Read `.ai/system/standards-summary.md` for a human-readable overview of conventions.
+Derive artifact locations from the `local` block in `standards.json` — never hard-code paths.
+When creating new skills, agents, or instructions, anchor on the standards before deciding structure.
+
 ## Project Context
 
-This is a {{architecture_type}} using {{languages}}{{#frameworks}} with {{frameworks}}{{/frameworks}}.
+This is a {{architecture_type}} using {{languages}} {{frameworks_clause}}.
 See AGENTS.md for architecture details and commands.
 
 ## Code Style

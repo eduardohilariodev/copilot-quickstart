@@ -11,8 +11,11 @@ import {
   STAGING_DIR_NAME,
   MANIFEST_FILE,
   SKILLS_DIR,
+  AGENTS_DIR,
   INSTRUCTIONS_DIR,
   TEMPLATES_DIR,
+  META_SKILLS_DIR,
+  MAINTENANCE_SKILLS,
 } from "./constants.mjs";
 import { buildManifest } from "./plan.mjs";
 
@@ -81,6 +84,94 @@ export function generateAgentsMd(profile) {
   const arch = profile.architecture || "monolith";
   const cmds = profile.build_commands || {};
 
+  const templatePath = join(TEMPLATES_DIR, "AGENTS.md");
+  if (existsSync(templatePath)) {
+    let content = readFileSync(templatePath, "utf8");
+
+    // Replace known placeholders with actual profile data
+    content = content
+      .replace("{{repo_name}}", name)
+      .replace("{{project_description}}", `<!-- TODO: Add project description -->`)
+      .replace("{{architecture_type}}", arch)
+      .replace("{{languages}}", langs)
+      .replace("{{frameworks}}", frameworks)
+      .replace("{{directory_tree}}", `<!-- Run: tree -L 2 -I node_modules to fill -->`)
+      .replace("{{cmd_install}}", cmds.install || "npm install")
+      .replace("{{cmd_build}}", cmds.build || "npm run build")
+      .replace("{{cmd_test}}", cmds.test || "npm test")
+      .replace("{{cmd_lint}}", cmds.lint || "npm run lint")
+      .replace("{{cmd_format}}", cmds.format || "npx prettier --write .")
+      .replace("{{naming_conventions}}", buildNamingSection(profile))
+      .replace("{{code_organization_rules}}", "- Follow existing patterns in the codebase\n- Use consistent naming (Copilot infers these from existing code)")
+      .replace("{{error_handling_pattern}}", "- Follow existing error handling patterns\n- Add context to error messages")
+      .replace("{{testing_strategy}}", cmds.test ? `- Run tests: \`${cmds.test}\`\n- Write tests for new features` : "- Write tests for new features and bug fixes")
+      .replace("{{decision_1_title}}", "Decision 1")
+      .replace("{{decision_1_rationale}}", "<!-- Document non-obvious architectural decisions here -->")
+      .replace("{{decision_2_title}}", "Decision 2")
+      .replace("{{decision_2_rationale}}", "<!-- Add more decisions as needed -->")
+      .replace("{{protected_paths_list}}", (profile.protected_paths || [".env*", "*.secret"]).map((p) => `- \`${p}\``).join("\n"))
+      .replace("{{runtime}}", detectRuntime(profile))
+      .replace("{{package_manager}}", detectPackageManager(profile))
+      .replace("{{ci_cd_platform}}", "<!-- Fill: GitHub Actions, GitLab CI, etc. -->");
+
+    return content;
+  }
+
+  // Fallback: inline generation (original behavior)
+  return generateAgentsMdFallback(profile);
+}
+
+function buildNamingSection(profile) {
+  if (!profile.naming) {
+    return "- AI artifacts follow `kebab-case` naming\n- Skills: `verb-noun` (e.g., `test-generator`)\n- Agents: `role-scope` (e.g., `coding-refactor`)";
+  }
+
+  let section = "";
+  if (profile.naming.skills_pattern === "verb-ing-domain") {
+    section += "- Skills: `verb-ing-domain` (e.g., `testing-code`, `managing-branches`)\n";
+  } else {
+    section += "- Skills: `domain-verb` (e.g., `code-testing`, `branch-managing`)\n";
+  }
+  if (profile.naming.agents_pattern === "role-scope") {
+    section += "- Agents: `role-scope` (e.g., `coding-refactor`, `pr-code-review`)\n";
+  } else {
+    section += "- Agents: `domain-role` (e.g., `frontend-review`, `backend-coding`)\n";
+  }
+  if (profile.naming.instructions_pattern === "topic") {
+    section += "- Instructions: `<topic>.instructions.md` (e.g., `frontend.instructions.md`)";
+  } else {
+    section += "- Instructions: `<tech-domain-focus>.instructions.md` (e.g., `react-best-practices.instructions.md`)";
+  }
+  return section;
+}
+
+function detectRuntime(profile) {
+  if (profile.languages?.includes("typescript") || profile.languages?.includes("javascript")) return "Node.js";
+  if (profile.languages?.includes("python")) return "Python";
+  if (profile.languages?.includes("go")) return "Go";
+  if (profile.languages?.includes("rust")) return "Rust";
+  if (profile.languages?.includes("java")) return "Java / JVM";
+  return "<!-- Specify runtime -->";
+}
+
+function detectPackageManager(profile) {
+  const install = profile.build_commands?.install || "";
+  if (install.includes("pnpm")) return "pnpm";
+  if (install.includes("yarn")) return "yarn";
+  if (install.includes("bun")) return "bun";
+  if (install.includes("npm")) return "npm";
+  if (install.includes("pip")) return "pip";
+  if (install.includes("cargo")) return "cargo";
+  return "<!-- Specify package manager -->";
+}
+
+function generateAgentsMdFallback(profile) {
+  const name = profile.name || "this-repo";
+  const langs = profile.languages?.join(", ") || "not specified";
+  const frameworks = profile.frameworks?.join(", ") || "none";
+  const arch = profile.architecture || "monolith";
+  const cmds = profile.build_commands || {};
+
   let md = `# AGENTS.md — ${name}\n\n`;
   md += `## Quick Reference\n\n`;
   md += `| Key | Value |\n|-----|-------|\n`;
@@ -115,46 +206,43 @@ export function generateAgentsMd(profile) {
   md += `- Read this file before making changes\n`;
   md += `- Run tests after every modification\n`;
   md += `- Keep commits small and focused\n`;
-  md += `- Ask before architectural changes\n\n`;
-
-  md += `## AI Maintenance\n\n`;
-  md += `Run periodically to keep AI config healthy:\n`;
-  md += `- Weekly: \`health-dashboard\`\n`;
-  md += `- Monthly: \`audit-skills\`, \`detect-drift\`\n`;
-  md += `- Quarterly: \`prune-skills\`, \`check-compatibility\`\n\n`;
-
-  // Naming conventions section
-  if (profile.naming) {
-    md += `## Naming Conventions\n\n`;
-    md += `All AI artifacts in this repo follow these naming patterns:\n\n`;
-    md += `| Artifact | Pattern | Example |\n`;
-    md += `|----------|---------|--------|\n`;
-
-    if (profile.naming.skills_pattern === "verb-ing-domain") {
-      md += `| Skills | \`verb-ing-domain\` | \`testing-code\`, \`managing-branches\` |\n`;
-    } else {
-      md += `| Skills | \`domain-verb\` | \`code-testing\`, \`branch-managing\` |\n`;
-    }
-
-    if (profile.naming.agents_pattern === "role-scope") {
-      md += `| Agents | \`role-scope\` | \`coding-refactor\`, \`pr-code-review\` |\n`;
-    } else {
-      md += `| Agents | \`domain-role\` | \`frontend-review\`, \`backend-coding\` |\n`;
-    }
-
-    if (profile.naming.instructions_pattern === "topic") {
-      md += `| Instructions | \`<topic>.instructions.md\` | \`frontend.instructions.md\` |\n`;
-    } else {
-      md += `| Instructions | \`<tech-domain-focus>.instructions.md\` | \`react-best-practices.instructions.md\` |\n`;
-    }
-
-    md += `\nWhen creating new skills or agents, follow these patterns for consistency.\n`;
-  }
+  md += `- Ask before architectural changes\n`;
 
   return md;
 }
 
 export function generateInstructions(profile) {
+  const langs = profile.languages?.join(", ") || "this project";
+  const frameworks = profile.frameworks?.join(", ");
+  const arch = profile.architecture || "monolith";
+
+  const templatePath = join(TEMPLATES_DIR, "copilot-instructions.md");
+  if (existsSync(templatePath)) {
+    let content = readFileSync(templatePath, "utf8");
+
+    content = content
+      .replace("{{repo_name}}", profile.name || "this-repo")
+      .replace("{{architecture_type}}", arch)
+      .replace("{{languages}}", langs)
+      .replace("{{frameworks_clause}}", frameworks ? `with ${frameworks}` : "")
+      .replace("{{code_style_rules}}", "- Follow existing patterns in the codebase\n- Use consistent naming conventions (Copilot infers these from existing code)\n- Write clear, self-documenting code")
+      .replace("{{testing_rules}}", profile.build_commands?.test
+        ? `- Write tests for new features and bug fixes\n- Run tests: \`${profile.build_commands.test}\``
+        : "- Write tests for new features and bug fixes")
+      .replace("{{git_workflow_rules}}", "- Keep commits small and focused\n- Write descriptive commit messages\n- Create feature branches for changes")
+      .replace("{{architecture_rules}}", "- Respect module boundaries\n- Keep dependencies flowing in one direction\n- Ask before making architectural changes")
+      .replace("{{protected_paths}}", (profile.protected_paths || [".env*"]).join(", "))
+      .replace("{{additional_security_rules}}", "")
+      .replace("{{documentation_rules}}", "- Update docs when behavior changes\n- Document non-obvious decisions inline");
+
+    return content;
+  }
+
+  // Fallback: inline generation
+  return generateInstructionsFallback(profile);
+}
+
+function generateInstructionsFallback(profile) {
   const langs = profile.languages?.join(", ") || "this project";
   const frameworks = profile.frameworks?.join(", ");
 
@@ -182,13 +270,17 @@ export function generateInstructions(profile) {
   md += `## When Unsure\n\n`;
   md += `- Check AGENTS.md for architecture guidance\n`;
   md += `- Look at existing similar code for patterns\n`;
-  md += `- Follow naming conventions in AGENTS.md when creating AI artifacts\n`;
   md += `- Ask the developer rather than guessing\n`;
 
   return md;
 }
 
 export function generateVscodeSettings() {
+  const templatePath = join(TEMPLATES_DIR, "vscode-settings.json");
+  if (existsSync(templatePath)) {
+    return readFileSync(templatePath, "utf8");
+  }
+  // Fallback if template missing
   return JSON.stringify(
     {
       "chat.instructionsFilesLocations": {
@@ -244,6 +336,14 @@ export function stageArtifacts(target, artifacts, profile, scan) {
         stageSkills(destPath);
         break;
 
+      case "starter-agents":
+        stageAgents(destPath);
+        break;
+
+      case "maintenance-skills":
+        stageMaintenanceSkills(destPath);
+        break;
+
       default:
         // Path-specific instruction templates
         if (artifact.templateSource) {
@@ -287,6 +387,31 @@ function stageInstructionTemplate(destPath, templateFile) {
   const src = join(INSTRUCTIONS_DIR, templateFile);
   if (existsSync(src)) {
     cpSync(src, destPath);
+  }
+}
+
+function stageAgents(destDir) {
+  if (!existsSync(AGENTS_DIR)) return;
+
+  const agentFiles = readdirSync(AGENTS_DIR).filter((f) => f.endsWith(".yml"));
+
+  for (const file of agentFiles) {
+    const src = join(AGENTS_DIR, file);
+    mkdirSync(destDir, { recursive: true });
+    cpSync(src, join(destDir, file));
+  }
+}
+
+function stageMaintenanceSkills(destDir) {
+  if (!existsSync(META_SKILLS_DIR)) return;
+
+  for (const skillName of MAINTENANCE_SKILLS) {
+    const src = join(META_SKILLS_DIR, skillName, "SKILL.md");
+    if (existsSync(src)) {
+      const dest = join(destDir, skillName);
+      mkdirSync(dest, { recursive: true });
+      cpSync(src, join(dest, "SKILL.md"));
+    }
   }
 }
 

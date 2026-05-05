@@ -10,6 +10,8 @@
  *   onboard    Full interactive wizard (default)
  *   doctor     Read-only diagnostics and readiness scoring
  *   apply      Move staged files from ai-setup/ to final locations
+ *   reset      Remove ai-setup/ staging directory
+ *   validate   Validate project artifacts (skills, templates, naming)
  *
  * Flags:
  *   --non-interactive  Skip prompts, use scan defaults (for CI)
@@ -38,6 +40,7 @@ import {
   ARCHITECTURES,
   PROVIDERS,
 } from "../lib/constants.mjs";
+import { runValidate } from "../lib/validate.mjs";
 
 // ─── Argument Parsing ───────────────────────────────────────────────────────
 
@@ -68,6 +71,9 @@ function parseArgs(argv) {
         break;
       case "reset":
         command = "reset";
+        break;
+      case "validate":
+        command = "validate";
         break;
       case "--non-interactive":
       case "--ci":
@@ -126,6 +132,7 @@ ${pc.bold("Commands:")}
   doctor      Read-only diagnostics & readiness score
   apply       Move staged files from ai-setup/ to final locations
   reset       Remove ai-setup/ staging directory
+  validate    Validate project artifacts (skills, templates, naming)
 
 ${pc.bold("Flags:")}
   --non-interactive  Skip prompts, use defaults (for CI/scripting)
@@ -140,6 +147,8 @@ ${pc.bold("Examples:")}
   ${pc.dim("$")} copilot-quickstart doctor --json    ${pc.dim("# CI-friendly score")}
   ${pc.dim("$")} copilot-quickstart apply            ${pc.dim("# Apply staged configs")}
   ${pc.dim("$")} copilot-quickstart apply --force    ${pc.dim("# Overwrite existing")}
+  ${pc.dim("$")} copilot-quickstart validate         ${pc.dim("# Run validation checks")}
+  ${pc.dim("$")} copilot-quickstart validate --json  ${pc.dim("# Machine-readable validation")}
   ${pc.dim("$")} copilot-quickstart --non-interactive --skills  ${pc.dim("# Full unattended")}
   ${pc.dim("$")} copilot-quickstart /path/to/repo    ${pc.dim("# Target another repo")}
 `);
@@ -452,6 +461,13 @@ function commandReset(target) {
   console.log(pc.green("  ✓ Removed ai-setup/"));
 }
 
+// ─── Validate Command ────────────────────────────────────────────────────────
+
+async function commandValidate(flags) {
+  const { failed } = await runValidate({ json: flags.json });
+  process.exit(failed > 0 ? 1 : 0);
+}
+
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -482,6 +498,9 @@ async function main() {
       break;
     case "reset":
       commandReset(target);
+      break;
+    case "validate":
+      await commandValidate(flags);
       break;
     default:
       showHelp();

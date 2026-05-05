@@ -277,33 +277,20 @@ async function wizardOnboard(target, flags) {
             required: true,
           }),
 
-        naming: () =>
-          p.text({
-            message: "Code naming convention",
-            placeholder: "e.g., camelCase functions, PascalCase components",
-            defaultValue: "",
-          }),
-
-        testing_strategy: () =>
-          p.text({
-            message: "Testing strategy",
-            placeholder: "e.g., unit tests for logic, integration for APIs",
-            defaultValue: "",
-          }),
-
         naming_style: () =>
           p.select({
-            message: "Naming style for AI artifacts (skills, agents, instructions)",
+            message:
+              "How should Copilot files be named? (skills, agents, instructions)",
             options: [
               {
                 value: "standard",
                 label: "Standard (recommended)",
-                hint: "skills: testing-code, agents: coding-refactor",
+                hint: "verb-ing-domain — e.g. testing-code, managing-branches, coding-refactor",
               },
               {
                 value: "functional",
                 label: "Functional",
-                hint: "skills: code-testing, agents: frontend-review",
+                hint: "domain-verb — e.g. code-testing, branch-managing, frontend-review",
               },
             ],
             initialValue: "standard",

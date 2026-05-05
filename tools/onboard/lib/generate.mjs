@@ -103,8 +103,8 @@ export function generateAgentsMd(profile) {
 
   md += `## Code Conventions\n\n`;
   md += `- Follow existing patterns in the codebase\n`;
-  md += `- ${profile.conventions?.naming || "Use consistent naming conventions"}\n`;
-  md += `- ${profile.conventions?.testing_strategy || "Write tests for new features"}\n\n`;
+  md += `- Use consistent naming conventions (Copilot infers these from existing code)\n`;
+  md += `- Write tests for new features\n\n`;
 
   md += `## Protected Paths\n\n`;
   md += `Do NOT modify these without explicit approval:\n`;
@@ -164,11 +164,11 @@ export function generateInstructions(profile) {
 
   md += `## Code Style\n\n`;
   md += `- Follow existing patterns in the codebase\n`;
-  md += `- ${profile.conventions?.naming || "Use consistent naming conventions"}\n`;
+  md += `- Use consistent naming conventions (Copilot infers these from existing code)\n`;
   md += `- Write clear, self-documenting code\n\n`;
 
   md += `## Testing\n\n`;
-  md += `- ${profile.conventions?.testing_strategy || "Write tests for new features and bug fixes"}\n`;
+  md += `- Write tests for new features and bug fixes\n`;
   if (profile.build_commands?.test) {
     md += `- Run tests: \`${profile.build_commands.test}\`\n`;
   }

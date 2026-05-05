@@ -25,11 +25,6 @@ export function buildProfile(scan, answers) {
     build_commands: scan.build_commands,
     architecture: answers.architecture || scan.architecture,
     risk_level: answers.risk_level || "medium",
-    conventions: {
-      naming: answers.naming || "<fill in>",
-      git_workflow: answers.git_workflow || "github-flow",
-      testing_strategy: answers.testing_strategy || "<fill in>",
-    },
     protected_paths: answers.protected_paths || buildProtectedPaths(scan),
     providers: answers.providers || scan.providers,
     naming,

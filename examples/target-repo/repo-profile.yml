@@ -34,12 +34,6 @@ deployment:
 
 risk_level: medium
 
-conventions:
-  naming: "camelCase variables, PascalCase components, kebab-case files"
-  git_workflow: "github-flow with required PR reviews"
-  testing_strategy: "unit (Vitest) + e2e (Playwright), 80% coverage target"
-  documentation_style: "JSDoc for public APIs, README per package"
-
 protected_paths:
   - "prisma/migrations/"
   - ".env*"

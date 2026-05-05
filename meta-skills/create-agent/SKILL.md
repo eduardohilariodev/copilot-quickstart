@@ -38,7 +38,9 @@ This skill activates when:
 
 ### Steps
 
-1. **Clarify Scope:**
+0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
+1. **Load Template** — Read `templates/agent-definition.yml` as the structural base for the agent definition.
+2. **Clarify Scope:**
    - Parse the agent_purpose for: domain, actions, boundaries
    - If purpose is too broad (would create a "God Agent"), suggest decomposition
    - Determine appropriate tool set from purpose
@@ -77,6 +79,7 @@ This skill activates when:
 
 ### Constraints
 
+- Never hard-code artifact paths. Derive all output locations from `.ai/system/standards.json` when available, falling back to standard defaults.
 - NEVER create agents with unrestricted tool access
 - NEVER omit escalation policies
 - ALWAYS include at least one "ask_user" escalation condition

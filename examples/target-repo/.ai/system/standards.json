@@ -1,0 +1,17 @@
+{
+  "upstream": {
+    "repo": "eduardohilariodev/copilot-quickstart",
+    "ref": "v1.0.0",
+    "docs_base_url": "https://github.com/eduardohilariodev/copilot-quickstart/tree/v1.0.0/source-of-truth"
+  },
+  "local": {
+    "agents_doc": "AGENTS.md",
+    "repo_instructions": ".github/copilot-instructions.md",
+    "skills_root": ".github/skills",
+    "meta_skills_root": ".ai/meta-skills",
+    "instructions_dir": ".github/instructions",
+    "agents_dir": "agents"
+  },
+  "installed_at": "2026-05-04T00:00:00Z",
+  "updated_at": "2026-05-04T00:00:00Z"
+}

@@ -1,9 +1,13 @@
 # Testing Instructions
 
+---
+description: Testing patterns and conventions for test files
+applyTo: "**/*.test.*,**/*.spec.*,**/test/**,**/tests/**,**/__tests__/**"
+---
+
 <!--
   Path-specific instructions for test files.
   Place at: .github/instructions/tests.instructions.md
-  Applies to: **/*.test.*, **/*.spec.*, **/test/**, **/tests/**, **/__tests__/**
   Keep under 40 lines — patterns, not procedures.
 -->
 

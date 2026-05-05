@@ -1,0 +1,13 @@
+{
+  // Copilot Chat: enable path-specific instruction discovery
+  // This tells Copilot where to find .instructions.md files with applyTo frontmatter
+  "chat.instructionsFilesLocations": {
+    ".github/instructions/**/*.instructions.md": true
+  },
+
+  // Optional: point Copilot at repo-wide instructions explicitly
+  // (Copilot auto-discovers .github/copilot-instructions.md, but this makes it visible)
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": ".github/copilot-instructions.md" }
+  ]
+}

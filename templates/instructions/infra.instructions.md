@@ -1,9 +1,13 @@
 # Infrastructure Instructions
 
+---
+description: Safety rules for infrastructure and DevOps files
+applyTo: "terraform/**,*.tf,.github/workflows/**,docker*,Dockerfile*,k8s/**,infra/**"
+---
+
 <!--
   Path-specific instructions for infrastructure/DevOps files.
   Place at: .github/instructions/infra.instructions.md
-  Applies to: terraform/**, .github/workflows/**, docker*, k8s/**, infra/**
   Keep under 40 lines — focused on safety.
 -->
 

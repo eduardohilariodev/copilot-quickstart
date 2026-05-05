@@ -33,7 +33,8 @@ copilot-quickstart/
 │   ├── prompt-engineering-guide.md  # Writing patterns, format, anti-patterns
 │   ├── security-governance.md    # Security constraints & governance policies
 │   ├── maintenance-principles.md # Lifecycle, pruning, size thresholds, drift prevention
-│   └── anti-patterns.md          # What NOT to do (with examples)
+│   ├── anti-patterns.md          # What NOT to do (with examples)
+│   └── copilot-config-features.md # Copilot-specific knobs, applyTo, CLI, IDE settings
 ├── schemas/                      # Machine-readable contracts
 │   ├── repo-profile.schema.json  # Target repo intake specification
 │   ├── skill.schema.json         # Skill definition validation
@@ -53,10 +54,13 @@ copilot-quickstart/
 │   │   ├── pr-code-review.yml    # PR authoring & review agent
 │   │   ├── ci-cd-devops.yml      # CI/CD & DevOps agent
 │   │   └── maintenance-hygiene.yml # Config maintenance agent
-│   ├── instructions/             # Path-specific instruction templates
-│   │   ├── typescript.instructions.md
-│   │   ├── infra.instructions.md
-│   │   └── tests.instructions.md
+│   ├── instructions/             # Path-specific instruction templates (with applyTo)
+│   │   ├── typescript.instructions.md  # applyTo: **/*.ts,**/*.tsx
+│   │   ├── frontend.instructions.md   # applyTo: apps/web/**, components/**
+│   │   ├── backend.instructions.md    # applyTo: apps/api/**, services/**
+│   │   ├── infra.instructions.md      # applyTo: terraform/**, workflows/**
+│   │   └── tests.instructions.md      # applyTo: **/*.test.*, **/*.spec.*
+│   ├── vscode-settings.json      # VS Code config for instruction discovery
 │   └── skills/                   # Starter skill pack (15 generic skills)
 │       ├── git-commit-message/   # Conventional commit messages
 │       ├── git-branch-and-pr/    # Branch naming + PR descriptions
@@ -105,7 +109,8 @@ copilot-quickstart/
 │   │
 │   │ # Onboarding — Orchestration
 │   ├── onboard-repo/SKILL.md           # Full onboarding decision tree
-│   └── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
+│   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
+│   └── copilot-config-wizard/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
 ├── tools/
 │   └── onboard/                  # CLI for deterministic onboarding
 │       ├── package.json
@@ -279,10 +284,32 @@ Focused instruction templates for common file types (keep under 40 lines each):
 | Template | Applies To | Key Focus |
 |----------|-----------|-----------|
 | `typescript.instructions.md` | `**/*.ts`, `**/*.tsx` | Strict types, naming, error handling |
+| `frontend.instructions.md` | `apps/web/**`, `**/components/**` | Component patterns, accessibility, UI state |
+| `backend.instructions.md` | `apps/api/**`, `services/**` | Error handling, auth, validation, logging |
 | `infra.instructions.md` | `terraform/**`, `.github/workflows/**` | Safety rules, pinning, permissions |
 | `tests.instructions.md` | `**/*.test.*`, `**/*.spec.*` | AAA pattern, mocking boundaries, what to test |
 
-Place in `.github/instructions/` — Copilot applies them based on file path matching.
+Place in `.github/instructions/` — Copilot applies them based on `applyTo` glob matching.
+
+### Copilot Config Features
+
+The quickstart understands and configures all Copilot-specific knobs:
+
+| Feature | What It Does | Client Support |
+|---------|-------------|----------------|
+| **Repo-wide instructions** | Always-on behavior rules | Chat, Cloud Agent, Code Review |
+| **Path-specific instructions** | Per-file-type rules via `applyTo` globs | Chat, Code Review |
+| **VS Code settings** | `chat.instructionsFilesLocations` for discovery | VS Code Copilot Chat |
+| **`COPILOT_SKILLS_DIRS`** | CLI discovers custom skills from env var | Copilot CLI |
+| **Prompt files** | Reusable task-specific prompts (`.prompt.md`) | VS Code Chat |
+
+Use the `copilot-config-wizard` meta-skill to configure all of the above based on your repo profile:
+
+```
+"Run copilot-config-wizard on this repo to set up scoped instructions and IDE settings"
+```
+
+See `source-of-truth/copilot-config-features.md` for the full reference.
 
 ## Maintenance Workflow
 

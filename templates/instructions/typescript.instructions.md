@@ -1,9 +1,13 @@
 # TypeScript Instructions
 
+---
+description: TypeScript coding conventions and patterns for this repository
+applyTo: "**/*.ts,**/*.tsx"
+---
+
 <!--
   Path-specific instructions for TypeScript files.
   Place at: .github/instructions/typescript.instructions.md
-  Applies to: **/*.ts, **/*.tsx
   Keep under 40 lines — focused, not encyclopedic.
 -->
 

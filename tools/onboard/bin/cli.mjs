@@ -207,6 +207,7 @@ async function wizardOnboard(target, flags) {
       risk_level: "medium",
       providers: scan.providers,
       protected_paths: [".env*"],
+      naming_style: "standard",
     };
     if (flags.skills) {
       answers.include_skills = true;
@@ -247,7 +248,7 @@ async function wizardOnboard(target, flags) {
 
         naming: () =>
           p.text({
-            message: "Naming convention",
+            message: "Code naming convention",
             placeholder: "e.g., camelCase functions, PascalCase components",
             defaultValue: "",
           }),
@@ -257,6 +258,24 @@ async function wizardOnboard(target, flags) {
             message: "Testing strategy",
             placeholder: "e.g., unit tests for logic, integration for APIs",
             defaultValue: "",
+          }),
+
+        naming_style: () =>
+          p.select({
+            message: "Naming style for AI artifacts (skills, agents, instructions)",
+            options: [
+              {
+                value: "standard",
+                label: "Standard (recommended)",
+                hint: "skills: testing-code, agents: coding-refactor",
+              },
+              {
+                value: "functional",
+                label: "Functional",
+                hint: "skills: code-testing, agents: frontend-review",
+              },
+            ],
+            initialValue: "standard",
           }),
       },
       {

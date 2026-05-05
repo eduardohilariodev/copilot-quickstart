@@ -94,6 +94,30 @@
       "type": "array",
       "items": { "type": "string", "enum": ["copilot", "claude", "cursor"] },
       "description": "AI providers to generate configs for"
+    },
+    "naming": {
+      "type": "object",
+      "properties": {
+        "skills_pattern": {
+          "type": "string",
+          "enum": ["verb-ing-domain", "domain-verb"],
+          "default": "verb-ing-domain",
+          "description": "Naming pattern for skills (e.g., 'testing-code' vs 'code-testing')"
+        },
+        "agents_pattern": {
+          "type": "string",
+          "enum": ["role-scope", "domain-role"],
+          "default": "role-scope",
+          "description": "Naming pattern for agents (e.g., 'coding-refactor' vs 'frontend-review')"
+        },
+        "instructions_pattern": {
+          "type": "string",
+          "enum": ["topic", "tech-domain-focus"],
+          "default": "topic",
+          "description": "Naming pattern for instruction files (e.g., 'frontend' vs 'react-best-practices')"
+        }
+      },
+      "description": "Naming conventions for AI artifacts (skills, agents, instructions). See source-of-truth/naming-conventions.md"
     }
   }
 }

@@ -121,7 +121,35 @@ export function generateAgentsMd(profile) {
   md += `Run periodically to keep AI config healthy:\n`;
   md += `- Weekly: \`health-dashboard\`\n`;
   md += `- Monthly: \`audit-skills\`, \`detect-drift\`\n`;
-  md += `- Quarterly: \`prune-skills\`, \`check-compatibility\`\n`;
+  md += `- Quarterly: \`prune-skills\`, \`check-compatibility\`\n\n`;
+
+  // Naming conventions section
+  if (profile.naming) {
+    md += `## Naming Conventions\n\n`;
+    md += `All AI artifacts in this repo follow these naming patterns:\n\n`;
+    md += `| Artifact | Pattern | Example |\n`;
+    md += `|----------|---------|--------|\n`;
+
+    if (profile.naming.skills_pattern === "verb-ing-domain") {
+      md += `| Skills | \`verb-ing-domain\` | \`testing-code\`, \`managing-branches\` |\n`;
+    } else {
+      md += `| Skills | \`domain-verb\` | \`code-testing\`, \`branch-managing\` |\n`;
+    }
+
+    if (profile.naming.agents_pattern === "role-scope") {
+      md += `| Agents | \`role-scope\` | \`coding-refactor\`, \`pr-code-review\` |\n`;
+    } else {
+      md += `| Agents | \`domain-role\` | \`frontend-review\`, \`backend-coding\` |\n`;
+    }
+
+    if (profile.naming.instructions_pattern === "topic") {
+      md += `| Instructions | \`<topic>.instructions.md\` | \`frontend.instructions.md\` |\n`;
+    } else {
+      md += `| Instructions | \`<tech-domain-focus>.instructions.md\` | \`react-best-practices.instructions.md\` |\n`;
+    }
+
+    md += `\nWhen creating new skills or agents, follow these patterns for consistency.\n`;
+  }
 
   return md;
 }
@@ -154,6 +182,7 @@ export function generateInstructions(profile) {
   md += `## When Unsure\n\n`;
   md += `- Check AGENTS.md for architecture guidance\n`;
   md += `- Look at existing similar code for patterns\n`;
+  md += `- Follow naming conventions in AGENTS.md when creating AI artifacts\n`;
   md += `- Ask the developer rather than guessing\n`;
 
   return md;

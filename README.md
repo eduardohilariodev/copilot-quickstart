@@ -34,7 +34,8 @@ copilot-quickstart/
 │   ├── security-governance.md    # Security constraints & governance policies
 │   ├── maintenance-principles.md # Lifecycle, pruning, size thresholds, drift prevention
 │   ├── anti-patterns.md          # What NOT to do (with examples)
-│   └── copilot-config-features.md # Copilot-specific knobs, applyTo, CLI, IDE settings
+│   ├── copilot-config-features.md # Copilot-specific knobs, applyTo, CLI, IDE settings
+│   └── naming-conventions.md     # Naming patterns for skills, agents, instructions
 ├── schemas/                      # Machine-readable contracts
 │   ├── repo-profile.schema.json  # Target repo intake specification
 │   ├── skill.schema.json         # Skill definition validation

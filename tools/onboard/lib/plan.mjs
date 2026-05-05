@@ -11,6 +11,12 @@ import { STAGING_DIR_NAME } from "./constants.mjs";
 export function buildProfile(scan, answers) {
   const repoName = answers.name || `<owner>/${scan.target.split(/[\\/]/).pop()}`;
 
+  // Resolve naming style to concrete patterns
+  const namingStyle = answers.naming_style || "standard";
+  const naming = namingStyle === "functional"
+    ? { skills_pattern: "domain-verb", agents_pattern: "domain-role", instructions_pattern: "tech-domain-focus" }
+    : { skills_pattern: "verb-ing-domain", agents_pattern: "role-scope", instructions_pattern: "topic" };
+
   return {
     name: repoName,
     description: answers.description || "<project description>",
@@ -26,6 +32,7 @@ export function buildProfile(scan, answers) {
     },
     protected_paths: answers.protected_paths || buildProtectedPaths(scan),
     providers: answers.providers || scan.providers,
+    naming,
     ...(scan.monorepo ? { monorepo: scan.monorepo } : {}),
   };
 }

@@ -38,6 +38,7 @@ This skill activates when:
 
 ### Steps
 
+0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
 1. **Scan Target Repo:**
    - Read `package.json`, `Cargo.toml`, `pyproject.toml`, etc. for stack detection
    - Identify test runner, linter, formatter from config files
@@ -83,6 +84,7 @@ This skill activates when:
 
 ### Constraints
 
+- Never hard-code artifact paths. Derive all output locations from `.ai/system/standards.json` when available, falling back to standard defaults.
 - NEVER include rules the model already follows by default
 - NEVER reference files or commands that don't exist in the target repo
 - ALWAYS verify build/test commands actually work before including them

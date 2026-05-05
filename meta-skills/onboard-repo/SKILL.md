@@ -24,6 +24,7 @@ Orchestrates complete repository onboarding into copilot-quickstart. Builds/upda
 
 ### Phase 1: Intake — Build the Repo Profile
 
+0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
 1. **Check for existing profile:** Load and validate `repo-profile.yml` if present; otherwise begin fresh detection.
 2. **Auto-detect stack:**
    - **Languages:** Scan extensions + manifests (package.json, pyproject.toml, go.mod, Cargo.toml, *.csproj, pom.xml)
@@ -77,6 +78,7 @@ Has existing AI configs?
 
 ### Constraints
 
+- Never hard-code artifact paths. Derive all output locations from `.ai/system/standards.json` when available, falling back to standard defaults.
 - NEVER overwrite existing configs without explicit consent
 - NEVER reference files/commands that don't exist
 - ALWAYS validate against schemas before writing

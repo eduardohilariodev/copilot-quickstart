@@ -11,6 +11,19 @@
 
 {{project_description}}
 
+## AI Standards & Layout
+
+- This repo follows the `copilot-quickstart` standards described in `.ai/system/standards-summary.md`.
+- `.ai/system/standards.json` encodes:
+  - which upstream standards version this repo uses,
+  - which files are the authoritative locations for agents, skills, and instructions.
+- When creating or modifying agents, skills, or instructions:
+  - FIRST read `.ai/system/standards-summary.md` and this AGENTS.md.
+  - THEN organize files and names as appropriate, ensuring they:
+    - respect the responsibilities and boundaries defined in the standards,
+    - keep each fact in exactly one place (no duplication),
+    - and prefer small, composable skills over monolithic configs.
+
 ## Architecture
 
 - **Type:** {{architecture_type}}

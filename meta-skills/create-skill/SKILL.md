@@ -36,6 +36,7 @@ This skill activates when:
 
 ### Steps
 
+0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
 1. **Intake** — Read the target repo's profile (if `repo-profile.yml` exists) or scan the repo to infer stack, conventions, and structure.
 2. **Load Standards** — Read `source-of-truth/design-standards.md` and `source-of-truth/prompt-engineering-guide.md` for current rules.
 3. **Load Template** — Read `templates/SKILL.md` as the structural base.
@@ -53,6 +54,7 @@ This skill activates when:
 
 ### Constraints
 
+- Never hard-code artifact paths. Derive all output locations from `.ai/system/standards.json` when available, falling back to standard defaults.
 - NEVER invent tools or capabilities not available in the target provider
 - NEVER include secrets or environment-specific values
 - ALWAYS include at least one example in the generated skill

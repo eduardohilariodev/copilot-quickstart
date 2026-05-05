@@ -39,6 +39,7 @@ This skill activates when:
 
 ### Steps
 
+0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
 1. **Discover Existing Configs:**
    - Scan for all provider configs in target repo:
      - Copilot: `.github/copilot-instructions.md`
@@ -111,6 +112,7 @@ This skill activates when:
 
 ### Constraints
 
+- Never hard-code artifact paths. Derive all output locations from `.ai/system/standards.json` when available, falling back to standard defaults.
 - NEVER silently drop rules that can't be mapped (always report)
 - NEVER overwrite local overrides without explicit user consent
 - ALWAYS preserve provider-specific features that have no canonical equivalent

@@ -33,10 +33,10 @@ import { VERSION } from "../lib/constants.mjs";
 import { scanRepo } from "../lib/detect.mjs";
 import { buildProfile, buildArtifactPlan } from "../lib/plan.mjs";
 import { stageArtifacts, applyStaged } from "../lib/generate.mjs";
+import { stageCapsule } from "../lib/capsule.mjs";
 import { runDoctor, formatDoctorOutput, formatDoctorJson } from "../lib/doctor.mjs";
 import {
   STAGING_DIR_NAME,
-  RISK_LEVELS,
   ARCHITECTURES,
   PROVIDERS,
 } from "../lib/constants.mjs";
@@ -238,8 +238,30 @@ async function wizardOnboard(target, flags) {
 
         risk_level: () =>
           p.select({
-            message: "Risk level (affects how conservative AI behavior is)",
-            options: RISK_LEVELS.map((r) => ({ value: r, label: r })),
+            message:
+              "Risk level — controls how conservative AI behavior will be",
+            options: [
+              {
+                value: "low",
+                label: "Low",
+                hint: "Personal/experimental projects — basic safety rules, auto-commit allowed",
+              },
+              {
+                value: "medium",
+                label: "Medium",
+                hint: "Team projects, internal tools — full security rules + PR review required",
+              },
+              {
+                value: "high",
+                label: "High",
+                hint: "Production services, financial — enhanced guardrails, audit, no auto-commit",
+              },
+              {
+                value: "critical",
+                label: "Critical",
+                hint: "Security/auth infrastructure — maximum restrictions, manual review of all AI changes",
+              },
+            ],
             initialValue: "medium",
           }),
 
@@ -348,6 +370,17 @@ async function wizardOnboard(target, flags) {
   }
 
   const { written, skipped } = stageArtifacts(target, finalArtifacts, profile, scan);
+
+  // Stage the standards capsule alongside other artifacts
+  const stagingDir2 = join(target, STAGING_DIR_NAME);
+  const capsuleResult = stageCapsule(stagingDir2, {
+    version: VERSION,
+    repo: "eduardohilariodev/copilot-quickstart",
+    docsBaseUrl: `https://github.com/eduardohilariodev/copilot-quickstart/tree/v${VERSION}/source-of-truth`,
+  });
+  for (const f of capsuleResult.files) {
+    written.push(f);
+  }
 
   s.stop(`Generated ${written.length} files`);
 

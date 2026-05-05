@@ -112,9 +112,15 @@ copilot-quickstart/
 │   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
 │   └── copilot-config-wizard/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
 ├── tools/
-│   └── onboard/                  # CLI for deterministic onboarding
-│       ├── package.json
-│       └── bin/onboard.mjs       # Zero-dep Node.js scanner
+│   └── onboard/                  # Interactive CLI wizard
+│       ├── package.json          # @clack/prompts + picocolors
+│       ├── bin/cli.mjs           # Entry point (command routing)
+│       └── lib/
+│           ├── constants.mjs     # Paths, version, ignore rules
+│           ├── detect.mjs        # Repo scanning (languages, frameworks, etc.)
+│           ├── plan.mjs          # Shared plan model (profile + artifact plan)
+│           ├── generate.mjs      # File generation + staging
+│           └── doctor.mjs        # Read-only diagnostics + scoring
 └── examples/
     └── target-repo/              # Fully populated example output
         ├── repo-profile.yml      # Input profile
@@ -166,43 +172,46 @@ instructions to CLAUDE.md and Cursor rules"
 
 ## Onboarding a Repo
 
-Two paths to the same result: a **CLI** for deterministic setup, or an **AI skill** for conversational setup.
+Two paths to the same result: an **interactive CLI wizard** for guided setup, or an **AI skill** for conversational setup.
 
-### Option A: CLI Onboarding
-
-```bash
-# From your target repo root:
-npx copilot-quickstart-onboard
-
-# Or install globally:
-npm i -g copilot-quickstart-onboard
-copilot-quickstart-onboard
-```
-
-The CLI will:
-1. Auto-detect languages, frameworks, architecture, and build commands
-2. Find existing AI configs (copilot-instructions, AGENTS.md, CLAUDE.md, Cursor rules)
-3. Write a validated `repo-profile.yml`
-4. Recommend next steps (greenfield generation vs brownfield repair)
-
-#### Staged Workflow (recommended)
+### Option A: CLI Wizard
 
 ```bash
-# Stage all candidate files for review (nothing touches your repo yet):
-copilot-quickstart --stage
+# From your target repo root (requires Node.js):
+npx @copilot-quickstart/cli
 
-# Include starter skill pack:
-copilot-quickstart --stage --skills
-
-# Review what was generated:
-ls ai-setup/
-cat ai-setup/AGENTS.md
-
-# Apply when satisfied (skip existing files unless --force):
-copilot-quickstart --apply
+# Or clone and run directly:
+node path/to/copilot-quickstart/tools/onboard/bin/cli.mjs
 ```
 
-This mirrors "plan → review → apply" workflows — you always see what will change before it lands.
+The interactive wizard guides you through 5 phases:
+
+1. **Environment check** — verifies git repo, shows warnings
+2. **Repo scan** — auto-detects languages, frameworks, architecture, CI, existing AI configs
+3. **Profile questions** — presents scan as defaults, asks only for gaps (risk level, providers, conventions)
+4. **Plan proposal** — shows toggleable list of files to generate (AGENTS.md, instructions, skills, etc.)
+5. **Generate** — writes to `ai-setup/` staging directory with manifest
+
+#### Commands
+
+```bash
+copilot-quickstart              # Full wizard (interactive)
+copilot-quickstart doctor       # Read-only diagnostics + readiness score
+copilot-quickstart doctor --json  # Machine-readable (for CI)
+copilot-quickstart apply        # Move staged files to final locations
+copilot-quickstart apply --force  # Overwrite existing
+copilot-quickstart reset        # Remove staging directory
+```
+
+#### Non-Interactive (CI/scripting)
+
+```bash
+# Full unattended — uses scan defaults, no prompts:
+copilot-quickstart --non-interactive --skills
+copilot-quickstart apply --force
+```
+
+Exit codes: `0` = success/healthy, `1` = needs work (doctor) or error.
 
 ### Option B: Copilot/Claude Skill
 

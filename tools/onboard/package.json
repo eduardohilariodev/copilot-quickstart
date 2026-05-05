@@ -1,14 +1,28 @@
 {
-  "name": "copilot-quickstart-onboard",
-  "version": "1.0.0",
-  "description": "CLI tool to onboard repositories into the copilot-quickstart ecosystem",
+  "name": "@copilot-quickstart/cli",
+  "version": "2.0.0",
+  "description": "Interactive CLI wizard to onboard repositories into the copilot-quickstart ecosystem",
   "type": "module",
   "bin": {
-    "copilot-quickstart": "./bin/onboard.mjs"
+    "copilot-quickstart": "./bin/cli.mjs"
   },
   "scripts": {
-    "start": "node bin/onboard.mjs"
+    "start": "node bin/cli.mjs",
+    "doctor": "node bin/cli.mjs doctor",
+    "apply": "node bin/cli.mjs apply"
   },
-  "keywords": ["copilot", "ai", "onboarding", "agents", "skills"],
-  "license": "MIT"
+  "keywords": [
+    "copilot",
+    "ai",
+    "onboarding",
+    "agents",
+    "skills",
+    "wizard",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^1.3.0",
+    "picocolors": "^1.1.1"
+  }
 }

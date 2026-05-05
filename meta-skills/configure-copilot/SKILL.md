@@ -1,4 +1,4 @@
-# copilot-config-wizard
+# configure-copilot
 
 ## Description
 
@@ -139,7 +139,7 @@ For each recommended instruction file:
 ## Metadata
 
 ```yaml
-name: copilot-config-wizard
+name: configure-copilot
 version: 1.0.0
 standards_version: 1.0.0
 author: copilot-quickstart

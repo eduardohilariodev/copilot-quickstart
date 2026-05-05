@@ -3,7 +3,7 @@
 Version: 1.0.0
 
 > Canonical reference for GitHub Copilot configuration surfaces, quirks, and
-> integration points. Used by meta-skills (especially `copilot-config-wizard`,
+> integration points. Used by meta-skills (especially `configure-copilot`,
 > `onboard-repo`, and `evaluate-config`) to generate correct configurations.
 
 ---

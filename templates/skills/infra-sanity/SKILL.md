@@ -18,6 +18,13 @@ This skill activates when:
 | command | string | yes | The infrastructure command being considered |
 | environment | string | no | Target environment |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| safety_verdict | string | Risk classification (critical/high/medium/low) with approval or rejection rationale |
+| dry_run_output | string | Output of the plan/dry-run execution showing expected changes |
+
 ## Tools Required
 
 - Shell (for dry-run execution)

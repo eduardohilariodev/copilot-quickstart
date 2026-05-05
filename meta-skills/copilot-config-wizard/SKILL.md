@@ -142,6 +142,7 @@ For each recommended instruction file:
 name: copilot-config-wizard
 version: 1.0.0
 standards_version: 1.0.0
+author: copilot-quickstart
 category: onboarding
 references:
   - source-of-truth/copilot-config-features.md

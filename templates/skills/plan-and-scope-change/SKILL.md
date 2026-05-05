@@ -18,6 +18,13 @@ This skill activates when:
 | change_request | string | yes | What the user wants to accomplish |
 | codebase_context | string | no | Relevant files, architecture notes |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| plan | markdown | Structured implementation plan with steps, risks, and success criteria |
+| affected_files | file_list | List of files that will be created, modified, or deleted |
+
 ## Tools Required
 
 - File system (read source, AGENTS.md, architecture docs)

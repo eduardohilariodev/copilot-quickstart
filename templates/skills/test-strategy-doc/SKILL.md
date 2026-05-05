@@ -18,6 +18,12 @@ This skill activates when:
 | repo_profile | object | yes | repo-profile.yml content |
 | existing_tests | string | no | Summary of current test files/structure |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| strategy_doc | file | TESTING.md documenting test philosophy, structure, commands, and coverage targets |
+
 ## Tools Required
 
 - File system (read existing tests, write TESTING.md)

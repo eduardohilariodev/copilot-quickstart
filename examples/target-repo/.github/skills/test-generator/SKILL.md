@@ -18,13 +18,6 @@ This skill activates when:
 | test_framework | string | no | From repo-profile.yml frameworks (jest, vitest, pytest, etc.) |
 | conventions | string | no | Testing conventions from AGENTS.md |
 
-## Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| test_file | file | Unit test file at the conventional path for the module under test |
-| test_run_result | string | Pass/fail result from executing the generated tests |
-
 ## Tools Required
 
 - File system (read source code and existing tests)

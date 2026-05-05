@@ -17,6 +17,13 @@ This skill activates when:
 | refactor_description | string | yes | What to refactor and why |
 | affected_scope | string | no | Known files/modules involved |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| refactor_result | markdown | Batch execution report with per-batch status, test results, and final verification |
+| modified_files | file_list | List of all files changed across all batches |
+
 ## Tools Required
 
 - File system (read/write source files)

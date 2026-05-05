@@ -18,6 +18,13 @@ This skill activates when:
 | issue_number | string | no | Related issue (e.g., #42) |
 | git_workflow | string | no | From repo-profile.yml conventions |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| branch_name | string | Well-formed branch name following `<prefix>/<issue>-<description>` convention |
+| pr_description | markdown | Structured PR body with summary, changes, testing, and risk sections |
+
 ## Tools Required
 
 - Git CLI

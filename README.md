@@ -148,6 +148,8 @@ build_commands:
 providers: [copilot, claude]
 ```
 
+> **Tip:** Prefer the [CLI Wizard](#option-a-cli-wizard) for interactive setup — it auto-detects most of these values. Use manual profile creation for scripted or advanced workflows.
+
 ### 2. Generate Configurations
 
 Use the meta-skills with your preferred AI tool:
@@ -184,6 +186,8 @@ npx @copilot-quickstart/cli
 # Or clone and run directly:
 node path/to/copilot-quickstart/tools/onboard/bin/cli.mjs
 ```
+
+> **Note:** The wizard generates `repo-profile.yml` automatically. For manual creation, see [Profile Your Repo](#1-profile-your-repo).
 
 The interactive wizard guides you through 5 phases:
 
@@ -412,12 +416,15 @@ Instructions (behavioral rules)
 
 ### Provider Mapping
 
-| Concept | Copilot | Claude | Cursor |
-|---------|---------|--------|--------|
-| Instructions | `.github/copilot-instructions.md` | `CLAUDE.md` | `.cursor/rules/*.mdc` |
-| Agent config | `copilot-setup-steps.yml` | `AGENTS.md` | N/A |
-| Skills | `.github/skills/*/SKILL.md` | Platform skills | N/A |
-| Token budget | ~2000 | ~8000 | ~500/file |
+See [`source-of-truth/design-standards.md`](source-of-truth/design-standards.md#provider-mapping) for the canonical provider mapping.
+
+**Token budgets (approximate):**
+
+| Provider | Budget |
+|----------|--------|
+| Copilot | ~2000 tokens |
+| Claude | ~8000 tokens |
+| Cursor | ~500 tokens/file |
 
 ### The Generation Flow
 

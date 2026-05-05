@@ -18,6 +18,13 @@ This skill activates when:
 | task | string | yes | What needs to be accomplished |
 | repo_structure | string | no | Available files/directories |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| context_set | file_list | Minimal set of file paths and excerpts relevant to the task |
+| token_estimate | number | Approximate token count of the curated context package |
+
 ## Tools Required
 
 - File system (read files, directory listings)

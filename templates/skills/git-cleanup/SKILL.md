@@ -18,6 +18,12 @@ This skill activates when:
 | action | string | yes | One of: squash, prune-branches, audit-history |
 | target_branch | string | no | Branch to operate on (default: current) |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| cleanup_report | markdown | Summary of actions taken or proposed: branches pruned, commits squashed, or anti-patterns found |
+
 ## Tools Required
 
 - Git CLI

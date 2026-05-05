@@ -17,12 +17,6 @@ This skill activates when:
 | staged_diff | string | yes | Output of `git diff --cached` |
 | conventions | string | no | Commit format from repo-profile.yml |
 
-## Outputs
-
-| Name | Type | Description |
-|------|------|-------------|
-| commit_message | string | Formatted conventional commit message ready for `git commit -m` |
-
 ## Tools Required
 
 - File system (read staged diff)

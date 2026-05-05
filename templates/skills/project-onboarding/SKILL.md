@@ -18,6 +18,12 @@ This skill activates when:
 | repo_profile | object | yes | repo-profile.yml content |
 | readme | string | no | Existing README content |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| onboarding_doc | file | Quickstart guide with setup commands, project structure, and first-task pointers |
+
 ## Tools Required
 
 - File system (scan project structure, read configs)

@@ -17,6 +17,13 @@ This skill activates when:
 |------|------|----------|-------------|
 | workflows_dir | string | no | Path to workflows (default: `.github/workflows/`) |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| health_report | markdown | Prioritized checklist of CI issues with severity ratings and fix suggestions |
+| risk_score | string | Overall workflow health: critical, warning, or healthy |
+
 ## Tools Required
 
 - File system (read workflow YAML files)

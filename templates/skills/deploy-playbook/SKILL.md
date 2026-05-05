@@ -18,6 +18,13 @@ This skill activates when:
 | repo_profile | object | yes | repo-profile.yml content (deployment section) |
 | environment | string | no | Target environment (staging, production) |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| playbook | file | DEPLOY.md with pre-deploy checklist, deploy commands, verification, and rollback steps |
+| deploy_status | string | Execution result when assisting with actual deployment (success/failed/rolled-back) |
+
 ## Tools Required
 
 - File system (read config, write playbook)

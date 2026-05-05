@@ -23,7 +23,11 @@ The primary naming pattern for skills. The gerund form signals capability.
 |---------|---------|-------------|
 | `verb-ing-domain` | `testing-code`, `managing-branches` | Default — most skills |
 | `domain-verb-ing` | `database-migrating`, `react-testing` | When domain disambiguation matters more |
-| `verb-noun` | `create-skill`, `audit-config` | Meta/operational skills |
+| `verb-noun` | `create-skill`, `audit-config` | Meta/operational skills (e.g., create-*, audit-*, sync-*) |
+
+> **Convention for `meta-skills/`:** All meta-skills in copilot-quickstart use the `verb-noun`
+> variant by convention. When creating new meta-skills, prefer this pattern for consistency.
+> Exception: `copilot-config-wizard` predates this convention and may be renamed in a future release.
 
 ### Constraints
 

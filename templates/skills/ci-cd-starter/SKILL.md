@@ -18,6 +18,13 @@ This skill activates when:
 | repo_profile | object | yes | repo-profile.yml content |
 | existing_workflows | string | no | Contents of `.github/workflows/` |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| workflow_file | file | GitHub Actions workflow YAML at `.github/workflows/` |
+| pipeline_summary | markdown | Overview of generated pipeline stages and their purposes |
+
 ## Tools Required
 
 - File system (read/write workflow YAML)

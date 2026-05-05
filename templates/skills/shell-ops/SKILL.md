@@ -18,6 +18,13 @@ This skill activates when:
 | command | string | yes | The shell command to evaluate/execute |
 | protected_paths | array | no | From repo-profile.yml |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| command_result | string | Shell command output or confirmation of execution with exit code |
+| risk_classification | string | Safety assessment of the command: safe, moderate, dangerous, or forbidden |
+
 ## Tools Required
 
 - Shell (bash/zsh/powershell)

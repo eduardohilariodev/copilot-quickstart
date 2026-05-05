@@ -17,6 +17,13 @@ This skill activates when:
 | test_output | string | yes | Full test runner output with failures |
 | source_files | string | no | Relevant source files for context |
 
+## Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| diagnosis | markdown | Root cause analysis with classified failure type and minimal fix suggestion |
+| fix_diff | string | Proposed code patch that resolves the failure (if determinable) |
+
 ## Tools Required
 
 - File system (read source and test files)

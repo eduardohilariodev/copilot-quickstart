@@ -8,21 +8,22 @@ A "meta-copilot" — instead of writing AI configurations by hand (and watching 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  Layer 1: STANDARDS (this repo — read-only policy & patterns)   │
-│  source-of-truth/ + schemas/ + templates/                       │
+│  Layer 1: STANDARDS (read-only specs & contracts)               │
+│  source-of-truth/ + schemas/                                    │
 ├─────────────────────────────────────────────────────────────────┤
-│  Layer 2: ORCHESTRATOR (meta-skills + CLI)                      │
+│  Layer 2: ORCHESTRATOR (meta-skills + CLI + templates)          │
 │  Reads standards, inspects target repo, generates/repairs       │
-│  meta-skills/ + tools/onboard                                   │
+│  meta-skills/ + tools/ + templates/                             │
 ├─────────────────────────────────────────────────────────────────┤
 │  Layer 3: TARGET REPO (what Copilot/Claude actually consume)    │
 │  AGENTS.md, copilot-instructions, CLAUDE.md, skills             │
+│  (see examples/target-repo/ for reference output)               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Standards** — Immutable design rules, prompt-engineering guide, security governance
-2. **Orchestrator** — Meta-skills and CLI that read standards and produce/repair configs
-3. **Target output** — The actual files your AI tools consume, always aligned with standards
+1. **Standards** — Immutable design rules, prompt-engineering guide, security governance (`source-of-truth/`, `schemas/`)
+2. **Orchestrator** — Meta-skills, CLI, and templates that read standards and produce/repair configs (`meta-skills/`, `tools/`, `templates/`)
+3. **Target output** — The actual files your AI tools consume, always aligned with standards (`examples/target-repo/` is the reference)
 
 ## Repository Structure
 
@@ -111,7 +112,7 @@ copilot-quickstart/
 │   │ # Onboarding — Orchestration
 │   ├── onboard-repo/SKILL.md           # Full onboarding decision tree
 │   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
-│   └── copilot-config-wizard/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
+│   └── configure-copilot/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
 ├── tools/
 │   └── onboard/                  # Interactive CLI wizard
 │       ├── package.json          # @clack/prompts + picocolors
@@ -317,10 +318,10 @@ The quickstart understands and configures all Copilot-specific knobs:
 | **`COPILOT_SKILLS_DIRS`** | CLI discovers custom skills from env var | Copilot CLI |
 | **Prompt files** | Reusable task-specific prompts (`.prompt.md`) | VS Code Chat |
 
-Use the `copilot-config-wizard` meta-skill to configure all of the above based on your repo profile:
+Use the `configure-copilot` meta-skill to configure all of the above based on your repo profile:
 
 ```
-"Run copilot-config-wizard on this repo to set up scoped instructions and IDE settings"
+"Run configure-copilot on this repo to set up scoped instructions and IDE settings"
 ```
 
 See `source-of-truth/copilot-config-features.md` for the full reference.

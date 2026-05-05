@@ -20,8 +20,10 @@ A project-agnostic meta-copilot: standards corpus + meta-skills + CLI wizard tha
 
 ```
 Layer 1: STANDARDS (read-only specs)     → source-of-truth/ + schemas/
-Layer 2: ORCHESTRATOR (meta-skills + CLI) → meta-skills/ + tools/onboard/
-Layer 3: TARGET OUTPUT (what users get)   → templates/ rendered into target repos
+Layer 2: ORCHESTRATOR (meta-skills + CLI + templates)
+                                         → meta-skills/ + tools/ + templates/
+Layer 3: TARGET OUTPUT (what users get)  → examples/target-repo/ (reference)
+                                           + your actual target repo
 ```
 
 - Layer 1 is **immutable** — never auto-modify source-of-truth/ or schemas/

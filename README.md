@@ -46,7 +46,23 @@ copilot-quickstart/
 │   ├── agent-definition.yml      # Agent config template
 │   ├── eval-suite.md             # Evaluation checklist template
 │   ├── architecture.md           # Deep architecture grounding doc
-│   └── tech-stack.md             # Technology stack declaration
+│   ├── tech-stack.md             # Technology stack declaration
+│   └── skills/                   # Starter skill pack (15 generic skills)
+│       ├── git-commit-message/   # Conventional commit messages
+│       ├── git-branch-and-pr/    # Branch naming + PR descriptions
+│       ├── git-cleanup/          # History hygiene (squash, prune)
+│       ├── test-generator/       # Unit test scaffolding
+│       ├── test-failure-diagnoser/ # Failing test root-cause analysis
+│       ├── test-strategy-doc/    # TESTING.md generation
+│       ├── ci-cd-starter/        # GitHub Actions best practices
+│       ├── ci-health-check/      # Workflow security/perf audit
+│       ├── deploy-playbook/      # Deployment procedure docs
+│       ├── infra-sanity/         # Infrastructure safety checks
+│       ├── plan-and-scope-change/ # Structured planning before coding
+│       ├── context-curator/      # Minimal high-signal context selection
+│       ├── safe-refactor/        # Multi-file refactor with test gates
+│       ├── project-onboarding/   # "How to work here" doc generator
+│       └── shell-ops/            # Safe shell command execution
 ├── meta-skills/                  # Skills that create and maintain configurations
 │   │
 │   │ # Bootstrap (create from scratch)
@@ -151,9 +167,27 @@ copilot-quickstart-onboard
 The CLI will:
 1. Auto-detect languages, frameworks, architecture, and build commands
 2. Find existing AI configs (copilot-instructions, AGENTS.md, CLAUDE.md, Cursor rules)
-3. Ask about gaps (risk level, conventions, deployment)
-4. Write a validated `repo-profile.yml`
-5. Recommend next steps (greenfield generation vs brownfield repair)
+3. Write a validated `repo-profile.yml`
+4. Recommend next steps (greenfield generation vs brownfield repair)
+
+#### Staged Workflow (recommended)
+
+```bash
+# Stage all candidate files for review (nothing touches your repo yet):
+copilot-quickstart --stage
+
+# Include starter skill pack:
+copilot-quickstart --stage --skills
+
+# Review what was generated:
+ls ai-setup/
+cat ai-setup/AGENTS.md
+
+# Apply when satisfied (skip existing files unless --force):
+copilot-quickstart --apply
+```
+
+This mirrors "plan → review → apply" workflows — you always see what will change before it lands.
 
 ### Option B: Copilot/Claude Skill
 
@@ -186,6 +220,33 @@ The `diagnose-brownfield` skill scores repos on four dimensions:
 | Safety & Governance | 20% | Secrets, permissions, protected paths |
 
 Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–10)
+
+### Starter Skill Pack
+
+15 generic, research-backed skills that work in any repo. Vendored on demand with `--skills`:
+
+| Category | Skill | What It Does |
+|----------|-------|-------------|
+| **Git & Flow** | `git-commit-message` | Conventional commit messages from staged diffs |
+| | `git-branch-and-pr` | Branch naming + structured PR descriptions |
+| | `git-cleanup` | Squash, prune stale branches, audit history |
+| **Testing** | `test-generator` | Unit test scaffolds matching project conventions |
+| | `test-failure-diagnoser` | Root-cause analysis for failing tests |
+| | `test-strategy-doc` | Generate/update TESTING.md |
+| **CI/CD** | `ci-cd-starter` | GitHub Actions workflows (secure, cached, modular) |
+| | `ci-health-check` | Audit workflows for security/perf issues |
+| | `deploy-playbook` | Deployment procedures + rollback docs |
+| | `infra-sanity` | Safety checks before destructive infra commands |
+| **Context & Planning** | `plan-and-scope-change` | Structured planning before code changes |
+| | `context-curator` | Select minimal high-signal context for tasks |
+| | `safe-refactor` | Multi-file refactors with test gates per batch |
+| **Onboarding & Ops** | `project-onboarding` | "How to work here" quickstart guide |
+| | `shell-ops` | Safe shell execution with protected-path guards |
+
+#### Library vs Vendored
+
+- **Library** (default): skills stay in `copilot-quickstart/templates/skills/` — agents reference them
+- **Vendored** (`--skills` flag): copied into your repo at `.github/skills/` — you own and evolve them
 
 ## Maintenance Workflow
 

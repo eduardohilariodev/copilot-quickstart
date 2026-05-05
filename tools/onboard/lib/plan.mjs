@@ -13,9 +13,20 @@ export function buildProfile(scan, answers) {
 
   // Resolve naming style to concrete patterns
   const namingStyle = answers.naming_style || "standard";
-  const naming = namingStyle === "functional"
-    ? { skills_pattern: "domain-verb", agents_pattern: "domain-role", instructions_pattern: "tech-domain-focus" }
-    : { skills_pattern: "verb-ing-domain", agents_pattern: "role-scope", instructions_pattern: "topic" };
+  let naming;
+  if (namingStyle === "other") {
+    const custom = answers.naming_style_custom || "custom";
+    naming = { skills_pattern: custom, agents_pattern: custom, instructions_pattern: custom };
+  } else if (namingStyle === "functional") {
+    naming = { skills_pattern: "domain-verb", agents_pattern: "domain-role", instructions_pattern: "tech-domain-focus" };
+  } else {
+    naming = { skills_pattern: "verb-ing-domain", agents_pattern: "role-scope", instructions_pattern: "topic" };
+  }
+
+  // Resolve architecture (handle "other" custom input)
+  const architecture = answers.architecture === "other"
+    ? (answers.architecture_custom || "custom")
+    : (answers.architecture || scan.architecture);
 
   return {
     name: repoName,
@@ -23,7 +34,7 @@ export function buildProfile(scan, answers) {
     languages: scan.languages,
     frameworks: scan.frameworks,
     build_commands: scan.build_commands,
-    architecture: answers.architecture || scan.architecture,
+    architecture,
     risk_level: answers.risk_level || "medium",
     protected_paths: answers.protected_paths || buildProtectedPaths(scan),
     providers: answers.providers || scan.providers,

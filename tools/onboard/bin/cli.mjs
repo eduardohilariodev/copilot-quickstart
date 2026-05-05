@@ -228,13 +228,29 @@ async function wizardOnboard(target, flags) {
         architecture: () =>
           p.select({
             message: "Architecture",
-            options: ARCHITECTURES.map((a) => ({
-              value: a,
-              label: a,
-              hint: a === scan.architecture ? "detected" : undefined,
-            })),
+            options: [
+              ...ARCHITECTURES.map((a) => ({
+                value: a,
+                label: a,
+                hint: a === scan.architecture ? "detected" : undefined,
+              })),
+              {
+                value: "other",
+                label: "Other",
+                hint: "type your own (e.g. event-driven, hybrid, desktop)",
+              },
+            ],
             initialValue: scan.architecture,
           }),
+
+        architecture_custom: ({ results }) => {
+          if (results.architecture !== "other") return;
+          return p.text({
+            message: "Describe your architecture",
+            placeholder: "e.g., event-driven, hybrid, desktop-app",
+            validate: (v) => (!v?.trim() ? "Please enter an architecture" : undefined),
+          });
+        },
 
         risk_level: () =>
           p.select({
@@ -292,9 +308,23 @@ async function wizardOnboard(target, flags) {
                 label: "Functional",
                 hint: "domain-verb — e.g. code-testing, branch-managing, frontend-review",
               },
+              {
+                value: "other",
+                label: "Other (custom)",
+                hint: "type your own naming pattern",
+              },
             ],
             initialValue: "standard",
           }),
+
+        naming_style_custom: ({ results }) => {
+          if (results.naming_style !== "other") return;
+          return p.text({
+            message: "Describe your naming pattern for AI artifacts",
+            placeholder: "e.g., feature-area-action, kebab-case with team prefix",
+            validate: (v) => (!v?.trim() ? "Please enter a naming pattern" : undefined),
+          });
+        },
       },
       {
         onCancel: () => {

@@ -7,11 +7,14 @@
  * ecosystem. Detects stack, asks targeted questions, stages config files.
  *
  * Commands:
- *   onboard    Full interactive wizard (default)
- *   doctor     Read-only diagnostics and readiness scoring
- *   apply      Move staged files from ai-setup/ to final locations
- *   reset      Remove ai-setup/ staging directory
- *   validate   Validate project artifacts (skills, templates, naming)
+ *   (default)          Main menu — choose onboard, terminal-profile, or copilot-apply
+ *   onboard            Full interactive onboarding wizard
+ *   terminal-profile   Build VSCode terminal profiles for gh copilot
+ *   copilot-apply      Launch Copilot to apply staged ai-setup/ artifacts
+ *   doctor             Read-only diagnostics and readiness scoring
+ *   apply              Move staged files from ai-setup/ to final locations (manual)
+ *   reset              Remove ai-setup/ staging directory
+ *   validate           Validate project artifacts (skills, templates, naming)
  *
  * Flags:
  *   --non-interactive  Skip prompts, use scan defaults (for CI)
@@ -42,6 +45,8 @@ import {
   SKILL_RECOMMENDATIONS,
 } from "../lib/constants.mjs";
 import { runValidate } from "../lib/validate.mjs";
+import { runTerminalProfileBuilder } from "../lib/terminal-profile.mjs";
+import { runCopilotApply } from "../lib/copilot-apply.mjs";
 
 // ─── Argument Parsing ───────────────────────────────────────────────────────
 
@@ -63,6 +68,12 @@ function parseArgs(argv) {
     switch (arg) {
       case "onboard":
         command = "onboard";
+        break;
+      case "terminal-profile":
+        command = "terminal-profile";
+        break;
+      case "copilot-apply":
+        command = "copilot-apply";
         break;
       case "doctor":
         command = "doctor";
@@ -113,8 +124,8 @@ function parseArgs(argv) {
     }
   }
 
-  // Default command
-  if (!command) command = "onboard";
+  // Default command (null = show main menu)
+  if (!command) command = null;
 
   return { command, target: resolve(target), flags };
 }
@@ -177,11 +188,14 @@ ${pc.bold("Usage:")}
   copilot-quickstart [command] [target-path] [flags]
 
 ${pc.bold("Commands:")}
-  onboard     Interactive onboarding wizard ${pc.dim("(default)")}
-  doctor      Read-only diagnostics & readiness score
-  apply       Move staged files from ai-setup/ to final locations
-  reset       Remove ai-setup/ staging directory
-  validate    Validate project artifacts (skills, templates, naming)
+  ${pc.dim("(none)")}         Interactive main menu ${pc.dim("(default)")}
+  onboard          Full interactive onboarding wizard
+  terminal-profile Build VSCode terminal profiles for gh copilot
+  copilot-apply    Launch Copilot to apply staged ai-setup/ artifacts
+  doctor           Read-only diagnostics & readiness score
+  apply            Move staged files from ai-setup/ manually
+  reset            Remove ai-setup/ staging directory
+  validate         Validate project artifacts (skills, templates, naming)
 
 ${pc.bold("Flags:")}
   --non-interactive  Skip prompts, use defaults (for CI/scripting)
@@ -191,13 +205,15 @@ ${pc.bold("Flags:")}
   -h, --help         Show this help
 
 ${pc.bold("Examples:")}
-  ${pc.dim("$")} copilot-quickstart                  ${pc.dim("# Wizard in current dir")}
+  ${pc.dim("$")} copilot-quickstart                  ${pc.dim("# Main menu")}
+  ${pc.dim("$")} copilot-quickstart onboard          ${pc.dim("# Direct to onboarding")}
+  ${pc.dim("$")} copilot-quickstart terminal-profile ${pc.dim("# Build a terminal profile")}
+  ${pc.dim("$")} copilot-quickstart copilot-apply    ${pc.dim("# Apply via Copilot AI")}
   ${pc.dim("$")} copilot-quickstart doctor           ${pc.dim("# Check readiness")}
   ${pc.dim("$")} copilot-quickstart doctor --json    ${pc.dim("# CI-friendly score")}
   ${pc.dim("$")} copilot-quickstart apply            ${pc.dim("# Apply staged configs")}
   ${pc.dim("$")} copilot-quickstart apply --force    ${pc.dim("# Overwrite existing")}
   ${pc.dim("$")} copilot-quickstart validate         ${pc.dim("# Run validation checks")}
-  ${pc.dim("$")} copilot-quickstart validate --json  ${pc.dim("# Machine-readable validation")}
   ${pc.dim("$")} copilot-quickstart --non-interactive --skills  ${pc.dim("# Full unattended")}
   ${pc.dim("$")} copilot-quickstart /path/to/repo    ${pc.dim("# Target another repo")}
 `);
@@ -572,6 +588,67 @@ async function commandValidate(flags) {
   process.exit(failed > 0 ? 1 : 0);
 }
 
+// ─── Main Menu ──────────────────────────────────────────────────────────────
+
+async function mainMenu(target, flags) {
+  p.intro(`${pc.bgCyan(pc.black(" copilot-quickstart "))} v${VERSION}`);
+
+  const choice = await p.select({
+    message: "What would you like to do?",
+    options: [
+      {
+        value: "onboard",
+        label: "Onboard",
+        hint: "scan repo & stage AI configuration files",
+      },
+      {
+        value: "terminal-profile",
+        label: "Terminal Profile",
+        hint: "build VSCode terminal profiles for gh copilot",
+      },
+      {
+        value: "copilot-apply",
+        label: "Apply via Copilot",
+        hint: "launch Copilot to apply staged ai-setup/ artifacts",
+      },
+      {
+        value: "doctor",
+        label: "Doctor",
+        hint: "read-only diagnostics & readiness score",
+      },
+      {
+        value: "apply",
+        label: "Apply (manual)",
+        hint: "move staged files to final locations",
+      },
+    ],
+  });
+
+  if (p.isCancel(choice)) {
+    p.cancel("Bye!");
+    process.exit(0);
+  }
+
+  // Clear intro for sub-commands that show their own
+  switch (choice) {
+    case "onboard":
+      await wizardOnboard(target, flags);
+      break;
+    case "terminal-profile":
+      await runTerminalProfileBuilder();
+      break;
+    case "copilot-apply":
+      await runCopilotApply(target);
+      break;
+    case "doctor":
+      commandDoctor(target, flags);
+      break;
+    case "apply":
+      commandApply(target, flags);
+      break;
+  }
+}
+
 // ─── Main ───────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -591,8 +668,17 @@ async function main() {
   }
 
   switch (command) {
+    case null:
+      await mainMenu(target, flags);
+      break;
     case "onboard":
       await wizardOnboard(target, flags);
+      break;
+    case "terminal-profile":
+      await runTerminalProfileBuilder();
+      break;
+    case "copilot-apply":
+      await runCopilotApply(target);
       break;
     case "doctor":
       commandDoctor(target, flags);

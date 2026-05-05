@@ -4,12 +4,25 @@ A project-agnostic **standards corpus + meta-skills** for generating high-qualit
 
 ## What This Is
 
-A "meta-copilot" — instead of writing AI configurations by hand (and watching them drift), you use this repo as:
+A "meta-copilot" — instead of writing AI configurations by hand (and watching them drift), you use this repo as a **three-layer system**:
 
-1. **Source of truth** — Immutable standards for how agents, skills, and instructions should be written
-2. **Templates** — Copy-paste-ready structures for any target repo
-3. **Meta-skills** — AI skills that *generate other skills*, instructions, and agent configs
-4. **Schemas** — Machine-readable contracts for validation and automation
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  Layer 1: STANDARDS (this repo — read-only policy & patterns)   │
+│  source-of-truth/ + schemas/ + templates/                       │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 2: ORCHESTRATOR (meta-skills + CLI)                      │
+│  Reads standards, inspects target repo, generates/repairs       │
+│  meta-skills/ + tools/onboard                                   │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 3: TARGET REPO (what Copilot/Claude actually consume)    │
+│  AGENTS.md, copilot-instructions, CLAUDE.md, skills             │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+1. **Standards** — Immutable design rules, prompt-engineering guide, security governance
+2. **Orchestrator** — Meta-skills and CLI that read standards and produce/repair configs
+3. **Target output** — The actual files your AI tools consume, always aligned with standards
 
 ## Repository Structure
 
@@ -31,7 +44,9 @@ copilot-quickstart/
 │   ├── copilot-instructions.md   # Copilot instructions template
 │   ├── SKILL.md                  # Skill definition template
 │   ├── agent-definition.yml      # Agent config template
-│   └── eval-suite.md             # Evaluation checklist template
+│   ├── eval-suite.md             # Evaluation checklist template
+│   ├── architecture.md           # Deep architecture grounding doc
+│   └── tech-stack.md             # Technology stack declaration
 ├── meta-skills/                  # Skills that create and maintain configurations
 │   │
 │   │ # Bootstrap (create from scratch)
@@ -60,7 +75,15 @@ copilot-quickstart/
 │   │
 │   │ # Maintenance — Governance & Safety
 │   ├── audit-tool-safety/SKILL.md      # Tool/script safety auditor
-│   └── check-policy/SKILL.md           # Org policy conformance checker
+│   ├── check-policy/SKILL.md           # Org policy conformance checker
+│   │
+│   │ # Onboarding — Orchestration
+│   ├── onboard-repo/SKILL.md           # Full onboarding decision tree
+│   └── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
+├── tools/
+│   └── onboard/                  # CLI for deterministic onboarding
+│       ├── package.json
+│       └── bin/onboard.mjs       # Zero-dep Node.js scanner
 └── examples/
     └── target-repo/              # Fully populated example output
         ├── repo-profile.yml      # Input profile
@@ -109,6 +132,60 @@ copilot instructions for my repo based on the repo-profile.yml"
 "Using copilot-quickstart/meta-skills/sync-config, sync my Copilot 
 instructions to CLAUDE.md and Cursor rules"
 ```
+
+## Onboarding a Repo
+
+Two paths to the same result: a **CLI** for deterministic setup, or an **AI skill** for conversational setup.
+
+### Option A: CLI Onboarding
+
+```bash
+# From your target repo root:
+npx copilot-quickstart-onboard
+
+# Or install globally:
+npm i -g copilot-quickstart-onboard
+copilot-quickstart-onboard
+```
+
+The CLI will:
+1. Auto-detect languages, frameworks, architecture, and build commands
+2. Find existing AI configs (copilot-instructions, AGENTS.md, CLAUDE.md, Cursor rules)
+3. Ask about gaps (risk level, conventions, deployment)
+4. Write a validated `repo-profile.yml`
+5. Recommend next steps (greenfield generation vs brownfield repair)
+
+### Option B: Copilot/Claude Skill
+
+```
+"Run the onboard-repo skill from copilot-quickstart on this repository"
+```
+
+The skill runs the same decision tree interactively:
+- **Greenfield** (no existing configs) → generates AGENTS.md, instructions, and starter skills
+- **Brownfield** (existing configs) → diagnoses readiness, proposes repairs, normalizes structure
+
+### Greenfield vs Brownfield
+
+| | Greenfield | Brownfield |
+|--|-----------|------------|
+| **Trigger** | No AGENTS/instructions found | Existing configs detected |
+| **Approach** | Generate from templates + profile | Diagnose → repair → normalize |
+| **Skills used** | `create-*` | `evaluate-config`, `diagnose-brownfield`, `refactor-instructions`, `sync-config` |
+| **Risk** | Low (nothing to break) | Medium (must preserve conventions) |
+
+### Readiness Scoring (Brownfield)
+
+The `diagnose-brownfield` skill scores repos on four dimensions:
+
+| Dimension | Weight | What It Measures |
+|-----------|--------|-----------------|
+| Context & Documentation | 30% | AGENTS.md quality, architecture docs, clear commands |
+| Verification Infrastructure | 25% | Test coverage, CI config, failure clarity |
+| Config Hygiene | 25% | Standards alignment, duplication, structure |
+| Safety & Governance | 20% | Secrets, permissions, protected paths |
+
+Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–10)
 
 ## Maintenance Workflow
 
@@ -174,6 +251,8 @@ MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
 | **Upgrade** | `upgrade-assistant` | Migration helper for tool/standards version bumps |
 | **Governance** | `audit-tool-safety` | Tool permission and safety pattern audit |
 | | `check-policy` | Org-level policy conformance verification |
+| **Onboarding** | `onboard-repo` | Full decision-tree onboarding orchestrator |
+| | `diagnose-brownfield` | Readiness scoring with 4-dimension analysis |
 
 ## Design Principles
 

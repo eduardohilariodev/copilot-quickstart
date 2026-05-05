@@ -1,0 +1,14 @@
+{
+  "name": "copilot-quickstart-onboard",
+  "version": "1.0.0",
+  "description": "CLI tool to onboard repositories into the copilot-quickstart ecosystem",
+  "type": "module",
+  "bin": {
+    "copilot-quickstart": "./bin/onboard.mjs"
+  },
+  "scripts": {
+    "start": "node bin/onboard.mjs"
+  },
+  "keywords": ["copilot", "ai", "onboarding", "agents", "skills"],
+  "license": "MIT"
+}

@@ -40,13 +40,23 @@ copilot-quickstart/
 │   ├── agent.schema.json         # Agent definition validation
 │   └── instructions.schema.json  # Instruction file validation
 ├── templates/                    # Ready-to-use templates ({{placeholder}} syntax)
-│   ├── AGENTS.md                 # Documentation template
-│   ├── copilot-instructions.md   # Copilot instructions template
+│   ├── AGENTS.md                 # Documentation template (with agent table + maintenance)
+│   ├── copilot-instructions.md   # Copilot instructions template (with review checklist)
 │   ├── SKILL.md                  # Skill definition template
-│   ├── agent-definition.yml      # Agent config template
+│   ├── agent-definition.yml      # Agent config template (generic)
 │   ├── eval-suite.md             # Evaluation checklist template
 │   ├── architecture.md           # Deep architecture grounding doc
 │   ├── tech-stack.md             # Technology stack declaration
+│   ├── agents/                   # Starter agent definitions (5 agents)
+│   │   ├── onboard-diagnose.yml  # Onboarding & diagnostics agent
+│   │   ├── coding-refactor.yml   # Day-to-day coding agent
+│   │   ├── pr-code-review.yml    # PR authoring & review agent
+│   │   ├── ci-cd-devops.yml      # CI/CD & DevOps agent
+│   │   └── maintenance-hygiene.yml # Config maintenance agent
+│   ├── instructions/             # Path-specific instruction templates
+│   │   ├── typescript.instructions.md
+│   │   ├── infra.instructions.md
+│   │   └── tests.instructions.md
 │   └── skills/                   # Starter skill pack (15 generic skills)
 │       ├── git-commit-message/   # Conventional commit messages
 │       ├── git-branch-and-pr/    # Branch naming + PR descriptions
@@ -247,6 +257,32 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 
 - **Library** (default): skills stay in `copilot-quickstart/templates/skills/` — agents reference them
 - **Vendored** (`--skills` flag): copied into your repo at `.github/skills/` — you own and evolve them
+
+### Starter Agents
+
+5 provider-agnostic agent definitions that cover the most common workflows:
+
+| Agent | Role | Skills Used |
+|-------|------|-------------|
+| **Onboard & Diagnose** | First setup / reset / health checks | `onboard-repo`, `evaluate-config`, `diagnose-brownfield`, `health-dashboard` |
+| **Coding & Refactor** | Day-to-day development | `context-curator`, `plan-and-scope-change`, `safe-refactor`, `test-generator` |
+| **PR & Code Review** | PR authoring + standards-based review | `git-commit-message`, `git-branch-and-pr`, `evaluate-config` |
+| **CI/CD & DevOps** | Pipeline design + deployment | `ci-cd-starter`, `ci-health-check`, `deploy-playbook`, `infra-sanity` |
+| **Maintenance & Hygiene** | Config upkeep (never edits code) | `health-dashboard`, `audit-skills`, `detect-drift`, `sync-config`, `prune-skills` |
+
+Agents are defined in `templates/agents/*.yml` and rendered per-provider by `sync-config`.
+
+### Path-Specific Instructions
+
+Focused instruction templates for common file types (keep under 40 lines each):
+
+| Template | Applies To | Key Focus |
+|----------|-----------|-----------|
+| `typescript.instructions.md` | `**/*.ts`, `**/*.tsx` | Strict types, naming, error handling |
+| `infra.instructions.md` | `terraform/**`, `.github/workflows/**` | Safety rules, pinning, permissions |
+| `tests.instructions.md` | `**/*.test.*`, `**/*.spec.*` | AAA pattern, mocking boundaries, what to test |
+
+Place in `.github/instructions/` — Copilot applies them based on file path matching.
 
 ## Maintenance Workflow
 

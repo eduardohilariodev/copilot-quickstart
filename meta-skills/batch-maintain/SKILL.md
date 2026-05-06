@@ -1,10 +1,19 @@
+---
+name: batch-maintain
+description: >
+  Orchestrate maintenance across multiple repositories — run health checks,
+  identify work, and create issues or PRs. Use for org-wide cleanup, batch
+  maintenance, or after standards updates.
+version: 1.0.0
+---
+
 # batch-maintain
 
 ## Description
 
 Orchestrates maintenance across multiple repositories in an organization. Runs health checks on each repo, identifies maintenance work, and creates GitHub issues or PRs assigned to human maintainers or Copilot agents with clear, scoped task descriptions.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "maintain across repos", "org-wide cleanup", or "batch maintenance"
@@ -147,12 +156,4 @@ Issues created: 5 (capped at 2/repo, 1 repo was healthy)
    Assigned: @copilot | Priority: MEDIUM
 ```
 
-## Metadata
 
-```yaml
-name: batch-maintain
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/orchestration
-```

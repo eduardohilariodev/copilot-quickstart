@@ -39,7 +39,7 @@ This skill activates when:
 ### Steps
 
 0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
-1. **Load Template** — Read `templates/agent-definition.yml` as the structural base for the agent definition.
+1. **Load Template** — Read `templates/agent-definition.agent.md` as the structural base for the agent definition.
 2. **Clarify Scope:**
    - Parse the agent_purpose for: domain, actions, boundaries
    - If purpose is too broad (would create a "God Agent"), suggest decomposition
@@ -103,7 +103,7 @@ agent_purpose: Review pull requests for code quality, security issues, and adher
 risk_level: medium
 ```
 
-**Output (agent-definition.yml):**
+**Output (agent-definition.agent.md):**
 ```yaml
 name: code-reviewer
 role: "Reviews PRs for quality, security, and convention compliance"

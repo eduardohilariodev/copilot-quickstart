@@ -1,10 +1,19 @@
+---
+name: audit-skills
+description: >
+  Scan skill definitions for structural compliance, size violations, missing
+  sections, and cross-skill duplication. Use when auditing skill quality,
+  reviewing the skill catalog, or after adding new skills.
+version: 1.0.0
+---
+
 # audit-skills
 
 ## Description
 
 Scans skill definitions (SKILL.md files) for structural compliance, size violations, missing sections, hardcoded project-specifics, and cross-skill duplication. Produces a per-skill audit card with compliance score and concrete fix recommendations.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "audit skills", "check skill quality", or "review skill catalog"
@@ -129,12 +138,4 @@ Critical (score < 60): 1
    - Vague step 3: "format the code appropriately" → specify formatter and config
 ```
 
-## Metadata
 
-```yaml
-name: audit-skills
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/skill-hygiene
-```

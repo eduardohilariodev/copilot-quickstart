@@ -64,7 +64,7 @@ Size limits are not suggestions — they are **circuit breakers** that force str
 | CLAUDE.md | 150 | 4000 | Progressive disclosure |
 | SKILL.md | 200 | 5000 | Decompose skill |
 | .cursor/rules/*.mdc | 40 | 500 | Split into focused files |
-| agent-definition.yml | 80 | 2000 | Decompose agent |
+| agent-definition.agent.md | 80 | 2000 | Decompose agent |
 
 ### 4. Configuration as Code Lifecycle
 

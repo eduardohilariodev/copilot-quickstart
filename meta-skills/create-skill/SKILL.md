@@ -1,10 +1,19 @@
+---
+name: create-skill
+description: >
+  Generates a complete, standards-compliant SKILL.md file for a target
+  repository. Use when creating a new skill definition, generating skills,
+  or scaffolding new skill files.
+version: 1.0.0
+---
+
 # create-skill
 
 ## Description
 
 Generates a complete, standards-compliant SKILL.md file for a target repository. Scans the repo to understand context, applies prompt-engineering best practices, and validates output against the skill schema.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user requests creation of a new skill definition
@@ -85,11 +94,4 @@ target_provider: copilot
 - Steps: parse diff → pattern match → contextual analysis → report
 - Constraints: no false positives for common patterns, flag uncertain findings as "needs review"
 
-## Metadata
 
-```yaml
-name: create-skill
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-```

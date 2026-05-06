@@ -1,10 +1,19 @@
+---
+name: audit-tool-safety
+description: >
+  Scan skill definitions and agent configs for unsafe tool usage patterns,
+  dangerous permissions, and missing guardrails. Use when auditing security,
+  checking tool safety, or reviewing permissions.
+version: 1.0.0
+---
+
 # audit-tool-safety
 
 ## Description
 
 Scans skill definitions and agent configs for unsafe tool usage patterns. Identifies skills that grant dangerous tool access, auto-approve destructive actions, mix read-only with write-capable tools without guardrails, or trust untrusted input without validation.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "audit security", "check tool safety", or "review permissions"
@@ -154,12 +163,4 @@ Risk Level: HIGH (production deployment skill)
 Overall Safety Score: 3/10 — DO NOT ACTIVATE without fixes
 ```
 
-## Metadata
 
-```yaml
-name: audit-tool-safety
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/governance-safety
-```

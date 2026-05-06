@@ -1,10 +1,19 @@
+---
+name: onboard-repo
+description: >
+  Orchestrate complete repository onboarding — build repo profile, select
+  strategy, and generate AI configurations. Use when setting up a new repo
+  for AI assistance or initializing AI config.
+version: 1.0.0
+---
+
 # onboard-repo
 
 ## Description
 
 Orchestrates complete repository onboarding into copilot-quickstart. Builds/updates `repo-profile.yml`, selects strategy (greenfield vs brownfield), then calls meta-skills in sequence to produce standards-compliant, provider-ready AI configuration. Single entry point for "make this repo AI-ready."
 
-## Trigger
+## When to Use This Skill
 
 - User says "onboard this repo", "set up copilot-quickstart", or "make this repo AI-ready"
 - User asks to "initialize AI config" or "bootstrap agent setup"
@@ -111,12 +120,4 @@ Detected: CLAUDE.md (85 lines), partial AGENTS.md (30 lines); missing copilot-in
 Actions: Created profile, updated AGENTS.md, created copilot-instructions, flagged 3 stale refs
 Result: 6.8/10 → recommended fixes bring to 8.2/10
 
-## Metadata
 
-```yaml
-name: onboard-repo
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: orchestration
-```

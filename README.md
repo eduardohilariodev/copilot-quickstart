@@ -46,16 +46,16 @@ copilot-quickstart/
 │   ├── AGENTS.md                 # Documentation template (with agent table + maintenance)
 │   ├── copilot-instructions.md   # Copilot instructions template (with review checklist)
 │   ├── SKILL.md                  # Skill definition template
-│   ├── agent-definition.yml      # Agent config template (generic)
+│   ├── agent-definition.agent.md  # Agent config template (generic)
 │   ├── eval-suite.md             # Evaluation checklist template
 │   ├── architecture.md           # Deep architecture grounding doc
 │   ├── tech-stack.md             # Technology stack declaration
 │   ├── agents/                   # Starter agent definitions (5 agents)
-│   │   ├── onboard-diagnose.yml  # Onboarding & diagnostics agent
-│   │   ├── coding-refactor.yml   # Day-to-day coding agent
-│   │   ├── pr-code-review.yml    # PR authoring & review agent
-│   │   ├── ci-cd-devops.yml      # CI/CD & DevOps agent
-│   │   └── maintenance-hygiene.yml # Config maintenance agent
+│   │   ├── onboard-diagnose.agent.md  # Onboarding & diagnostics agent
+│   │   ├── coding-refactor.agent.md   # Day-to-day coding agent
+│   │   ├── pr-code-review.agent.md    # PR authoring & review agent
+│   │   ├── ci-cd-devops.agent.md      # CI/CD & DevOps agent
+│   │   └── maintenance-hygiene.agent.md # Config maintenance agent
 │   ├── instructions/             # Path-specific instruction templates (with applyTo)
 │   │   ├── typescript.instructions.md  # applyTo: **/*.ts,**/*.tsx
 │   │   ├── frontend.instructions.md   # applyTo: apps/web/**, components/**
@@ -290,7 +290,7 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 | **CI/CD & DevOps** | Pipeline design + deployment | `ci-cd-starter`, `ci-health-check`, `deploy-playbook`, `infra-sanity` |
 | **Maintenance & Hygiene** | Config upkeep (never edits code) | `health-dashboard`, `audit-skills`, `detect-drift`, `sync-config`, `prune-skills` |
 
-Agents are defined in `templates/agents/*.yml` and rendered per-provider by `sync-config`.
+Agents are defined in `templates/agents/*.agent.md` and rendered per-provider by `sync-config`.
 
 ### Path-Specific Instructions
 

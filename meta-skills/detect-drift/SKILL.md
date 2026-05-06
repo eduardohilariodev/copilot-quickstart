@@ -1,10 +1,19 @@
+---
+name: detect-drift
+description: >
+  Detect configuration drift between instruction files across providers
+  and between configs and the actual codebase. Use when checking for
+  inconsistencies, comparing configs, or after codebase changes.
+version: 1.0.0
+---
+
 # detect-drift
 
 ## Description
 
 Detects configuration drift between instruction files across providers and between configs and the actual codebase. Identifies inconsistencies where AGENTS.md, copilot-instructions, CLAUDE.md, and Cursor rules have diverged in meaning or reference outdated state.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "check drift", "compare configs", or "find inconsistencies"
@@ -140,12 +149,4 @@ Files checked: 3 (copilot-instructions, CLAUDE.md, .cursor/rules/)
    → Fix: Update to "Build: pnpm turbo build"
 ```
 
-## Metadata
 
-```yaml
-name: detect-drift
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/instruction-cleanup
-```

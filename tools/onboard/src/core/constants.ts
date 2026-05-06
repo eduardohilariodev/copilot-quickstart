@@ -129,11 +129,11 @@ export type Provider = (typeof PROVIDERS)[number];
 // ─── Maintenance Skills ─────────────────────────────────────────────────────
 
 export const MAINTENANCE_SKILLS = [
-  "drift",
-  "health",
-  "audit",
-  "lint",
-  "sync",
+  "detect-drift",
+  "health-check",
+  "audit-skills",
+  "lint-instructions",
+  "sync-config",
 ];
 
 // ─── Skill Recommendations ──────────────────────────────────────────────────

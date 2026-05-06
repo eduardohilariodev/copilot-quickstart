@@ -1,7 +1,7 @@
 {
   "name": "@copilot-quickstart/cli",
-  "version": "3.0.0",
-  "description": "Interactive CLI wizard to onboard repositories into the copilot-quickstart ecosystem",
+  "version": "4.0.0",
+  "description": "Set up Copilot for any repository in 2 minutes",
   "type": "module",
   "bin": {
     "copilot-quickstart": "./dist/cli.js"
@@ -13,9 +13,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "tsc --noEmit",
+    "init": "tsx src/cli.ts init",
+    "plan": "tsx src/cli.ts plan",
     "doctor": "tsx src/cli.ts doctor",
-    "apply": "tsx src/cli.ts apply",
-    "onboard": "tsx src/cli.ts onboard"
+    "apply": "tsx src/cli.ts apply"
   },
   "keywords": [
     "copilot",

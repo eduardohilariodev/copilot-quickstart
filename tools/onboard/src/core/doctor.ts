@@ -102,10 +102,10 @@ export function runDoctor(target: string): DoctorResult {
 
   const configs = scan.existing_configs as Record<string, unknown>;
   const recommendations: Recommendation[] = [];
-  if (!configs.agents_md) recommendations.push({ priority: "high", action: "Create AGENTS.md", command: "copilot-quickstart onboard" });
-  if (!configs.copilot_instructions) recommendations.push({ priority: "high", action: "Create .github/copilot-instructions.md", command: "copilot-quickstart onboard" });
-  if (!scan.has_existing_profile) recommendations.push({ priority: "medium", action: "Generate repo-profile.yml", command: "copilot-quickstart onboard" });
-  if (context.score < 5) recommendations.push({ priority: "medium", action: "Add path-specific instructions", command: "copilot-quickstart onboard" });
+  if (!configs.agents_md) recommendations.push({ priority: "high", action: "Create AGENTS.md", command: "copilot-quickstart init" });
+  if (!configs.copilot_instructions) recommendations.push({ priority: "high", action: "Create .github/copilot-instructions.md", command: "copilot-quickstart init" });
+  if (!scan.has_existing_profile) recommendations.push({ priority: "medium", action: "Generate repo-profile.yml", command: "copilot-quickstart init" });
+  if (context.score < 5) recommendations.push({ priority: "medium", action: "Add path-specific instructions", command: "copilot-quickstart init" });
 
   return {
     scan, scores: { context: context.score, verification: verification.score, config_hygiene: configHygiene.score, safety: safety.score, overall },

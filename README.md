@@ -166,23 +166,23 @@ Two paths to the same result: an **interactive CLI wizard** for guided setup, or
 npx @copilot-quickstart/cli
 
 # Or clone and run directly:
-node path/to/copilot-quickstart/tools/onboard/bin/cli.mjs
+cd tools/onboard && npx tsx src/cli.ts
 ```
 
-> **Note:** The wizard generates `repo-profile.yml` automatically. For manual creation, see [Profile Your Repo](#1-profile-your-repo).
+> **Note:** The wizard generates `repo-profile.yml` and `copilot-plan.md` automatically. For manual creation, see [Profile Your Repo](#1-profile-your-repo).
 
-The interactive wizard guides you through 5 phases:
+The CLI scans your repo, asks 2 questions, and generates everything:
 
-1. **Environment check** — verifies git repo, shows warnings
-2. **Repo scan** — auto-detects languages, frameworks, architecture, CI, existing AI configs
-3. **Profile questions** — presents scan as defaults, asks only for gaps (risk level, providers, conventions)
-4. **Plan proposal** — shows toggleable list of files to generate (AGENTS.md, instructions, skills, etc.)
-5. **Generate** — writes to `ai-setup/` staging directory with manifest
+1. **Scan** — auto-detects languages, frameworks, architecture, CI, existing AI configs
+2. **Two questions** — behavior mode (how cautious Copilot should be) + workflow bundles (git, testing, docs, etc.)
+3. **Generate** — writes to `ai-setup/` staging directory + `copilot-plan.md`
 
 #### Commands
 
 ```bash
-copilot-quickstart              # Full wizard (interactive)
+copilot-quickstart              # Runs init (default)
+copilot-quickstart init         # Scan → 2 questions → stage + plan
+copilot-quickstart plan         # (Re)generate copilot-plan.md only
 copilot-quickstart doctor       # Read-only diagnostics + readiness score
 copilot-quickstart doctor --json  # Machine-readable (for CI)
 copilot-quickstart apply        # Move staged files to final locations
@@ -194,7 +194,7 @@ copilot-quickstart reset        # Remove staging directory
 
 ```bash
 # Full unattended — uses scan defaults, no prompts:
-copilot-quickstart --non-interactive --skills
+copilot-quickstart init --non-interactive --force
 copilot-quickstart apply --force
 ```
 

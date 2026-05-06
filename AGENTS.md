@@ -14,7 +14,7 @@ A project-agnostic meta-copilot: standards corpus + meta-skills + CLI wizard tha
 
 - **Type:** Monorepo-like (single repo, multiple concerns)
 - **Primary languages:** Markdown, JavaScript (ESM), JSON Schema, YAML
-- **Key tools:** Node.js, @clack/prompts, picocolors
+- **Key tools:** Node.js, @inquirer/prompts, chalk, Commander.js
 
 ### Two-Layer System
 
@@ -38,9 +38,10 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + tools/
 │   ├── _meta/                # Meta-skills that create/maintain configurations
 │   └── _default/             # 21 starter skill SKILL.md files
 ├── agents/                   # 5 agent definition files
-├── tools/onboard/            # Interactive CLI wizard (Node.js ESM)
-│   ├── bin/cli.mjs           # Entry point + command routing
-│   ├── lib/                  # Modules: detect, plan, generate, doctor, constants
+├── tools/onboard/            # Interactive CLI wizard (TypeScript ESM)
+│   ├── src/cli.ts            # Entry point + command routing
+│   ├── src/commands/         # Command implementations (init, plan, doctor, apply, reset)
+│   ├── src/core/             # Core modules: detect, plan, generate, doctor, constants
 │   └── templates/            # Generation templates (SKILL.md, AGENTS.md, etc.)
 └── examples/target-repo/     # Complete example of generated output
 ```
@@ -49,11 +50,15 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + tools/
 
 | Task | Command |
 |------|---------|
-| Run CLI wizard | `node tools/onboard/bin/cli.mjs` |
-| Run doctor | `node tools/onboard/bin/cli.mjs doctor` |
-| Apply staged files | `node tools/onboard/bin/cli.mjs apply` |
-| Reset staging | `node tools/onboard/bin/cli.mjs reset` |
+| Run CLI (init) | `cd tools/onboard && npx tsx src/cli.ts` |
+| Run init | `cd tools/onboard && npx tsx src/cli.ts init` |
+| Generate plan | `cd tools/onboard && npx tsx src/cli.ts plan` |
+| Run doctor | `cd tools/onboard && npx tsx src/cli.ts doctor` |
+| Apply staged files | `cd tools/onboard && npx tsx src/cli.ts apply` |
+| Reset staging | `cd tools/onboard && npx tsx src/cli.ts reset` |
 | Install CLI deps | `cd tools/onboard && npm install` |
+| Type check | `cd tools/onboard && npx tsc --noEmit` |
+| Validate artifacts | `npm run validate` |
 
 ## Key Conventions
 
@@ -67,8 +72,8 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + tools/
 
 ### Code Organization
 
-- CLI is pure ESM (`.mjs` extension, `"type": "module"`)
-- Zero external deps for core logic; only `@clack/prompts` + `picocolors` for UI
+- CLI is TypeScript ESM (`"type": "module"`, built with tsup)
+- Runtime deps: `@inquirer/prompts` + `chalk` + `commander`
 - Each CLI module exports pure functions — no module-level side effects
 - Templates use `{{placeholder}}` syntax (no template engine — string replacement)
 
@@ -81,8 +86,9 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + tools/
 
 ### Error Handling
 
-- CLI uses `@clack/prompts` cancel detection — exits gracefully on Ctrl+C
+- CLI uses `@inquirer/prompts` cancel detection — exits gracefully on Ctrl+C
 - All file writes go to staging (`ai-setup/`) — never overwrite existing files directly
+- `copilot-plan.md` is the exception — it writes directly to repo root as the primary user-facing output
 - Manifest tracks profile hash — `apply` refuses if profile changed since generation
 
 ## Important Architectural Decisions

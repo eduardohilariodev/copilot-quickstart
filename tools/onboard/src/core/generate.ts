@@ -7,7 +7,6 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync, copyFi
 import {
   AGENTS_DIR,
   FRAMEWORK_DIR,
-  INSTRUCTIONS_DIR,
   LIBRARY_ROOT,
   MAINTENANCE_SKILLS,
   MANIFEST_FILE,
@@ -233,9 +232,6 @@ export function stageArtifacts(target: string, artifacts: Artifact[], profile: P
       case "starter-skills": stageSkills(destPath); break;
       case "starter-agents": stageAgents(destPath); break;
       case "maintenance-skills": stageMaintenanceSkills(destPath); break;
-      default:
-        if (artifact.templateSource) stageInstructionTemplate(destPath, artifact.templateSource);
-        break;
     }
     written.push(artifact.label);
   }
@@ -258,11 +254,6 @@ function stageSkills(destDir: string): void {
       copyFileSync(src, join(dest, "SKILL.md"));
     }
   }
-}
-
-function stageInstructionTemplate(destPath: string, templateFile: string): void {
-  const src = join(INSTRUCTIONS_DIR, templateFile);
-  if (existsSync(src)) copyFileSync(src, destPath);
 }
 
 function stageAgents(destDir: string): void {

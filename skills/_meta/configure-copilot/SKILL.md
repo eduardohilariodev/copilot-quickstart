@@ -55,19 +55,14 @@ This skill activates when:
 
 ### Phase 2: Propose Instruction Architecture
 
-Based on repo profile, recommend a set of path-specific instructions:
+Based on repo profile, recommend instruction setup:
 
 **Always recommend:**
 - Repo-wide `copilot-instructions.md` (if missing)
 
 **Recommend based on detection:**
-| Detected | Recommend |
-|----------|-----------|
-| TypeScript/JavaScript files | `typescript.instructions.md` |
-| `apps/web/`, `src/components/`, React/Vue/Svelte | `frontend.instructions.md` |
-| `apps/api/`, `src/server/`, Express/NestJS/FastAPI | `backend.instructions.md` |
-| Test files detected | `tests.instructions.md` |
-| `.github/workflows/`, Terraform, Docker | `infra.instructions.md` |
+- If language/framework detected → suggest running `fetch-instructions` to discover community instruction files
+- If custom/niche stack → suggest `create-instructions` to generate from local code
 
 **For monorepos, also consider:**
 - Per-package instructions with `applyTo: "packages/<name>/**"`
@@ -96,13 +91,14 @@ For each recommended instruction file:
 
 ### Phase 5: Generate & Explain
 
-1. Generate each recommended file from templates (with repo-specific `applyTo` patterns).
-2. Stage in `ai-setup/.github/instructions/` (if using staged workflow) or write directly.
-3. For each generated file, briefly explain:
+1. Generate `copilot-instructions.md` from repo profile (with repo-specific conventions).
+2. Invoke or advise `fetch-instructions` for path-specific community instruction discovery.
+3. Stage in `ai-setup/.github/` (if using staged workflow) or write directly.
+4. For each generated/fetched file, briefly explain:
    - What it does
    - Which files it affects
    - What Copilot clients honor it (Chat, Cloud Agent, Code Review)
-4. Explain what instructions CANNOT do (completions, permissions) to set expectations.
+5. Explain what instructions CANNOT do (completions, permissions) to set expectations.
 
 ### Constraints
 
@@ -128,11 +124,12 @@ For each recommended instruction file:
 **Generated set:**
 ```
 .github/copilot-instructions.md          (repo-wide: conventions, commands)
-.github/instructions/typescript.instructions.md  (applyTo: "**/*.ts,**/*.tsx")
-.github/instructions/frontend.instructions.md    (applyTo: "apps/web/**")
-.github/instructions/backend.instructions.md     (applyTo: "apps/api/**")
-.github/instructions/tests.instructions.md       (applyTo: "**/*.test.*,**/*.spec.*")
 .vscode/settings.json                    (instruction discovery enabled)
+```
+
+**Recommended next step:**
+```
+Run fetch-instructions to discover community instruction files for TypeScript, React, and testing.
 ```
 
 ### Example 2: Python API (simple)
@@ -142,9 +139,13 @@ For each recommended instruction file:
 **Generated set:**
 ```
 .github/copilot-instructions.md          (repo-wide)
-.github/instructions/tests.instructions.md       (applyTo: "**/test_*,**/*_test.py")
-.github/instructions/infra.instructions.md       (applyTo: "Dockerfile*,.github/workflows/**")
 .vscode/settings.json                    (instruction discovery enabled)
+```
+
+**Recommended next step:**
+```
+Run fetch-instructions to discover community instruction files for Python.
+For custom FastAPI-specific rules, run create-instructions.
 ```
 
 

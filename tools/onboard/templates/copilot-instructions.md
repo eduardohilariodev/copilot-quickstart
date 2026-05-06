@@ -41,6 +41,6 @@ Read AGENTS.md for architecture details and development commands.
 
 ## Where to Find Deeper Guidance
 
-- **Path-specific rules:** `.github/instructions/*.instructions.md` — scoped conventions for backend, frontend, tests, infra
+- **Path-specific rules:** `.github/instructions/*.instructions.md` — use the `fetch-instructions` skill to discover community conventions for your stack
 - **Agent personas:** `.github/agents/*.agent.md` — specialized agents for code review, CI/CD, refactoring
 - **Task playbooks:** `.github/skills/` — step-by-step workflows for common tasks (commit messages, test generation, CI debugging)

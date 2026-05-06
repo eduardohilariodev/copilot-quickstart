@@ -4,7 +4,7 @@
 
 ## Context
 
-This is a meta-copilot: standards corpus + meta-skills + CLI wizard that generates AI configurations for any Git repository. Two layers: Framework (.framework/), Content (skills/, agents/, instructions/, tools/).
+This is a meta-copilot: standards corpus + meta-skills + CLI wizard that generates AI configurations for any Git repository. Two layers: Framework (.framework/), Content (skills/, agents/, tools/).
 
 ## Code Style
 

@@ -13,7 +13,7 @@ Every change falls into one of two layers:
 | Layer | Directories | Rules |
 |-------|-------------|-------|
 | 1. Framework | `.framework/` | Immutable without discussion. Requires versioning. |
-| 2. Content | `skills/`, `agents/`, `instructions/`, `tools/` | Must conform to Layer 1. Read standards before editing. |
+| 2. Content | `skills/`, `agents/`, `tools/` | Must conform to Layer 1. Read standards before editing. |
 
 > `examples/target-repo/` is reference output — manually curated to match generated output.
 

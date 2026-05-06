@@ -13,13 +13,13 @@ A "meta-copilot" — instead of writing AI configurations by hand (and watching 
 ├─────────────────────────────────────────────────────────────────┤
 │  Layer 2: CONTENT (skills + agents + CLI + tools)               │
 │  Reads framework, inspects target repo, generates/repairs       │
-│  skills/ + agents/ + instructions/ + tools/                     │
+│  skills/ + agents/ + tools/                                     │
 │  (see examples/target-repo/ for reference output)               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 1. **Framework** — Immutable design rules, prompt-engineering guide, security governance (`.framework/`)
-2. **Content** — Skills, agents, instructions, CLI, and tools that read the framework and produce/repair configs (`skills/`, `agents/`, `instructions/`, `tools/`)
+2. **Content** — Skills, agents, CLI, and tools that read the framework and produce/repair configs (`skills/`, `agents/`, `tools/`)
 3. **Target output** — The actual files your AI tools consume, always aligned with standards (`examples/target-repo/` is the reference)
 
 ## Repository Structure
@@ -40,6 +40,7 @@ copilot-quickstart/
 │   │   │ # Bootstrap (create from scratch)
 │   │   ├── create-skill/SKILL.md     # Generates new skill definitions
 │   │   ├── create-instructions/SKILL.md  # Generates instruction files
+│   │   ├── fetch-instructions/SKILL.md  # Fetches community instruction files
 │   │   ├── create-agent/SKILL.md     # Generates agent definitions
 │   │   ├── evaluate/SKILL.md         # Audits existing configs against standards
 │   │   ├── sync/SKILL.md             # Syncs across Copilot/Claude/Cursor
@@ -92,12 +93,6 @@ copilot-quickstart/
 │   ├── pr-code-review.agent.md       # PR authoring & review agent
 │   ├── ci-cd-devops.agent.md         # CI/CD & DevOps agent
 │   └── maintenance-hygiene.agent.md  # Config maintenance agent
-├── instructions/                     # Path-specific instruction templates (with applyTo)
-│   ├── typescript.instructions.md    # applyTo: **/*.ts,**/*.tsx
-│   ├── frontend.instructions.md     # applyTo: apps/web/**, components/**
-│   ├── backend.instructions.md      # applyTo: apps/api/**, services/**
-│   ├── infra.instructions.md        # applyTo: terraform/**, workflows/**
-│   └── tests.instructions.md        # applyTo: **/*.test.*, **/*.spec.*
 ├── tools/
 │   └── onboard/                      # Interactive CLI wizard
 │       ├── package.json              # @clack/prompts + picocolors
@@ -280,17 +275,15 @@ Agents are defined in `agents/*.agent.md` and rendered per-provider by `sync`.
 
 ### Path-Specific Instructions
 
-Focused instruction templates for common file types (keep under 40 lines each):
+Path-specific instructions are **not shipped as static templates**. Instead, use the `fetch-instructions` meta-skill to discover and adapt community-maintained instruction files for your stack from sources like [awesome-copilot](https://github.com/github/awesome-copilot) and [aicodingrules.com](https://aicodingrules.com).
 
-| Template | Applies To | Key Focus |
-|----------|-----------|-----------|
-| `typescript.instructions.md` | `**/*.ts`, `**/*.tsx` | Strict types, naming, error handling |
-| `frontend.instructions.md` | `apps/web/**`, `**/components/**` | Component patterns, accessibility, UI state |
-| `backend.instructions.md` | `apps/api/**`, `services/**` | Error handling, auth, validation, logging |
-| `infra.instructions.md` | `terraform/**`, `.github/workflows/**` | Safety rules, pinning, permissions |
-| `tests.instructions.md` | `**/*.test.*`, `**/*.spec.*` | AAA pattern, mocking boundaries, what to test |
+```
+"Run fetch-instructions to discover TypeScript and React instruction files for this repo"
+```
 
-Place in `.github/instructions/` — Copilot applies them based on `applyTo` glob matching.
+This approach stays current with community best practices rather than maintaining stale copies. For custom rules not covered by community sources, use `create-instructions`.
+
+Instruction files go in `.github/instructions/` with `applyTo` globs — Copilot applies them based on glob matching. See `examples/target-repo/.github/instructions/typescript.instructions.md` for the expected format.
 
 ### Copilot Config Features
 

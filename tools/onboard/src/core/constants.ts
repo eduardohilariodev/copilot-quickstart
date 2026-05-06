@@ -19,7 +19,6 @@ const __dirname = dirname(__filename);
 export const LIBRARY_ROOT = resolve(__dirname, "..", "..", "..", "..");
 export const SKILLS_DIR = join(LIBRARY_ROOT, "skills", "_default");
 export const AGENTS_DIR = join(LIBRARY_ROOT, "agents");
-export const INSTRUCTIONS_DIR = join(LIBRARY_ROOT, "instructions");
 export const TEMPLATES_DIR = join(LIBRARY_ROOT, "tools", "onboard", "templates");
 export const META_SKILLS_DIR = join(LIBRARY_ROOT, "skills", "_meta");
 export const FRAMEWORK_DIR = join(LIBRARY_ROOT, ".framework");

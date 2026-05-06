@@ -20,7 +20,7 @@ A project-agnostic meta-copilot: standards corpus + meta-skills + CLI wizard tha
 
 ```
 Layer 1: FRAMEWORK (read-only specs)     → .framework/ (standards.md + schemas/)
-Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + instructions/ + tools/
+Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + tools/
          TARGET OUTPUT (what users get)  → examples/target-repo/ (reference)
 ```
 
@@ -36,9 +36,8 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + instructions/ +
 │   └── schemas/              # JSON Schema contracts (versioned with standards)
 ├── skills/
 │   ├── _meta/                # Meta-skills that create/maintain configurations
-│   └── _default/             # 15 starter skill SKILL.md files
-├── agents/                   # 5 agent definition YAMLs
-├── instructions/             # 5 path-specific instruction templates
+│   └── _default/             # 21 starter skill SKILL.md files
+├── agents/                   # 5 agent definition files
 ├── tools/onboard/            # Interactive CLI wizard (Node.js ESM)
 │   ├── bin/cli.mjs           # Entry point + command routing
 │   ├── lib/                  # Modules: detect, plan, generate, doctor, constants

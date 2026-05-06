@@ -3,6 +3,13 @@ description: TypeScript conventions for the acme/web-platform monorepo
 applyTo: "**/*.ts,**/*.tsx"
 ---
 
+<!--
+  Example instruction file showing the expected format after fetching
+  and adapting a community instruction via the fetch-instructions skill.
+  Source: adapted from awesome-copilot TypeScript conventions
+  Place at: .github/instructions/typescript.instructions.md
+-->
+
 ## TypeScript Conventions
 
 - Strict mode enabled (`strict: true` in all tsconfig files)
@@ -29,9 +36,3 @@ applyTo: "**/*.ts,**/*.tsx"
 - camelCase: functions, variables, methods, properties
 - SCREAMING_SNAKE: constants and env vars
 - kebab-case: file and directory names
-
-## Prisma
-
-- Never import `PrismaClient` directly — use the `@acme/db` package
-- Always handle `Prisma.PrismaClientKnownRequestError` for constraint violations
-- Use transactions for multi-table writes

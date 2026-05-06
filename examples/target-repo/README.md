@@ -11,7 +11,7 @@
 | `CLAUDE.md` | Claude-specific configuration (synced from Copilot instructions) |
 | `.framework/` | Standards capsule (standards.md, standards.json, schemas/) |
 | `.github/copilot-instructions.md` | Repo-wide Copilot behavioral rules |
-| `.github/instructions/` | Path-specific instruction files (5 total) |
+| `.github/instructions/` | Path-specific instruction files (format reference) |
 | `.github/skills/` | Vendored starter skills (5 total) |
 | `.github/agents/` | Agent definitions (5 total) |
 
@@ -25,7 +25,7 @@
 ├── .github/
 │   ├── agents/            # 5 agent definitions
 │   ├── copilot-instructions.md
-│   ├── instructions/      # 5 path-specific instruction files
+│   ├── instructions/      # Path-specific instruction files (format reference)
 │   └── skills/            # 5 vendored starter skills
 │       ├── ci-health/
 │       ├── git-commit/

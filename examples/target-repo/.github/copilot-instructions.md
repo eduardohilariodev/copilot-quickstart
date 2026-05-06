@@ -57,7 +57,7 @@ Update package README when adding new exports or changing behavior.
 
 ## Where to Find Deeper Guidance
 
-- **Path-specific rules:** See `.github/instructions/` for backend, frontend, TypeScript, testing, and infra conventions
+- **Path-specific rules:** See `.github/instructions/` for language/framework conventions (add more via the `fetch-instructions` skill)
 - **Agent personas:** See `.github/agents/` for specialized agents (code review, refactoring, CI/CD, onboarding, maintenance)
 - **Standards capsule:** See `.framework/` for upstream standards and schemas
 - **Task playbooks:** See `.github/skills/` for step-by-step workflows (git-commit, test-generate, ci-health, safe-refactor, plan-change)

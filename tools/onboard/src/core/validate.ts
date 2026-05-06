@@ -175,14 +175,14 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
   for (const f of templateSkills) checkFileSize(f, 200, relative(ROOT, f));
   checkFileSize(join(ROOT, "AGENTS.md"), 120, "AGENTS.md");
 
-  const instructionsDir = join(ROOT, "instructions");
+  const exampleInstrDir = join(ROOT, "examples", "target-repo", ".github", "instructions");
   try {
-    const instrFiles = readdirSync(instructionsDir).filter((f) => {
-      try { return statSync(join(instructionsDir, f)).isFile(); } catch { return false; }
+    const instrFiles = readdirSync(exampleInstrDir).filter((f) => {
+      try { return statSync(join(exampleInstrDir, f)).isFile(); } catch { return false; }
     });
-    for (const f of instrFiles) checkFileSize(join(instructionsDir, f), 80, f);
+    for (const f of instrFiles) checkFileSize(join(exampleInstrDir, f), 80, `examples/…/${f}`);
   } catch (e) {
-    fail(`cannot read instructions/: ${(e as Error).message}`);
+    fail(`cannot read examples/target-repo/.github/instructions/: ${(e as Error).message}`);
   }
 
   // --- 5. Naming Convention Checks ---

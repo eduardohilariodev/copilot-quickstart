@@ -30,7 +30,6 @@ export interface Artifact {
   category: string;
   action: string;
   isDirectory?: boolean;
-  templateSource?: string;
 }
 
 export interface Answers {
@@ -151,21 +150,6 @@ export function buildArtifactPlan(
     });
   }
 
-  for (const instr of getInstructionCandidates(scan, profile)) {
-    if (shouldInclude(instr.id, scan, selectedItems)) {
-      artifacts.push({
-        id: instr.id,
-        label: `.github/instructions/${instr.filename}`,
-        description: instr.description,
-        stagePath: `.github/instructions/${instr.filename}`,
-        targetPath: `.github/instructions/${instr.filename}`,
-        category: "instructions",
-        action: "create",
-        templateSource: instr.templateFile,
-      });
-    }
-  }
-
   if (shouldInclude("vscode-settings", scan, selectedItems)) {
     artifacts.push({
       id: "vscode-settings",
@@ -221,77 +205,6 @@ export function buildArtifactPlan(
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
-
-interface InstructionCandidate {
-  id: string;
-  filename: string;
-  description: string;
-  templateFile: string;
-}
-
-function getInstructionCandidates(scan: ScanResult, profile: Profile): InstructionCandidate[] {
-  const candidates: InstructionCandidate[] = [];
-  const langs = scan.languages || [];
-  const frameworks = scan.frameworks || [];
-  const arch = profile.architecture || scan.architecture;
-
-  if (langs.includes("typescript") || langs.includes("javascript")) {
-    candidates.push({
-      id: "instr-typescript",
-      filename: "typescript.instructions.md",
-      description: "TypeScript/JavaScript conventions",
-      templateFile: "typescript.instructions.md",
-    });
-  }
-
-  const hasFrontend =
-    frameworks.some((f) => ["react", "nextjs", "vue", "angular", "svelte", "sveltekit"].includes(f)) ||
-    (arch === "monorepo" &&
-      scan.monorepo?.packages?.some((p) => p.includes("web") || p.includes("ui")));
-  if (hasFrontend) {
-    candidates.push({
-      id: "instr-frontend",
-      filename: "frontend.instructions.md",
-      description: "Frontend/UI component conventions",
-      templateFile: "frontend.instructions.md",
-    });
-  }
-
-  const hasBackend =
-    frameworks.some((f) =>
-      ["express", "fastify", "nestjs", "django", "fastapi", "flask", "gin", "fiber"].includes(f),
-    ) ||
-    (arch === "monorepo" &&
-      scan.monorepo?.packages?.some((p) => p.includes("api") || p.includes("server")));
-  if (hasBackend) {
-    candidates.push({
-      id: "instr-backend",
-      filename: "backend.instructions.md",
-      description: "Backend/API conventions",
-      templateFile: "backend.instructions.md",
-    });
-  }
-
-  if (frameworks.some((f) => ["vitest", "jest", "mocha", "pytest", "playwright", "cypress"].includes(f))) {
-    candidates.push({
-      id: "instr-tests",
-      filename: "tests.instructions.md",
-      description: "Testing conventions and patterns",
-      templateFile: "tests.instructions.md",
-    });
-  }
-
-  if (Object.keys(scan.ci).length > 0 || frameworks.includes("terraform")) {
-    candidates.push({
-      id: "instr-infra",
-      filename: "infra.instructions.md",
-      description: "Infrastructure and CI/CD rules",
-      templateFile: "infra.instructions.md",
-    });
-  }
-
-  return candidates;
-}
 
 function shouldInclude(id: string, scan: ScanResult, selectedItems: string[] | null): boolean {
   if (selectedItems && selectedItems.length > 0) return selectedItems.includes(id);

@@ -7,17 +7,10 @@
   For deeper context, see AGENTS.md at repo root.
 -->
 
-## Standards Reference
-
-Read `.ai/system/standards.json` for this repo's standards version and file layout.
-Read `.ai/system/standards-summary.md` for a human-readable overview of conventions.
-Derive artifact locations from the `local` block in `standards.json` — never hard-code paths.
-When creating new skills, agents, or instructions, anchor on the standards before deciding structure.
-
 ## Project Context
 
 This is a {{architecture_type}} using {{languages}} {{frameworks_clause}}.
-See AGENTS.md for architecture details and commands.
+Read AGENTS.md for architecture details and development commands.
 
 ## Code Style
 
@@ -46,17 +39,8 @@ See AGENTS.md for architecture details and commands.
 
 {{documentation_rules}}
 
-## Code Review Checklist
+## Where to Find Deeper Guidance
 
-When reviewing PRs, check for:
-- [ ] Tests added/updated for changed behavior
-- [ ] No secrets or credentials in diff
-- [ ] Protected paths not modified without justification
-- [ ] Consistent with conventions in AGENTS.md
-- [ ] Build and lint pass
-
-## AI Maintenance
-
-If configuration seems outdated or inconsistent, suggest running:
-- `health-dashboard` for overall status
-- `detect-drift` if Copilot/Claude/Cursor configs diverge
+- **Path-specific rules:** `.github/instructions/*.instructions.md` — scoped conventions for backend, frontend, tests, infra
+- **Agent personas:** `.github/agents/*.agent.md` — specialized agents for code review, CI/CD, refactoring
+- **Task playbooks:** `.github/skills/` — step-by-step workflows for common tasks (commit messages, test generation, CI debugging)

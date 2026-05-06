@@ -54,3 +54,9 @@ Use transactions for multi-step database operations.
 
 Add JSDoc comments to all exported functions and types.
 Update package README when adding new exports or changing behavior.
+
+## Where to Find Deeper Guidance
+
+- **Path-specific rules:** See `.github/instructions/` for backend, frontend, TypeScript, testing, and infra conventions
+- **Agent personas:** See `agents/` for specialized agents (code review, refactoring, CI/CD, onboarding, maintenance)
+- **Task playbooks:** See `.github/skills/` for step-by-step workflows (commit messages, test generation, CI health checks, safe refactoring, planning)

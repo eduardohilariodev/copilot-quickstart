@@ -1,10 +1,19 @@
+---
+name: sync-config
+description: >
+  Synchronize AI configuration across multiple providers from a single
+  canonical source with explicit lossy mapping documentation. Use when
+  syncing, harmonizing, or porting configs between providers.
+version: 1.0.0
+---
+
 # sync-config
 
 ## Description
 
 Synchronizes AI configuration across multiple providers (GitHub Copilot, Claude/Anthropic, Cursor) from a single canonical source. Detects drift between providers, produces normalized diffs, and renders provider-specific output with explicit documentation of lossy mappings.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user asks to sync, harmonize, or port configs between AI providers
@@ -167,11 +176,4 @@ Target: .cursor/rules/ (3 files, 10 rules) — 4 missing, 1 diverged
   (will include as advisory rule in .cursor/rules/git.mdc)
 ```
 
-## Metadata
 
-```yaml
-name: sync-config
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-```

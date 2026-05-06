@@ -1,10 +1,19 @@
+---
+name: configure-copilot
+description: >
+  Configure all Copilot features for a repository: scoped instructions,
+  IDE settings, CLI environment, and prompt file scaffolding. Use when
+  setting up or optimizing Copilot for a repo.
+version: 1.0.0
+---
+
 # configure-copilot
 
 ## Description
 
 Configure all Copilot features for a repository: scoped instructions with `applyTo`, IDE settings for instruction discovery, CLI environment knobs, and prompt file scaffolding. The "tell me what Copilot can do here and set it up correctly" entry point.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to configure or optimize Copilot for their repo
@@ -136,15 +145,4 @@ For each recommended instruction file:
 .vscode/settings.json                    (instruction discovery enabled)
 ```
 
-## Metadata
 
-```yaml
-name: configure-copilot
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: onboarding
-references:
-  - source-of-truth/copilot-config-features.md
-  - source-of-truth/design-standards.md
-```

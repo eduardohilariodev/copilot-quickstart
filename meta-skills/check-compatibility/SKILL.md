@@ -1,10 +1,19 @@
+---
+name: check-compatibility
+description: >
+  Verify that skill definitions and instruction files are compatible with
+  current versions of host AI tools. Use after tool upgrades, when skills
+  stop working, or for periodic compatibility checks.
+version: 1.0.0
+---
+
 # check-compatibility
 
 ## Description
 
 Verifies that skill definitions and instruction files are compatible with current versions of host AI tools (Copilot, Claude Code, Cursor). Detects deprecated fields, removed features, breaking API changes, and proposes migration patches aligned with current standards.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - An AI tool is upgraded (new Copilot extension version, Claude Code update, etc.)
@@ -120,12 +129,4 @@ This skill activates when:
    Patch: [view patch]
 ```
 
-## Metadata
 
-```yaml
-name: check-compatibility
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/skill-hygiene
-```

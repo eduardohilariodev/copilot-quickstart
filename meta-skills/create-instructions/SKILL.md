@@ -1,10 +1,19 @@
+---
+name: create-instructions
+description: >
+  Generate provider-specific instruction files for a target repository.
+  Use when creating AI instructions, generating copilot-instructions,
+  or setting up CLAUDE.md.
+version: 1.0.0
+---
+
 # create-instructions
 
 ## Description
 
 Generates provider-specific instruction files (`.github/copilot-instructions.md`, `CLAUDE.md`, or `.cursor/rules/*.mdc`) for a target repository. Scans the repo to ground instructions in actual code, applies prompt-engineering best practices, and ensures compliance with design standards.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user requests creation of AI instruction files for a repo
@@ -132,11 +141,4 @@ Validate all API inputs using zod schemas.
 Use server actions for mutations; never expose internal IDs to clients.
 ```
 
-## Metadata
 
-```yaml
-name: create-instructions
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-```

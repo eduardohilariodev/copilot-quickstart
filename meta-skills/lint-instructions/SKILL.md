@@ -1,10 +1,19 @@
+---
+name: lint-instructions
+description: >
+  Lint instruction files against prompt-engineering standards — check
+  structure, rule quality, size budgets, and anti-patterns. Use when
+  linting, checking, or validating instruction files.
+version: 1.0.0
+---
+
 # lint-instructions
 
 ## Description
 
 Lints instruction files (AGENTS.md, copilot-instructions.md, CLAUDE.md, .cursor/rules/*.mdc) against prompt-engineering standards. Checks structure, section ordering, rule quality, size budgets, and flags anti-patterns — producing actionable fix suggestions for every issue found.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "lint", "check", or "validate" their instruction files
@@ -142,12 +151,4 @@ Score: 72/100
    Fix: "Return errors as Result<T, AppError>. Never throw in library code."
 ```
 
-## Metadata
 
-```yaml
-name: lint-instructions
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/instruction-cleanup
-```

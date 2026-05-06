@@ -1,10 +1,19 @@
+---
+name: diagnose-brownfield
+description: >
+  Score a repository's AI-readiness across four dimensions and produce a
+  prioritized repair checklist. Use when diagnosing setup maturity,
+  assessing config readiness, or before modifying existing AI config.
+version: 1.0.0
+---
+
 # diagnose-brownfield
 
 ## Description
 
 Scores a repository's AI-readiness across four dimensions: context/documentation, verification infrastructure, configuration hygiene, and safety/governance. Produces a readiness level (Basic → Ready → Advanced), per-dimension scores, and a prioritized repair checklist mapped to maintenance meta-skills.
 
-## Trigger
+## When to Use This Skill
 
 - Called by `onboard-repo` during brownfield strategy selection
 - User asks "how AI-ready is this repo?", "diagnose my setup", or "assess config maturity"
@@ -144,12 +153,4 @@ Repair Plan:
 Estimated post-repair: 8.0/10 (ADVANCED)
 ```
 
-## Metadata
 
-```yaml
-name: diagnose-brownfield
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: orchestration
-```

@@ -1,10 +1,19 @@
+---
+name: evaluate-config
+description: >
+  Audit existing AI configuration files against copilot-quickstart standards
+  with actionable fix recommendations. Use when evaluating, auditing, or
+  reviewing AI configurations.
+version: 1.0.0
+---
+
 # evaluate-config
 
 ## Description
 
 Audits existing AI configuration files against copilot-quickstart standards. Produces a detailed compliance report with actionable fix recommendations. Works on any combination of Copilot instructions, CLAUDE.md, Cursor rules, AGENTS.md, and skill definitions.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user asks to evaluate, audit, or review their AI configurations
@@ -142,11 +151,4 @@ Score: 3.8 / 5.0
    Standard: prompt-engineering-guide.md § Core Principles > Provide Examples
 ```
 
-## Metadata
 
-```yaml
-name: evaluate-config
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-```

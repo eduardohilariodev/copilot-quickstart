@@ -1,10 +1,19 @@
+---
+name: prune-skills
+description: >
+  Manage skill lifecycle — identify deprecation candidates, archive unused
+  skills, and update agent references. Use when pruning skills, cleaning
+  up the catalog, or after major upgrades.
+version: 1.0.0
+---
+
 # prune-skills
 
 ## Description
 
 Manages the lifecycle of skills — identifying candidates for deprecation, archiving unused skills, updating agent references, and maintaining a clean, current skill catalog. Implements the lifecycle stages defined in maintenance-principles.md.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "prune skills", "clean up skills", or "deprecate old skills"
@@ -138,12 +147,4 @@ This skill activates when:
 - agents/deploy-agent.yml line 8: remove "webpack-config"
 ```
 
-## Metadata
 
-```yaml
-name: prune-skills
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/skill-hygiene
-```

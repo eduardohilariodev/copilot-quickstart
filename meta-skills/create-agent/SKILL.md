@@ -1,10 +1,19 @@
+---
+name: create-agent
+description: >
+  Generate a complete agent definition (persona, tools, constraints,
+  escalation policy) for a target repository. Use when creating or
+  defining new agents.
+version: 1.0.0
+---
+
 # create-agent
 
 ## Description
 
 Generates a complete agent definition (persona, tools, constraints, escalation policy) for a target repository. Produces provider-agnostic YAML that can be rendered for Copilot, Claude, or Cursor configurations.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user requests creation of a new agent definition
@@ -150,11 +159,4 @@ skills:
   - review-conventions
 ```
 
-## Metadata
 
-```yaml
-name: create-agent
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-```

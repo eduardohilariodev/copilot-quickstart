@@ -1,10 +1,19 @@
+---
+name: check-policy
+description: >
+  Verify that AI configurations conform to organization-level policies —
+  security requirements, compliance mandates, and review processes. Use
+  for policy checks, compliance verification, or governance audits.
+version: 1.0.0
+---
+
 # check-policy
 
 ## Description
 
 Verifies that AI configurations conform to organization-level policies — security requirements, compliance mandates, review processes, and integration with CI/CD. Ensures agents don't promise capabilities beyond their authorization or bypass established safeguards.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user asks to "check policy", "verify compliance", or "audit governance"
@@ -168,12 +177,4 @@ Result: partial_conformance
 Next check due: 2026-06-04
 ```
 
-## Metadata
 
-```yaml
-name: check-policy
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/governance-safety
-```

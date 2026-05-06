@@ -1,10 +1,19 @@
+---
+name: upgrade-assistant
+description: >
+  Migrate AI configuration files when upgrading host tools or standards
+  versions — parse changelogs, map impact, and produce versioned patches.
+  Use when configs break after updates or when upgrading standards.
+version: 1.0.0
+---
+
 # upgrade-assistant
 
 ## Description
 
 Helps migrate AI configuration files when upgrading host tools (Copilot, Claude Code, Cursor) or when standards evolve. Parses changelogs and deprecation notices, maps impact to existing configs, and produces versioned migration patches that maintain standards compliance.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A user reports "things broke after update" or asks "how to upgrade configs"
@@ -129,12 +138,4 @@ This skill activates when:
 3. Run: lint-instructions → expect 0 new errors
 ```
 
-## Metadata
 
-```yaml
-name: upgrade-assistant
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/upgrade-migration
-```

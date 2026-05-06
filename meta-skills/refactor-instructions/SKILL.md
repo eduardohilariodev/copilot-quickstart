@@ -1,10 +1,19 @@
+---
+name: refactor-instructions
+description: >
+  Identify oversized or poorly-structured instruction files and apply
+  progressive disclosure by extracting details into focused child
+  documents. Use when cleaning up, refactoring, or slimming down configs.
+version: 1.0.0
+---
+
 # refactor-instructions
 
 ## Description
 
 Identifies oversized, mixed-concern, or poorly-structured instruction files (AGENTS.md, CLAUDE.md, copilot-instructions) and applies progressive disclosure — extracting details into focused child documents while keeping root files minimal and high-signal.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - An instruction file exceeds its size threshold (per maintenance-principles.md)
@@ -117,12 +126,4 @@ Trunk-based; squash merge PRs. Full guide: [git workflow](docs/git-workflow.md).
 - `docs/testing-strategy.md` (28 lines, focused)
 - `docs/git-workflow.md` (20 lines, focused)
 
-## Metadata
 
-```yaml
-name: refactor-instructions
-version: 1.0.0
-standards_version: 1.0.0
-author: copilot-quickstart
-category: maintenance/instruction-cleanup
-```

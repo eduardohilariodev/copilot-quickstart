@@ -17,11 +17,12 @@ const __dirname = dirname(__filename);
 
 /** Root of the copilot-quickstart repository (four levels up from src/core/) */
 export const LIBRARY_ROOT = resolve(__dirname, "..", "..", "..", "..");
-export const SKILLS_DIR = join(LIBRARY_ROOT, "templates", "skills");
-export const AGENTS_DIR = join(LIBRARY_ROOT, "templates", "agents");
-export const INSTRUCTIONS_DIR = join(LIBRARY_ROOT, "templates", "instructions");
-export const TEMPLATES_DIR = join(LIBRARY_ROOT, "templates");
-export const META_SKILLS_DIR = join(LIBRARY_ROOT, "meta-skills");
+export const SKILLS_DIR = join(LIBRARY_ROOT, "skills", "_default");
+export const AGENTS_DIR = join(LIBRARY_ROOT, "agents");
+export const INSTRUCTIONS_DIR = join(LIBRARY_ROOT, "instructions");
+export const TEMPLATES_DIR = join(LIBRARY_ROOT, "tools", "onboard", "templates");
+export const META_SKILLS_DIR = join(LIBRARY_ROOT, "skills", "_meta");
+export const FRAMEWORK_DIR = join(LIBRARY_ROOT, ".framework");
 
 // ─── Staging ────────────────────────────────────────────────────────────────
 
@@ -128,20 +129,20 @@ export type Provider = (typeof PROVIDERS)[number];
 // ─── Maintenance Skills ─────────────────────────────────────────────────────
 
 export const MAINTENANCE_SKILLS = [
-  "detect-drift",
-  "health-dashboard",
-  "audit-skills",
-  "lint-instructions",
-  "sync-config",
+  "drift",
+  "health",
+  "audit",
+  "lint",
+  "sync",
 ];
 
 // ─── Skill Recommendations ──────────────────────────────────────────────────
 
 export const SKILL_RECOMMENDATIONS: Record<string, string[]> = {
-  ci: ["ci-health-check", "ci-cd-starter"],
-  testing: ["test-generator", "test-failure-diagnoser", "test-strategy-doc"],
-  git: ["git-commit-message", "git-branch-and-pr", "git-cleanup"],
+  ci: ["ci-health", "ci-starter"],
+  testing: ["test-generator", "test-diagnoser", "test-strategy"],
+  git: ["git-commit", "git-branch-pr", "git-cleanup"],
   deployment: ["deploy-playbook", "infra-sanity"],
-  general: ["safe-refactor", "plan-and-scope-change", "shell-ops"],
-  onboarding: ["project-onboarding", "context-curator"],
+  general: ["safe-refactor", "plan-change", "shell-ops"],
+  onboarding: ["project-onboard", "context-pick"],
 };

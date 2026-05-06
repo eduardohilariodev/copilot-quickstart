@@ -1,7 +1,7 @@
 /**
  * Capsule — standards capsule installer for target repos.
  *
- * Creates .ai/system/standards.json and .ai/system/standards-summary.md
+ * Creates .framework/standards.json and .framework/standards-summary.md
  * in target repositories, linking them back to copilot-quickstart upstream.
  */
 
@@ -11,10 +11,10 @@ import { LIBRARY_ROOT } from "./constants.js";
 
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-const CAPSULE_DIR = ".ai/system";
+const CAPSULE_DIR = ".framework";
 const CAPSULE_JSON = "standards.json";
 const CAPSULE_SUMMARY = "standards-summary.md";
-const TEMPLATE_PATH = join(LIBRARY_ROOT, "templates", "standards-summary.md");
+const TEMPLATE_PATH = join(LIBRARY_ROOT, "tools", "onboard", "templates", "standards-summary.md");
 
 const MARKER_BEGIN = "<!-- QUICKSTART-STANDARDS:BEGIN -->";
 const MARKER_END = "<!-- QUICKSTART-STANDARDS:END -->";
@@ -23,7 +23,7 @@ const DEFAULT_LOCAL_PATHS: Record<string, string> = {
   agents_doc: "AGENTS.md",
   repo_instructions: ".github/copilot-instructions.md",
   skills_root: ".ai/skills",
-  meta_skills_root: ".ai/meta-skills",
+  meta_skills_root: ".ai/skills/_meta",
   instructions_dir: ".github/instructions",
   agents_dir: ".ai/agents",
 };
@@ -74,7 +74,12 @@ function buildPlaceholders(options: CapsuleOptions, localPaths: Record<string, s
 // ─── Public API ─────────────────────────────────────────────────────────────
 
 export function readCapsule(targetDir: string): CapsuleManifest | null {
-  const capsulePath = join(targetDir, CAPSULE_DIR, CAPSULE_JSON);
+  // Try new path first
+  let capsulePath = join(targetDir, ".framework", CAPSULE_JSON);
+  if (!existsSync(capsulePath)) {
+    // Fallback to legacy path
+    capsulePath = join(targetDir, ".ai", "system", CAPSULE_JSON);
+  }
   if (!existsSync(capsulePath)) return null;
   try {
     return JSON.parse(readFileSync(capsulePath, "utf8"));

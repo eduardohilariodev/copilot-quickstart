@@ -134,8 +134,8 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
 
   // Meta-skills
   currentCategory = "meta_skills_sections";
-  log("\n─ Meta-skills (meta-skills/*/SKILL.md)");
-  const metaSkills = findSkillFiles("meta-skills");
+  log("\n─ Meta-skills (skills/_meta/*/SKILL.md)");
+  const metaSkills = findSkillFiles(join("skills", "_meta"));
   if (metaSkills.length === 0) {
     fail("no meta-skill SKILL.md files found");
   } else {
@@ -144,8 +144,8 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
 
   // Template skills
   currentCategory = "template_skills_sections";
-  log("\n─ Template skills (templates/skills/*/SKILL.md)");
-  const templateSkills = findSkillFiles(join("templates", "skills"));
+  log("\n─ Template skills (skills/_default/*/SKILL.md)");
+  const templateSkills = findSkillFiles(join("skills", "_default"));
   if (templateSkills.length === 0) {
     fail("no template skill SKILL.md files found");
   } else {
@@ -175,14 +175,14 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
   for (const f of templateSkills) checkFileSize(f, 200, relative(ROOT, f));
   checkFileSize(join(ROOT, "AGENTS.md"), 120, "AGENTS.md");
 
-  const instructionsDir = join(ROOT, "templates", "instructions");
+  const instructionsDir = join(ROOT, "instructions");
   try {
     const instrFiles = readdirSync(instructionsDir).filter((f) => {
       try { return statSync(join(instructionsDir, f)).isFile(); } catch { return false; }
     });
     for (const f of instrFiles) checkFileSize(join(instructionsDir, f), 80, f);
   } catch (e) {
-    fail(`cannot read templates/instructions/: ${(e as Error).message}`);
+    fail(`cannot read instructions/: ${(e as Error).message}`);
   }
 
   // --- 5. Naming Convention Checks ---
@@ -191,36 +191,36 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
 
   const KEBAB_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+){1,3}$/;
 
-  const metaSkillsDir = join(ROOT, "meta-skills");
+  const metaSkillsDir = join(ROOT, "skills", "_meta");
   try {
     const metaDirs = readdirSync(metaSkillsDir).filter((d) =>
       statSync(join(metaSkillsDir, d)).isDirectory()
     );
     for (const d of metaDirs) {
       if (KEBAB_PATTERN.test(d)) {
-        pass(`meta-skills/${d} → valid kebab-case name`);
+        pass(`skills/_meta/${d} → valid kebab-case name`);
       } else {
-        fail(`meta-skills/${d} → name must be kebab-case (verb-noun, 2-4 segments)`);
+        fail(`skills/_meta/${d} → name must be kebab-case (verb-noun, 2-4 segments)`);
       }
     }
   } catch (e) {
-    fail(`cannot read meta-skills/: ${(e as Error).message}`);
+    fail(`cannot read skills/_meta/: ${(e as Error).message}`);
   }
 
-  const templateSkillsDir = join(ROOT, "templates", "skills");
+  const templateSkillsDir = join(ROOT, "skills", "_default");
   try {
     const tplDirs = readdirSync(templateSkillsDir).filter((d) =>
       statSync(join(templateSkillsDir, d)).isDirectory()
     );
     for (const d of tplDirs) {
       if (KEBAB_PATTERN.test(d)) {
-        pass(`templates/skills/${d} → valid kebab-case name`);
+        pass(`skills/_default/${d} → valid kebab-case name`);
       } else {
-        fail(`templates/skills/${d} → name must be kebab-case (2-4 segments)`);
+        fail(`skills/_default/${d} → name must be kebab-case (2-4 segments)`);
       }
     }
   } catch (e) {
-    fail(`cannot read templates/skills/: ${(e as Error).message}`);
+    fail(`cannot read skills/_default/: ${(e as Error).message}`);
   }
 
   // --- 6. Template Placeholder Syntax ---
@@ -249,7 +249,7 @@ export async function runValidate(options: ValidateOptions = {}): Promise<Valida
     return results;
   }
 
-  const templatesMdFiles = findMdFilesRecursive(join(ROOT, "templates"));
+  const templatesMdFiles = findMdFilesRecursive(join(ROOT, "tools", "onboard", "templates"));
 
   for (const filePath of templatesMdFiles) {
     const content = readFileSync(filePath, "utf-8");

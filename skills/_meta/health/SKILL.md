@@ -1,14 +1,14 @@
 ---
-name: health-dashboard
+name: health
 description: >
   Generate a comprehensive configuration health report measuring compliance,
   freshness, and consistency. Use for config health checks, maintenance
   status, or before major changes.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# health-dashboard
-
+# health
 ## Description
 
 Generates a comprehensive configuration health report for a repository (or organization). Measures compliance with standards, identifies maintenance priorities, and produces actionable summaries that can feed into CI pipelines or human review processes.

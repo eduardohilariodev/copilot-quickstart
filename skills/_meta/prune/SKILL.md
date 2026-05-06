@@ -1,17 +1,17 @@
 ---
-name: prune-skills
+name: prune
 description: >
   Manage skill lifecycle — identify deprecation candidates, archive unused
   skills, and update agent references. Use when pruning skills, cleaning
   up the catalog, or after major upgrades.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# prune-skills
-
+# prune
 ## Description
 
-Manages the lifecycle of skills — identifying candidates for deprecation, archiving unused skills, updating agent references, and maintaining a clean, current skill catalog. Implements the lifecycle stages defined in maintenance-principles.md.
+Manages the lifecycle of skills — identifying candidates for deprecation, archiving unused skills, updating agent references, and maintaining a clean, current skill catalog. Implements the lifecycle stages defined in .framework/standards.md § Maintenance.
 
 ## When to Use This Skill
 
@@ -73,7 +73,7 @@ This skill activates when:
 4. **Execute (if action != "identify"):**
 
    For **deprecate**:
-   - Add deprecation header to SKILL.md (per maintenance-principles.md protocol)
+   - Add deprecation header to SKILL.md (per .framework/standards.md § Maintenance protocol)
    - Set removal date (default: 30 days from now)
    - Note successor skill if applicable
 

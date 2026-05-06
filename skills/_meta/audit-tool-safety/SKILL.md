@@ -5,6 +5,7 @@ description: >
   dangerous permissions, and missing guardrails. Use when auditing security,
   checking tool safety, or reviewing permissions.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # audit-tool-safety
@@ -104,7 +105,7 @@ This skill activates when:
 ### Constraints
 
 - NEVER modify any files (read-only audit)
-- ALWAYS map findings to `security-governance.md` rules
+- ALWAYS map findings to `.framework/standards.md § Security` rules
 - ALWAYS provide actionable fix (not just "this is dangerous")
 - Critical findings MUST include specific risk scenario (what could go wrong)
 - NEVER flag standard read-only operations as dangerous

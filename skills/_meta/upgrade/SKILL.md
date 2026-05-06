@@ -1,14 +1,14 @@
 ---
-name: upgrade-assistant
+name: upgrade
 description: >
   Migrate AI configuration files when upgrading host tools or standards
   versions — parse changelogs, map impact, and produce versioned patches.
   Use when configs break after updates or when upgrading standards.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# upgrade-assistant
-
+# upgrade
 ## Description
 
 Helps migrate AI configuration files when upgrading host tools (Copilot, Claude Code, Cursor) or when standards evolve. Parses changelogs and deprecation notices, maps impact to existing configs, and produces versioned migration patches that maintain standards compliance.
@@ -18,7 +18,7 @@ Helps migrate AI configuration files when upgrading host tools (Copilot, Claude 
 This skill activates when:
 - A user reports "things broke after update" or asks "how to upgrade configs"
 - A new version of Copilot/Claude/Cursor is released with breaking changes
-- The copilot-quickstart standards are bumped to a new major/minor version
+- The the standards in .framework/standards.md are bumped to a new major/minor version
 
 ## Inputs
 
@@ -63,7 +63,7 @@ This skill activates when:
    - Map each change to affected config patterns
 
    For **standards upgrades:**
-   - Diff source-of-truth docs between versions
+   - Diff `.framework/standards.md` between versions
    - Identify: new required sections, changed thresholds, deprecated patterns, new rules
    - Map each change to affected artifact types
 

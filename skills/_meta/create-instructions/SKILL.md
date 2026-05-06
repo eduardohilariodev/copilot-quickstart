@@ -5,6 +5,7 @@ description: >
   Use when creating AI instructions, generating copilot-instructions,
   or setting up CLAUDE.md.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # create-instructions
@@ -60,7 +61,7 @@ This skill activates when:
    - Identify protected paths from `.gitignore`, CI config, etc.
 
 3. **Load Standards:**
-   - Read all `source-of-truth/` documents
+   - Read all `.framework/standards.md` documents
    - Determine applicable rules based on repo profile
    - Calculate token budget per provider
 
@@ -81,7 +82,7 @@ This skill activates when:
    - Document any lossy mappings
 
 6. **Validate:**
-   - Check against `schemas/instructions.schema.json`
+   - Check against `.framework/schemas/instructions.schema.json`
    - Verify all referenced paths/commands exist in target repo
    - Scan for anti-patterns
    - Check token budget compliance

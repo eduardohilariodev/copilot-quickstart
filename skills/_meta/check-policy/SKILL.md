@@ -5,6 +5,7 @@ description: >
   security requirements, compliance mandates, and review processes. Use
   for policy checks, compliance verification, or governance audits.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # check-policy
@@ -26,7 +27,7 @@ This skill activates when:
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
 | target_repo_path | string | yes | Path to repository to check |
-| policy_file | string | no | Path to org policy document (default: uses security-governance.md) |
+| policy_file | string | no | Path to org policy document (default: uses .framework/standards.md § Security) |
 | check_scope | string | no | "full", "instructions-only", "agents-only", "skills-only" (default: "full") |
 | org_requirements | object | no | Additional org-specific requirements beyond base standards |
 
@@ -42,14 +43,14 @@ This skill activates when:
 ## Tools Required
 
 - File system read (configs, policy docs, CI configs)
-- Source-of-truth access (security-governance.md)
+- .framework/standards.md access (§ Security)
 
 ## Behavior
 
 ### Steps
 
 1. **Load Policy Requirements:**
-   - Read `source-of-truth/security-governance.md` (always)
+   - Read `.framework/standards.md § Security` (always)
    - Read org-specific policy file if provided
    - Build complete checklist of requirements per artifact type
 
@@ -111,7 +112,7 @@ This skill activates when:
 
 ### Error Handling
 
-- If no policy file found: Use security-governance.md as default, note limitation
+- If no policy file found: Use .framework/standards.md § Security as default, note limitation
 - If configs use patterns not covered by policy: Report as "unclassified" for human review
 - If CI config can't be parsed: Note gap in coverage, don't assume non-conformance
 

@@ -5,6 +5,7 @@ description: >
   repository. Use when creating a new skill definition, generating skills,
   or scaffolding new skill files.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # create-skill
@@ -47,16 +48,16 @@ This skill activates when:
 
 0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
 1. **Intake** — Read the target repo's profile (if `repo-profile.yml` exists) or scan the repo to infer stack, conventions, and structure.
-2. **Load Standards** — Read `source-of-truth/design-standards.md` and `source-of-truth/prompt-engineering-guide.md` for current rules.
-3. **Load Template** — Read `templates/SKILL.md` as the structural base.
+2. **Load Standards** — Read `.framework/standards.md` and `.framework/standards.md § Writing Rules` for current rules.
+3. **Load Template** — Read `tools/onboard/templates/SKILL.md` as the structural base.
 4. **Generate** — Fill the template using:
    - The user's stated purpose and name
    - Inferred inputs/outputs from the skill's purpose
    - Appropriate tools for the skill's domain
    - Constraints derived from the repo's risk level
-5. **Validate** — Check the generated skill against `schemas/skill.schema.json`:
+5. **Validate** — Check the generated skill against `.framework/schemas/skill.schema.json`:
    - All required fields present
-   - No anti-patterns (per `source-of-truth/anti-patterns.md`)
+   - No anti-patterns (per `.framework/standards.md § Anti-Patterns`)
    - Instructions follow prompt-engineering guide
    - Trigger conditions are specific and testable
 6. **Output** — Write the SKILL.md file and report validation results.

@@ -1,14 +1,14 @@
 ---
-name: audit-skills
+name: audit
 description: >
   Scan skill definitions for structural compliance, size violations, missing
   sections, and cross-skill duplication. Use when auditing skill quality,
   reviewing the skill catalog, or after adding new skills.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# audit-skills
-
+# audit
 ## Description
 
 Scans skill definitions (SKILL.md files) for structural compliance, size violations, missing sections, hardcoded project-specifics, and cross-skill duplication. Produces a per-skill audit card with compliance score and concrete fix recommendations.
@@ -39,7 +39,7 @@ This skill activates when:
 
 ## Tools Required
 
-- File system read (scan skill directories and source-of-truth)
+- File system read (scan skill directories and `.framework/standards.md`)
 - Token counter
 
 ## Behavior
@@ -96,7 +96,7 @@ This skill activates when:
 ### Constraints
 
 - NEVER modify skill files (read-only audit)
-- ALWAYS check against current `source-of-truth/design-standards.md`
+- ALWAYS check against current `.framework/standards.md`
 - Decomposition suggestions MUST include proposed skill names and scope boundaries
 - Cross-skill analysis MUST NOT flag intentional specialization as duplication
 

@@ -1,17 +1,17 @@
 ---
-name: evaluate-config
+name: evaluate
 description: >
-  Audit existing AI configuration files against copilot-quickstart standards
+  Audit existing AI configuration files against the standards in .framework/standards.md
   with actionable fix recommendations. Use when evaluating, auditing, or
   reviewing AI configurations.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# evaluate-config
-
+# evaluate
 ## Description
 
-Audits existing AI configuration files against copilot-quickstart standards. Produces a detailed compliance report with actionable fix recommendations. Works on any combination of Copilot instructions, CLAUDE.md, Cursor rules, AGENTS.md, and skill definitions.
+Audits existing AI configuration files against the standards in .framework/standards.md. Produces a detailed compliance report with actionable fix recommendations. Works on any combination of Copilot instructions, CLAUDE.md, Cursor rules, AGENTS.md, and skill definitions.
 
 ## When to Use This Skill
 
@@ -38,7 +38,7 @@ This skill activates when:
 
 ## Tools Required
 
-- File system read (to read config files and source-of-truth)
+- File system read (to read config files and `.framework/standards.md`)
 - Schema validation
 
 ## Behavior
@@ -56,9 +56,9 @@ This skill activates when:
    - Report what was found and what's missing
 
 2. **Load Evaluation Criteria:**
-   - Load all `source-of-truth/` documents
-   - Load relevant schemas from `schemas/`
-   - Build checklist from `templates/eval-suite.md`
+   - Load all `.framework/standards.md` documents
+   - Load relevant schemas from `.framework/schemas/`
+   - Build checklist from `tools/onboard/templates/eval-suite.md`
 
 3. **Evaluate Each Artifact:**
 
@@ -136,19 +136,19 @@ Score: 3.8 / 5.0
 ❌ ERROR: Line 12 - Vague instruction: "Follow best practices for testing"
    Fix: Replace with specific rules like "Write unit tests using Jest with 
         describe/it blocks for all exported functions"
-   Standard: prompt-engineering-guide.md § Anti-Patterns
+   Standard: .framework/standards.md § Writing Rules § Anti-Patterns
 
 ⚠️ WARNING: Line 25 - Compound rule (3 rules in one statement)
    Fix: Split into separate atomic statements
-   Standard: prompt-engineering-guide.md § Core Principles > Be Atomic
+   Standard: .framework/standards.md § Writing Rules § Core Principles > Be Atomic
 
 ⚠️ WARNING: Token count 2847 exceeds recommended budget of 2000
    Fix: Remove lower-priority rules or split into focused instruction sets
-   Standard: prompt-engineering-guide.md § Format Constraints
+   Standard: .framework/standards.md § Writing Rules § Format Constraints
 
 ℹ️ INFO: No examples provided for complex formatting rule on line 18
    Fix: Add a code block showing expected format
-   Standard: prompt-engineering-guide.md § Core Principles > Provide Examples
+   Standard: .framework/standards.md § Writing Rules § Core Principles > Provide Examples
 ```
 
 

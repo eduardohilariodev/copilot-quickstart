@@ -5,6 +5,7 @@ description: >
   escalation policy) for a target repository. Use when creating or
   defining new agents.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # create-agent
@@ -48,7 +49,7 @@ This skill activates when:
 ### Steps
 
 0. **Discover layout** — Read `.ai/system/standards.json` and `.ai/system/standards-summary.md` in the target repo (if they exist). Use the `local` block to determine where to place artifacts and the `upstream` block for provenance metadata. If the capsule is missing, fall back to conventional paths (AGENTS.md, .github/copilot-instructions.md, .github/skills/).
-1. **Load Template** — Read `templates/agent-definition.agent.md` as the structural base for the agent definition.
+1. **Load Template** — Read `tools/onboard/templates/agent-definition.agent.md` as the structural base for the agent definition.
 2. **Clarify Scope:**
    - Parse the agent_purpose for: domain, actions, boundaries
    - If purpose is too broad (would create a "God Agent"), suggest decomposition
@@ -77,7 +78,7 @@ This skill activates when:
    - Cap max_iterations based on risk level
 
 5. **Validate:**
-   - Check against `schemas/agent.schema.json`
+   - Check against `.framework/schemas/agent.schema.json`
    - Verify no security governance violations
    - Scan for agent anti-patterns (God Agent, Unguarded, Amnesiac)
    - Verify referenced skills and documentation exist

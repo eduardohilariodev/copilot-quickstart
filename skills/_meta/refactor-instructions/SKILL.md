@@ -5,6 +5,7 @@ description: >
   progressive disclosure by extracting details into focused child
   documents. Use when cleaning up, refactoring, or slimming down configs.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # refactor-instructions
@@ -16,7 +17,7 @@ Identifies oversized, mixed-concern, or poorly-structured instruction files (AGE
 ## When to Use This Skill
 
 This skill activates when:
-- An instruction file exceeds its size threshold (per maintenance-principles.md)
+- An instruction file exceeds its size threshold (per .framework/standards.md § Maintenance)
 - A user asks to "clean up", "refactor", or "slim down" their agent/instruction config
 - The health-dashboard flags a file as oversized or mixed-concern
 
@@ -40,7 +41,7 @@ This skill activates when:
 
 ## Tools Required
 
-- File system read (scan existing configs and source-of-truth)
+- File system read (scan existing configs and `.framework/standards.md`)
 - File system write (output refactored files)
 - Diff generation (show before/after)
 
@@ -50,7 +51,7 @@ This skill activates when:
 
 1. **Analyze Current State:**
    - Measure file: line count, token count, section count
-   - Compare against thresholds from `maintenance-principles.md`
+   - Compare against thresholds from `.framework/standards.md § Maintenance`
    - Identify distinct topics/concerns within the file
    - Detect contradictory rules (same topic, conflicting guidance)
 
@@ -69,7 +70,7 @@ This skill activates when:
    - Mark redundant/vague rules for deletion (with justification)
 
 4. **Generate Output:**
-   - Rewrite root file using `templates/AGENTS.md` or `templates/copilot-instructions.md` structure
+   - Rewrite root file using `tools/onboard/templates/AGENTS.md` or `tools/onboard/templates/copilot-instructions.md` structure
    - Create child docs with clear titles and scope declarations
    - Add links from root to child docs (one-line summary + link)
    - Include provenance metadata in all generated files

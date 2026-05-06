@@ -5,6 +5,7 @@ description: >
   IDE settings, CLI environment, and prompt file scaffolding. Use when
   setting up or optimizing Copilot for a repo.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # configure-copilot
@@ -30,9 +31,9 @@ This skill activates when:
 
 ## References
 
-- `source-of-truth/copilot-config-features.md` — canonical Copilot feature reference
-- `source-of-truth/design-standards.md` — instruction size/format constraints
-- `source-of-truth/maintenance-principles.md` — size thresholds
+- `.framework/standards.md § Copilot Platform` — canonical Copilot feature reference
+- `.framework/standards.md` — instruction size/format constraints
+- `.framework/standards.md § Maintenance` — size thresholds
 
 ## Tools Required
 
@@ -104,7 +105,7 @@ For each recommended instruction file:
 
 ### Constraints
 
-- Keep each instruction file ≤40 lines (per maintenance-principles.md)
+- Keep each instruction file ≤40 lines (per .framework/standards.md § Maintenance)
 - Keep repo-wide instructions ≤80 lines / ~2000 tokens
 - Never duplicate rules across repo-wide and path-specific files
 - Path-specific files should ADD to repo-wide, not repeat it

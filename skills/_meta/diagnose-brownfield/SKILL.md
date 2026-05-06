@@ -5,6 +5,7 @@ description: >
   prioritized repair checklist. Use when diagnosing setup maturity,
   assessing config readiness, or before modifying existing AI config.
 version: 1.0.0
+portability: requires-framework
 ---
 
 # diagnose-brownfield
@@ -71,7 +72,7 @@ Each dimension scores 0-10. Overall = weighted average:
 | Check | Pts | Criteria |
 |-------|-----|----------|
 | Provider configs exist | 2 | At least one provider configured |
-| Within size budgets | 2 | Per maintenance-principles.md thresholds |
+| Within size budgets | 2 | Per .framework/standards.md § Maintenance thresholds |
 | No cross-file duplication | 2 | Rules don't repeat between AGENTS/instructions/CLAUDE |
 | Core workflow skills | 1 | At least testing/review skills present |
 | No contradictions | 1 | Rules consistent across all config files |

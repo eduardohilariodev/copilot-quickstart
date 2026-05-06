@@ -1,14 +1,14 @@
 ---
-name: check-compatibility
+name: check-compat
 description: >
   Verify that skill definitions and instruction files are compatible with
   current versions of host AI tools. Use after tool upgrades, when skills
   stop working, or for periodic compatibility checks.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# check-compatibility
-
+# check-compat
 ## Description
 
 Verifies that skill definitions and instruction files are compatible with current versions of host AI tools (Copilot, Claude Code, Cursor). Detects deprecated fields, removed features, breaking API changes, and proposes migration patches aligned with current standards.
@@ -83,7 +83,7 @@ This skill activates when:
 
 7. **Generate Migration Patches:**
    - For each breaking/deprecated issue, propose a concrete patch
-   - Patches must conform to current standards (read source-of-truth)
+   - Patches must conform to current standards (read `.framework/standards.md`)
    - Include before/after comparison
    - Note any behavioral changes from migration
 

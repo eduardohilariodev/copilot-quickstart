@@ -1,14 +1,14 @@
 ---
-name: lint-instructions
+name: lint
 description: >
   Lint instruction files against prompt-engineering standards — check
   structure, rule quality, size budgets, and anti-patterns. Use when
   linting, checking, or validating instruction files.
 version: 1.0.0
+portability: requires-framework
 ---
 
-# lint-instructions
-
+# lint
 ## Description
 
 Lints instruction files (AGENTS.md, copilot-instructions.md, CLAUDE.md, .cursor/rules/*.mdc) against prompt-engineering standards. Checks structure, section ordering, rule quality, size budgets, and flags anti-patterns — producing actionable fix suggestions for every issue found.
@@ -40,7 +40,7 @@ This skill activates when:
 
 ## Tools Required
 
-- File system read (scan instruction files and source-of-truth)
+- File system read (scan instruction files and `.framework/standards.md`)
 - File system write (if auto_fix=true)
 - Token counter
 
@@ -54,14 +54,14 @@ This skill activates when:
    - Count tokens per file and per section
 
 2. **Structural Checks:**
-   - Required sections present (per `design-standards.md`):
+   - Required sections present (per `.framework/standards.md`):
      - copilot-instructions: code style, testing, git, security (minimum)
      - AGENTS.md: overview, architecture, commands, conventions
      - CLAUDE.md: project context, commands, rules
    - Section ordering follows priority (security first, style last)
    - No orphaned content outside sections
 
-3. **Rule Quality Checks (per prompt-engineering-guide.md):**
+3. **Rule Quality Checks (per .framework/standards.md § Writing Rules):**
    For each individual rule:
    - **Imperative mood:** starts with action verb (Use, Write, Return, Validate...)
    - **Atomicity:** one concept per statement (flag compound rules with "and"/"or" joining unrelated clauses)
@@ -70,12 +70,12 @@ This skill activates when:
    - **Positive language:** prefers "Do X" over "Don't do Y" (flag, don't error)
    - **Example presence:** complex formatting rules have code examples
 
-4. **Size Budget Checks (per maintenance-principles.md):**
+4. **Size Budget Checks (per .framework/standards.md § Maintenance):**
    - Total file within provider budget
    - No single section exceeds 40% of total budget
    - Flag if file could be slimmed (rules that duplicate model defaults)
 
-5. **Anti-Pattern Detection (per anti-patterns.md):**
+5. **Anti-Pattern Detection (per .framework/standards.md § Anti-Patterns):**
    - Wishful instructions ("write good code")
    - Temporal references ("since PR #1234")
    - Provider-specific leakage in agnostic files

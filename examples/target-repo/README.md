@@ -12,7 +12,7 @@
 | `.github/copilot-instructions.md` | Repo-wide Copilot behavioral rules |
 | `.github/instructions/` | Path-specific instruction files (5 total) |
 | `.github/skills/` | Vendored starter skills (5 total) |
-| `agents/` | Provider-agnostic agent definitions (5 total) |
+| `.github/agents/` | Agent definitions (5 total) |
 
 ## Generation
 

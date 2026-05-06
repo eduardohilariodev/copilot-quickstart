@@ -151,7 +151,7 @@ Status: PARTIAL CONFORMANCE (18/20 checks pass)
 ### Violations (2)
 
 ❌ POL-005: Agent "auto-fixer" has no escalation policy
-   File: agents/auto-fixer.yml
+   File: .github/agents/auto-fixer.agent.md
    Required: At least one "ask_user" escalation condition
    Fix: Add escalation section:
    ```yaml

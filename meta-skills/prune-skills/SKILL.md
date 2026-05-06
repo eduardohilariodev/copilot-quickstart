@@ -143,8 +143,8 @@ This skill activates when:
    Action: Review and decide
 
 ### Agent Updates Needed (if candidates archived)
-- agents/code-reviewer.yml line 12: remove "react-class-components"
-- agents/deploy-agent.yml line 8: remove "webpack-config"
+- .github/agents/code-reviewer.agent.md line 12: remove "react-class-components"
+- .github/agents/deploy-agent.agent.md line 8: remove "webpack-config"
 ```
 
 

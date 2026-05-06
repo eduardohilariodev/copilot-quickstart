@@ -6,6 +6,7 @@ description: >
   a function, module, or class, or when test coverage is needed for new
   or changed code.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

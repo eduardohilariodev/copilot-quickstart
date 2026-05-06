@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Standards Capsule",
+  "description": "Machine-readable manifest linking a target repo to its upstream copilot-quickstart standards and encoding local file layout.",
+  "type": "object",
+  "required": ["upstream", "local"],
+  "properties": {
+    "upstream": {
+      "type": "object",
+      "description": "Reference to the copilot-quickstart standards this repo follows.",
+      "required": ["repo", "ref", "docs_base_url"],
+      "properties": {
+        "repo": {
+          "type": "string",
+          "description": "GitHub repository identifier (owner/name).",
+          "pattern": "^[a-zA-Z0-9_-]+/[a-zA-Z0-9_.-]+$",
+          "examples": ["eduardohilariodev/copilot-quickstart"]
+        },
+        "ref": {
+          "type": "string",
+          "description": "Git ref (tag or branch) the repo is pinned to.",
+          "examples": ["v1.0.0", "main"]
+        },
+        "docs_base_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL prefix for linking to source-of-truth documents.",
+          "examples": ["https://github.com/eduardohilariodev/copilot-quickstart/tree/v1.0.0/source-of-truth"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "local": {
+      "type": "object",
+      "description": "Paths to local config files, relative to the repo root. These tell meta-skills where to find/place artifacts.",
+      "required": ["agents_doc", "repo_instructions"],
+      "properties": {
+        "agents_doc": {
+          "type": "string",
+          "description": "Path to the AGENTS.md documentation file.",
+          "default": "AGENTS.md"
+        },
+        "repo_instructions": {
+          "type": "string",
+          "description": "Path to the repo-wide Copilot instructions file.",
+          "default": ".github/copilot-instructions.md"
+        },
+        "skills_root": {
+          "type": "string",
+          "description": "Directory where vendored skills live.",
+          "default": ".ai/skills"
+        },
+        "meta_skills_root": {
+          "type": "string",
+          "description": "Directory where meta-skills live (if vendored locally).",
+          "default": ".ai/meta-skills"
+        },
+        "instructions_dir": {
+          "type": "string",
+          "description": "Directory for path-specific instruction files.",
+          "default": ".github/instructions"
+        },
+        "agents_dir": {
+          "type": "string",
+          "description": "Directory for agent definition YAMLs.",
+          "default": ".ai/agents"
+        }
+      },
+      "additionalProperties": false
+    },
+    "installed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the capsule was first installed."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the last CLI update to this file."
+    }
+  },
+  "additionalProperties": false
+}

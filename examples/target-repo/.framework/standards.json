@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "4.0.0",
+  "description": "Standards capsule — portable layout contract for AI configuration",
+  "paths": {
+    "standards": ".framework/standards.md",
+    "schemas": ".framework/schemas/",
+    "skills": ".github/skills/",
+    "agents": ".github/agents/",
+    "instructions": ".github/instructions/",
+    "copilot_instructions": ".github/copilot-instructions.md",
+    "agents_doc": "AGENTS.md",
+    "repo_profile": "repo-profile.yml"
+  },
+  "budgets": {
+    "copilot_instructions_md": { "max_lines": 80, "max_tokens": 2000 },
+    "agents_md": { "max_lines": 120, "max_tokens": 4000 },
+    "skill_md": { "max_lines": 200, "max_tokens": 5000 },
+    "instructions_md": { "max_lines": 80, "max_tokens": 2000 },
+    "agent_md": { "max_lines": 80, "max_tokens": 2000 }
+  }
+}

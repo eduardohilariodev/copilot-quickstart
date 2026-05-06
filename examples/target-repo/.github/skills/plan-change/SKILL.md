@@ -1,18 +1,19 @@
 ---
-name: plan-and-scope-change
+name: plan-change
 description: >
   Structures a planning phase before any code change by producing a clear
   scope, affected files list, risk assessment, and acceptance criteria.
   Use when a task involves more than a trivial edit, or when asked to
   plan, scope a change, or assess impact.
 version: 1.0.0
+portability: standalone
 allowed-tools: Read
 ---
 
-# plan-and-scope-change
+# plan-change
 
 <!--
-  Vendored from: copilot-quickstart/templates/skills/plan-and-scope-change
+  Vendored from: copilot-quickstart/templates/skills/plan-change
   Standards version: 1.0.0
 -->
 

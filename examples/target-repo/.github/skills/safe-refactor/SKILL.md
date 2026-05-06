@@ -6,6 +6,7 @@ description: >
   refactor touches 3+ files or when rename, extract, or move operations span
   multiple modules.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

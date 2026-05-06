@@ -16,7 +16,7 @@ Pipeline design and deployment assistance for acme/web-platform.
 ## Skills Used
 
 - ci-cd-starter — generate secure, cached workflows for new setups
-- ci-health-check — audit existing pipelines and propose fixes
+- ci-health — audit existing pipelines and propose fixes
 - deploy-playbook — guide deployment procedures
 - infra-sanity — validate safety before infrastructure commands
 

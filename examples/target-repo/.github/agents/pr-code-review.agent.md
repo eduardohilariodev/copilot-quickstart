@@ -15,7 +15,7 @@ Pull request authoring and standards-based code review for acme/web-platform.
 
 ## Skills Used
 
-- git-commit-message — craft conventional commit messages
+- git-commit — craft conventional commit messages
 - git-branch-and-pr — branch naming and PR workflow
 - evaluate-config — verify config adherence during review
 

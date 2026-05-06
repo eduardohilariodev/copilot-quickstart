@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Instructions Schema",
+  "description": "Machine-readable contract for instruction file structure.",
+  "type": "object",
+  "required": ["sections"],
+  "properties": {
+    "target_provider": {
+      "type": "string",
+      "enum": ["copilot", "claude", "cursor", "universal"],
+      "description": "Which provider this instruction set targets"
+    },
+    "max_tokens": {
+      "type": "integer",
+      "description": "Token budget for this instruction file"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "purpose"],
+        "properties": {
+          "name": { "type": "string" },
+          "purpose": { "type": "string" },
+          "required": { "type": "boolean", "default": false },
+          "max_rules": { "type": "integer", "description": "Maximum number of rules in this section" }
+        }
+      },
+      "description": "Expected sections in the instruction file"
+    },
+    "rule_format": {
+      "type": "object",
+      "properties": {
+        "style": { "type": "string", "enum": ["imperative", "declarative", "conditional"] },
+        "max_length_chars": { "type": "integer" },
+        "requires_example": { "type": "boolean" }
+      }
+    }
+  }
+}

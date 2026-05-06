@@ -1,18 +1,19 @@
 ---
-name: ci-health-check
+name: ci-health
 description: >
   Audits GitHub Actions workflows for security, performance, and reliability
   issues including unpinned actions, missing permissions, and caching gaps.
   Use when reviewing CI/CD configuration, when workflow files are added or
   modified, or during periodic maintenance audits.
 version: 1.0.0
+portability: standalone
 allowed-tools: Read
 ---
 
-# ci-health-check
+# ci-health
 
 <!--
-  Vendored from: copilot-quickstart/templates/skills/ci-health-check
+  Vendored from: copilot-quickstart/templates/skills/ci-health
   Standards version: 1.0.0
 -->
 

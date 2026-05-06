@@ -1,10 +1,20 @@
+---
+name: git-branch-and-pr
+description: >
+  Create well-named branches and structured pull request descriptions
+  following team conventions. Use when starting a new task that needs a
+  branch or when ready to open a pull request.
+version: 1.0.0
+allowed-tools: Bash(git:*) Bash(gh:*) Read
+---
+
 # git-branch-and-pr
 
 ## Description
 
 Create well-named branches and structured pull request descriptions following team conventions.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User starts a new task and needs a branch
@@ -72,11 +82,3 @@ git checkout -b feature/15-jwt-authentication
 
 PR title: `feat(auth): implement JWT-based authentication`
 
-## Metadata
-
-```yaml
-name: git-branch-and-pr
-version: 1.0.0
-standards_version: 1.0.0
-category: git-flow
-```

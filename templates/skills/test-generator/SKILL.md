@@ -1,10 +1,20 @@
+---
+name: test-generator
+description: >
+  Generate unit test scaffolds for functions, modules, or classes following
+  the project's testing conventions and framework. Use when writing tests
+  for new or changed code, or when increasing test coverage.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # test-generator
 
 ## Description
 
 Generate unit test scaffolds for functions/modules following the project's testing conventions and framework.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to write tests for a function, module, or class
@@ -93,11 +103,3 @@ describe('formatDate', () => {
 });
 ```
 
-## Metadata
-
-```yaml
-name: test-generator
-version: 1.0.0
-standards_version: 1.0.0
-category: testing
-```

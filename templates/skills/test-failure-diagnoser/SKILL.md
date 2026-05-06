@@ -1,10 +1,20 @@
+---
+name: test-failure-diagnoser
+description: >
+  Analyze failing test output to identify root causes and suggest minimal
+  fixes without rewriting large code sections. Use when a test run produces
+  failures or when diagnosing why tests fail from error output.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # test-failure-diagnoser
 
 ## Description
 
 Analyze failing test output to identify root causes and suggest minimal fixes without rewriting large code sections.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A test run produces failures
@@ -64,11 +74,3 @@ This skill activates when:
 - If test output is truncated: ask for full output or re-run with verbose flag
 - If root cause is environmental: suggest env setup steps rather than code changes
 
-## Metadata
-
-```yaml
-name: test-failure-diagnoser
-version: 1.0.0
-standards_version: 1.0.0
-category: testing
-```

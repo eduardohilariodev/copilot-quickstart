@@ -1,10 +1,21 @@
+---
+name: ci-cd-starter
+description: >
+  Design and generate GitHub Actions workflows following CI/CD best
+  practices including modular jobs, caching, security, and proper
+  permissions. Use when setting up CI/CD pipelines, configuring GitHub
+  Actions, or bootstrapping workflows for a new project.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # ci-cd-starter
 
 ## Description
 
 Design and generate GitHub Actions workflows following CI/CD best practices: modular, cached, secure, with proper permissions.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User needs CI/CD pipeline setup or improvement
@@ -92,11 +103,3 @@ jobs:
       - run: pnpm test
 ```
 
-## Metadata
-
-```yaml
-name: ci-cd-starter
-version: 1.0.0
-standards_version: 1.0.0
-category: ci-cd
-```

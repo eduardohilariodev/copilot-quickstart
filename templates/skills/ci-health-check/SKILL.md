@@ -1,10 +1,21 @@
+---
+name: ci-health-check
+description: >
+  Audit GitHub Actions workflow files for common issues including missing
+  permissions, no caching, insecure patterns, and missing concurrency
+  controls. Use when reviewing CI/CD configuration, after adding new
+  workflows, or during periodic health checks.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # ci-health-check
 
 ## Description
 
 Audit GitHub Actions workflow files for common issues: missing permissions, no caching, insecure patterns, missing concurrency controls.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to review or improve CI/CD configuration
@@ -70,11 +81,3 @@ This skill activates when:
 - If no workflows found: suggest creating one using `ci-cd-starter` skill
 - If YAML is malformed: report parse error with line number
 
-## Metadata
-
-```yaml
-name: ci-health-check
-version: 1.0.0
-standards_version: 1.0.0
-category: ci-cd
-```

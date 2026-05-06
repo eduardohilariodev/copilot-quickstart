@@ -1,10 +1,20 @@
+---
+name: git-commit-message
+description: >
+  Generate conventional, descriptive commit messages from staged changes.
+  Use when committing changes, writing commit messages, or when staged
+  files need a well-formatted commit description.
+version: 1.0.0
+allowed-tools: Bash(git:*) Read
+---
+
 # git-commit-message
 
 ## Description
 
 Generate conventional, descriptive commit messages from staged changes.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to commit changes or write a commit message
@@ -66,11 +76,3 @@ Implement user lookup by ID with proper error handling
 for missing records. Includes unit test coverage.
 ```
 
-## Metadata
-
-```yaml
-name: git-commit-message
-version: 1.0.0
-standards_version: 1.0.0
-category: git-flow
-```

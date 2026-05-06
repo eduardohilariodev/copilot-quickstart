@@ -1,10 +1,20 @@
+---
+name: test-strategy-doc
+description: >
+  Create or update a TESTING.md that documents the project's test strategy
+  as a reference for agents and developers. Use when setting up test
+  documentation, planning a testing strategy, or capturing test conventions.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # test-strategy-doc
 
 ## Description
 
 Create or update a TESTING.md that documents the project's test strategy, serving as a reference for agents and developers.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks about test strategy or test documentation
@@ -60,11 +70,3 @@ This skill activates when:
 - If no tests exist: generate a starter strategy doc with recommendations
 - If multiple conflicting frameworks: flag and ask which is canonical
 
-## Metadata
-
-```yaml
-name: test-strategy-doc
-version: 1.0.0
-standards_version: 1.0.0
-category: testing
-```

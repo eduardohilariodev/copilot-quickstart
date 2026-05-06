@@ -1,10 +1,20 @@
+---
+name: git-cleanup
+description: >
+  Maintain clean git history by squashing before merge, removing stale
+  branches, and auditing for large misc commits. Use when cleaning up
+  branches, preparing to merge, or checking for stale branches.
+version: 1.0.0
+allowed-tools: Bash(git:*) Read
+---
+
 # git-cleanup
 
 ## Description
 
 Maintain clean git history: squash before merge, remove stale branches, avoid large misc commits.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to clean up branches or history
@@ -63,11 +73,3 @@ This skill activates when:
 - If rebase has conflicts: pause and explain resolution steps
 - If branch deletion fails: explain why (unmerged changes) and offer alternatives
 
-## Metadata
-
-```yaml
-name: git-cleanup
-version: 1.0.0
-standards_version: 1.0.0
-category: git-flow
-```

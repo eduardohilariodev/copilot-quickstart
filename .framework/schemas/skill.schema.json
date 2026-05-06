@@ -71,7 +71,7 @@
     },
     "standards_version": {
       "type": "string",
-      "description": "Version of source-of-truth standards this conforms to"
+      "description": "Version of .framework/standards.md this conforms to"
     }
   }
 }

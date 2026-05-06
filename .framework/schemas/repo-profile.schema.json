@@ -103,7 +103,7 @@
           "description": "Naming pattern for instruction files (e.g., 'topic', 'tech-domain-focus', or custom)"
         }
       },
-      "description": "Naming conventions for AI artifacts (skills, agents, instructions). See source-of-truth/naming-conventions.md"
+      "description": "Naming conventions for AI artifacts (skills, agents, instructions). See .framework/standards.md § Naming"
     }
   }
 }

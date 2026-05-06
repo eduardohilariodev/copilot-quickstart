@@ -24,8 +24,8 @@
         "docs_base_url": {
           "type": "string",
           "format": "uri",
-          "description": "URL prefix for linking to source-of-truth documents.",
-          "examples": ["https://github.com/eduardohilariodev/copilot-quickstart/tree/v1.0.0/source-of-truth"]
+          "description": "URL prefix for linking to standards documents.",
+          "examples": ["https://github.com/eduardohilariodev/copilot-quickstart/tree/v4.0.0/.framework"]
         }
       },
       "additionalProperties": false

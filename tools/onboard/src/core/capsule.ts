@@ -1,23 +1,25 @@
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+/**
+ * Capsule — standards capsule installer for target repos.
+ *
+ * Creates .ai/system/standards.json and .ai/system/standards-summary.md
+ * in target repositories, linking them back to copilot-quickstart upstream.
+ */
+
+import { join } from "node:path";
 import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { LIBRARY_ROOT } from "./constants.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-/** Root of the copilot-quickstart repository (three levels up from lib/) */
-export const QUICKSTART_ROOT = join(__dirname, "..", "..", "..");
+// ─── Constants ──────────────────────────────────────────────────────────────
 
 const CAPSULE_DIR = ".ai/system";
 const CAPSULE_JSON = "standards.json";
 const CAPSULE_SUMMARY = "standards-summary.md";
-const TEMPLATE_PATH = join(QUICKSTART_ROOT, "templates", "standards-summary.md");
+const TEMPLATE_PATH = join(LIBRARY_ROOT, "templates", "standards-summary.md");
 
 const MARKER_BEGIN = "<!-- QUICKSTART-STANDARDS:BEGIN -->";
 const MARKER_END = "<!-- QUICKSTART-STANDARDS:END -->";
 
-// Default local paths matching the schema defaults
-const DEFAULT_LOCAL_PATHS = {
+const DEFAULT_LOCAL_PATHS: Record<string, string> = {
   agents_doc: "AGENTS.md",
   repo_instructions: ".github/copilot-instructions.md",
   skills_root: ".ai/skills",
@@ -26,41 +28,54 @@ const DEFAULT_LOCAL_PATHS = {
   agents_dir: ".ai/agents",
 };
 
-/**
- * Replace {{placeholder}} tokens in template content with values.
- */
-function renderTemplate(template, values) {
-  return template.replace(/\{\{(\w+)\}\}/g, (match, key) => {
-    return key in values ? values[key] : match;
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+export interface CapsuleOptions {
+  version?: string;
+  repo?: string;
+  docsBaseUrl?: string;
+  localPaths?: Record<string, string>;
+}
+
+interface CapsuleManifest {
+  upstream: { repo: string; ref: string; docs_base_url: string };
+  local: Record<string, string>;
+  installed_at: string;
+  updated_at: string;
+}
+
+interface CapsuleResult {
+  jsonPath: string;
+  summaryPath: string;
+}
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+function renderTemplate(template: string, values: Record<string, string>): string {
+  return template.replace(/\{\{(\w+)\}\}/g, (match, key: string) => {
+    return key in values ? values[key]! : match;
   });
 }
 
-/**
- * Build the placeholder values map from options + local paths.
- */
-function buildPlaceholders(options, localPaths) {
+function buildPlaceholders(options: CapsuleOptions, localPaths: Record<string, string>): Record<string, string> {
   return {
     version: options.version || "main",
     upstream_repo: options.repo || "eduardohilariodev/copilot-quickstart",
     upstream_ref: options.version || "main",
     docs_base_url: options.docsBaseUrl || `https://github.com/${options.repo || "eduardohilariodev/copilot-quickstart"}/tree/${options.version || "main"}/source-of-truth`,
-    agents_dir: localPaths.agents_dir || DEFAULT_LOCAL_PATHS.agents_dir,
-    skills_root: localPaths.skills_root || DEFAULT_LOCAL_PATHS.skills_root,
-    repo_instructions: localPaths.repo_instructions || DEFAULT_LOCAL_PATHS.repo_instructions,
-    instructions_dir: localPaths.instructions_dir || DEFAULT_LOCAL_PATHS.instructions_dir,
-    agents_doc: localPaths.agents_doc || DEFAULT_LOCAL_PATHS.agents_doc,
+    agents_dir: localPaths.agents_dir || DEFAULT_LOCAL_PATHS.agents_dir!,
+    skills_root: localPaths.skills_root || DEFAULT_LOCAL_PATHS.skills_root!,
+    repo_instructions: localPaths.repo_instructions || DEFAULT_LOCAL_PATHS.repo_instructions!,
+    instructions_dir: localPaths.instructions_dir || DEFAULT_LOCAL_PATHS.instructions_dir!,
+    agents_doc: localPaths.agents_doc || DEFAULT_LOCAL_PATHS.agents_doc!,
   };
 }
 
-/**
- * Read the capsule manifest from a target directory.
- * @param {string} targetDir - Absolute path to the target repo root
- * @returns {object|null} Parsed standards.json or null if not found
- */
-export function readCapsule(targetDir) {
+// ─── Public API ─────────────────────────────────────────────────────────────
+
+export function readCapsule(targetDir: string): CapsuleManifest | null {
   const capsulePath = join(targetDir, CAPSULE_DIR, CAPSULE_JSON);
   if (!existsSync(capsulePath)) return null;
-
   try {
     return JSON.parse(readFileSync(capsulePath, "utf8"));
   } catch {
@@ -68,23 +83,11 @@ export function readCapsule(targetDir) {
   }
 }
 
-/**
- * Install the standards capsule in a target repo (first run).
- * Creates .ai/system/standards.json and .ai/system/standards-summary.md.
- *
- * @param {string} targetDir - Absolute path to the target repo root
- * @param {object} options
- * @param {string} [options.version] - Upstream git ref (default: "main")
- * @param {string} [options.repo] - Upstream repo identifier
- * @param {string} [options.docsBaseUrl] - URL prefix for docs
- * @param {object} [options.localPaths] - Override local path mappings
- * @returns {{ jsonPath: string, summaryPath: string }} Paths written (relative to targetDir)
- */
-export function installCapsule(targetDir, options = {}) {
+export function installCapsule(targetDir: string, options: CapsuleOptions = {}): CapsuleResult {
   const localPaths = { ...DEFAULT_LOCAL_PATHS, ...options.localPaths };
   const now = new Date().toISOString();
 
-  const capsule = {
+  const capsule: CapsuleManifest = {
     upstream: {
       repo: options.repo || "eduardohilariodev/copilot-quickstart",
       ref: options.version || "main",
@@ -95,15 +98,12 @@ export function installCapsule(targetDir, options = {}) {
     updated_at: now,
   };
 
-  // Ensure directory
   const dir = join(targetDir, CAPSULE_DIR);
   mkdirSync(dir, { recursive: true });
 
-  // Write standards.json
   const jsonPath = join(dir, CAPSULE_JSON);
   writeFileSync(jsonPath, JSON.stringify(capsule, null, 2) + "\n", "utf8");
 
-  // Render and write standards-summary.md
   const summaryPath = join(dir, CAPSULE_SUMMARY);
   const placeholders = buildPlaceholders(options, localPaths);
 
@@ -119,22 +119,11 @@ export function installCapsule(targetDir, options = {}) {
   };
 }
 
-/**
- * Update an existing capsule — refreshes upstream block and marked content only.
- *
- * @param {string} targetDir - Absolute path to the target repo root
- * @param {object} options
- * @param {string} [options.version] - New upstream git ref
- * @param {string} [options.repo] - New upstream repo identifier
- * @param {string} [options.docsBaseUrl] - New docs URL prefix
- * @returns {{ jsonPath: string, summaryPath: string }|null} Paths updated, or null if no capsule found
- */
-export function updateCapsule(targetDir, options = {}) {
+export function updateCapsule(targetDir: string, options: CapsuleOptions = {}): CapsuleResult | null {
   const existing = readCapsule(targetDir);
   if (!existing) return null;
 
-  // Update upstream + updated_at, preserve local + installed_at
-  const updated = {
+  const updated: CapsuleManifest = {
     ...existing,
     upstream: {
       repo: options.repo || existing.upstream.repo,
@@ -146,11 +135,9 @@ export function updateCapsule(targetDir, options = {}) {
 
   const dir = join(targetDir, CAPSULE_DIR);
 
-  // Write updated standards.json
   const jsonPath = join(dir, CAPSULE_JSON);
   writeFileSync(jsonPath, JSON.stringify(updated, null, 2) + "\n", "utf8");
 
-  // Update standards-summary.md between markers
   const summaryPath = join(dir, CAPSULE_SUMMARY);
   if (existsSync(summaryPath) && existsSync(TEMPLATE_PATH)) {
     const currentContent = readFileSync(summaryPath, "utf8");
@@ -160,7 +147,6 @@ export function updateCapsule(targetDir, options = {}) {
     const endIdx = currentContent.indexOf(MARKER_END);
 
     if (beginIdx !== -1 && endIdx !== -1) {
-      // Extract fresh marked section from rendered template
       const localPaths = updated.local || DEFAULT_LOCAL_PATHS;
       const placeholders = buildPlaceholders(
         { version: updated.upstream.ref, repo: updated.upstream.repo, docsBaseUrl: updated.upstream.docs_base_url },
@@ -173,8 +159,6 @@ export function updateCapsule(targetDir, options = {}) {
 
       if (tmplBegin !== -1 && tmplEnd !== -1) {
         const freshSection = renderedTemplate.slice(tmplBegin, tmplEnd + MARKER_END.length);
-
-        // Replace only the marked section in the existing file
         const before = currentContent.slice(0, beginIdx);
         const after = currentContent.slice(endIdx + MARKER_END.length);
         writeFileSync(summaryPath, before + freshSection + after, "utf8");
@@ -188,20 +172,11 @@ export function updateCapsule(targetDir, options = {}) {
   };
 }
 
-/**
- * Stage capsule files into the staging directory (for CLI integration).
- * Writes capsule artifacts to stagingDir/.ai/system/ so they get applied
- * alongside other staged artifacts.
- *
- * @param {string} stagingDir - Absolute path to the staging directory (ai-setup/)
- * @param {object} options - Same options as installCapsule
- * @returns {{ files: string[] }} List of relative paths staged
- */
-export function stageCapsule(stagingDir, options = {}) {
+export function stageCapsule(stagingDir: string, options: CapsuleOptions = {}): { files: string[] } {
   const localPaths = { ...DEFAULT_LOCAL_PATHS, ...options.localPaths };
   const now = new Date().toISOString();
 
-  const capsule = {
+  const capsule: CapsuleManifest = {
     upstream: {
       repo: options.repo || "eduardohilariodev/copilot-quickstart",
       ref: options.version || "main",
@@ -215,14 +190,8 @@ export function stageCapsule(stagingDir, options = {}) {
   const dir = join(stagingDir, CAPSULE_DIR);
   mkdirSync(dir, { recursive: true });
 
-  // Write standards.json
-  writeFileSync(
-    join(dir, CAPSULE_JSON),
-    JSON.stringify(capsule, null, 2) + "\n",
-    "utf8"
-  );
+  writeFileSync(join(dir, CAPSULE_JSON), JSON.stringify(capsule, null, 2) + "\n", "utf8");
 
-  // Render and write standards-summary.md
   const placeholders = buildPlaceholders(options, localPaths);
   const files = [join(CAPSULE_DIR, CAPSULE_JSON)];
 

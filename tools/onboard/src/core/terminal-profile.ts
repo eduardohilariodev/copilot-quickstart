@@ -1,15 +1,22 @@
-import * as p from "@clack/prompts";
-import pc from "picocolors";
-import { existsSync } from "node:fs";
-
 /**
  * Terminal Profile Builder — interactive wizard to compose VSCode terminal
  * profiles for GitHub Copilot CLI (gh copilot).
  */
 
+import chalk from "chalk";
+import { existsSync } from "node:fs";
+import { askSelect, askMultiSelect, askConfirm, askText, showIntro, showOutro } from "../ui/prompts.js";
+import { logger } from "../ui/logger.js";
+
 // ─── Constants ──────────────────────────────────────────────────────────────
 
-export const MODELS = [
+export interface ModelEntry {
+  value: string;
+  label: string;
+  color: string;
+}
+
+export const MODELS: ModelEntry[] = [
   { value: "claude-sonnet-4.6", label: "Claude Sonnet 4.6", color: "terminal.ansiBlue" },
   { value: "claude-sonnet-4.5", label: "Claude Sonnet 4.5", color: "terminal.ansiBlue" },
   { value: "claude-opus-4.7", label: "Claude Opus 4.7", color: "terminal.ansiYellow" },
@@ -26,19 +33,36 @@ export const MODELS = [
   { value: "gpt-4.1", label: "GPT-4.1", color: "terminal.ansiCyan" },
 ];
 
-export const REASONING_EFFORTS = [
+export interface EffortEntry {
+  value: string;
+  label: string;
+  symbol: string;
+}
+
+export const REASONING_EFFORTS: EffortEntry[] = [
   { value: "high", label: "High", symbol: "∧" },
   { value: "medium", label: "Medium", symbol: "○" },
   { value: "low", label: "Low", symbol: "∨" },
 ];
 
-export const MODES = [
+export interface ModeEntry {
+  value: string;
+  label: string;
+  hint: string;
+}
+
+export const MODES: ModeEntry[] = [
   { value: "autopilot", label: "Autopilot", hint: "continuous execution without manual confirmation" },
   { value: "interactive", label: "Interactive", hint: "pause for confirmation at each step" },
   { value: "plan", label: "Plan", hint: "generate plan before executing" },
 ];
 
-export const COLORS = [
+export interface ColorEntry {
+  value: string;
+  label: string;
+}
+
+export const COLORS: ColorEntry[] = [
   { value: "terminal.ansiBlue", label: "Blue" },
   { value: "terminal.ansiMagenta", label: "Magenta" },
   { value: "terminal.ansiYellow", label: "Yellow" },
@@ -48,7 +72,13 @@ export const COLORS = [
   { value: "terminal.ansiWhite", label: "White" },
 ];
 
-export const PERMISSIONS = [
+export interface PermissionEntry {
+  value: string;
+  label: string;
+  hint: string;
+}
+
+export const PERMISSIONS: PermissionEntry[] = [
   { value: "allow-all", label: "--allow-all", hint: "tools + paths + urls (recommended for trusted repos)" },
   { value: "allow-all-tools", label: "--allow-all-tools", hint: "run any tool without confirmation" },
   { value: "allow-all-paths", label: "--allow-all-paths", hint: "access any file path" },
@@ -59,7 +89,7 @@ const MODELS_WITHOUT_EFFORT = ["claude-opus-4.7"];
 
 // ─── Shell Detection ────────────────────────────────────────────────────────
 
-function detectShellPath() {
+function detectShellPath(): string {
   const platform = process.platform;
   if (platform === "win32") {
     const candidates = [
@@ -77,7 +107,7 @@ function detectShellPath() {
 
 // ─── Profile Name Builder ───────────────────────────────────────────────────
 
-function buildDefaultName(model, effort) {
+function buildDefaultName(model: string, effort?: string): string {
   const modelEntry = MODELS.find((m) => m.value === model);
   const shortName = modelEntry?.label?.split(" ").slice(-1)[0] || model;
   const familyName = modelEntry?.label?.split(" ")[0] || "";
@@ -93,12 +123,21 @@ function buildDefaultName(model, effort) {
 
 // ─── Command Builder ────────────────────────────────────────────────────────
 
-export function buildCopilotCommand(options) {
+export interface CopilotCommandOptions {
+  model: string;
+  effort?: string;
+  mode?: string;
+  permissions?: string[];
+  enableGithubMcp?: boolean;
+  maxContinues?: number | null;
+}
+
+export function buildCopilotCommand(options: CopilotCommandOptions): string {
   const parts = ["gh copilot"];
 
   if (options.permissions?.includes("allow-all")) {
     parts.push("--allow-all");
-  } else if (options.permissions?.length > 0) {
+  } else if (options.permissions && options.permissions.length > 0) {
     for (const perm of options.permissions) {
       parts.push(`--${perm}`);
     }
@@ -127,11 +166,18 @@ export function buildCopilotCommand(options) {
 
 // ─── Profile JSON Builder ───────────────────────────────────────────────────
 
-export function buildProfileJson(options) {
+export interface ProfileJsonOptions extends CopilotCommandOptions {
+  shellPath?: string;
+  color?: string;
+  icon?: string;
+  keybinding?: string;
+}
+
+export function buildProfileJson(options: ProfileJsonOptions): Record<string, unknown> {
   const command = buildCopilotCommand(options);
   const platform = process.platform;
 
-  const profile = {};
+  const profile: Record<string, unknown> = {};
 
   if (platform === "win32") {
     profile.path = options.shellPath || "pwsh.exe";
@@ -153,168 +199,113 @@ export function buildProfileJson(options) {
 
 // ─── Interactive Wizard ─────────────────────────────────────────────────────
 
-export async function runTerminalProfileBuilder() {
-  p.intro(`${pc.bgMagenta(pc.white(" Terminal Profile Builder "))}`);
+export async function runTerminalProfileBuilder(): Promise<void> {
+  console.log();
+  console.log(chalk.bgMagenta.white(" Terminal Profile Builder "));
+  console.log();
 
-  p.log.info(
-    `Build a VSCode terminal profile for ${pc.bold("GitHub Copilot CLI")}.\n` +
-    `  The output is a JSON snippet to paste into your ${pc.cyan("settings.json")}.\n` +
-    `  ${pc.dim("(terminal.integrated.profiles.windows/linux/osx)")}`
+  logger.info(
+    `Build a VSCode terminal profile for ${chalk.bold("GitHub Copilot CLI")}.\n` +
+    `  The output is a JSON snippet to paste into your ${chalk.cyan("settings.json")}.\n` +
+    `  ${chalk.dim("(terminal.integrated.profiles.windows/linux/osx)")}`
   );
 
-  const answers = await p.group(
-    {
-      model: () =>
-        p.select({
-          message: "Model",
-          options: MODELS.map((m) => ({
-            value: m.value,
-            label: m.label,
-            hint: m.value,
-          })),
-          initialValue: "claude-sonnet-4.6",
-        }),
+  const model = await askSelect({
+    message: "Model",
+    choices: MODELS.map((m) => ({ value: m.value, name: m.label, description: m.value })),
+    default: "claude-sonnet-4.6",
+  });
 
-      effort: ({ results }) => {
-        if (MODELS_WITHOUT_EFFORT.includes(results.model)) return;
-        return p.select({
-          message: "Reasoning effort",
-          options: REASONING_EFFORTS.map((e) => ({
-            value: e.value,
-            label: `${e.symbol} ${e.label}`,
-          })),
-          initialValue: "high",
-        });
+  let effort: string | undefined;
+  if (!MODELS_WITHOUT_EFFORT.includes(model)) {
+    effort = await askSelect({
+      message: "Reasoning effort",
+      choices: REASONING_EFFORTS.map((e) => ({ value: e.value, name: `${e.symbol} ${e.label}` })),
+      default: "high",
+    });
+  }
+
+  const mode = await askSelect({
+    message: "Mode",
+    choices: MODES.map((m) => ({ value: m.value, name: m.label, description: m.hint })),
+    default: "autopilot",
+  });
+
+  const permissions = await askMultiSelect({
+    message: "Permissions",
+    choices: PERMISSIONS.map((p) => ({ value: p.value, name: p.label, description: p.hint })),
+    defaults: ["allow-all"],
+  });
+
+  const enableGithubMcp = await askConfirm({ message: "Enable all GitHub MCP tools?", default: true });
+
+  let maxContinues: number | null = null;
+  if (mode === "autopilot") {
+    const mc = await askText({
+      message: "Max autopilot continues (leave empty for unlimited)",
+      validate: (v) => {
+        if (!v) return true;
+        if (isNaN(Number(v)) || Number(v) < 1) return "Must be a positive number";
+        return true;
       },
+    });
+    if (mc) maxContinues = Number(mc);
+  }
 
-      mode: () =>
-        p.select({
-          message: "Mode",
-          options: MODES.map((m) => ({
-            value: m.value,
-            label: m.label,
-            hint: m.hint,
-          })),
-          initialValue: "autopilot",
-        }),
+  const shellPath = await askText({ message: "Shell executable path (leave empty for default)" });
 
-      permissions: () =>
-        p.multiselect({
-          message: "Permissions",
-          options: PERMISSIONS.map((perm) => ({
-            value: perm.value,
-            label: perm.label,
-            hint: perm.hint,
-          })),
-          initialValues: ["allow-all"],
-          required: false,
-        }),
+  const color = await askSelect({
+    message: "Profile color",
+    choices: COLORS.map((c) => ({ value: c.value, name: c.label })),
+    default: "terminal.ansiBlue",
+  });
 
-      enableGithubMcp: () =>
-        p.confirm({
-          message: "Enable all GitHub MCP tools?",
-          initialValue: true,
-        }),
+  const keybinding = await askText({ message: "Keybinding (optional, e.g. ctrl+alt+1)" });
 
-      maxContinues: ({ results }) => {
-        if (results.mode !== "autopilot") return;
-        return p.text({
-          message: "Max autopilot continues (leave empty for unlimited)",
-          placeholder: "e.g. 50",
-          validate: (v) => {
-            if (!v) return;
-            if (isNaN(Number(v)) || Number(v) < 1) return "Must be a positive number";
-          },
-        });
-      },
-
-      shellPath: () =>
-        p.text({
-          message: "Shell executable path",
-          placeholder: process.platform === "win32"
-            ? "C:\\Users\\...\\pwsh.exe"
-            : "/bin/bash",
-          initialValue: "",
-        }),
-
-      color: () =>
-        p.select({
-          message: "Profile color",
-          options: COLORS.map((c) => ({ value: c.value, label: c.label })),
-          initialValue: "terminal.ansiBlue",
-        }),
-
-      keybinding: () =>
-        p.text({
-          message: "Keybinding (optional)",
-          placeholder: "e.g. ctrl+alt+1",
-        }),
-
-      profileName: ({ results }) => {
-        const defaultName = buildDefaultName(results.model, results.effort);
-        return p.text({
-          message: "Profile name",
-          initialValue: ` ${defaultName}`,
-          placeholder: defaultName,
-        });
-      },
-    },
-    {
-      onCancel: () => {
-        p.cancel("Cancelled.");
-        process.exit(0);
-      },
-    }
-  );
+  const defaultName = buildDefaultName(model, effort);
+  const profileName = await askText({
+    message: "Profile name",
+    default: ` ${defaultName}`,
+  });
 
   // Build the profile
-  const options = {
-    model: answers.model,
-    effort: answers.effort,
-    mode: answers.mode,
-    permissions: answers.permissions || [],
-    enableGithubMcp: answers.enableGithubMcp,
-    maxContinues: answers.maxContinues ? Number(answers.maxContinues) : null,
-    shellPath: answers.shellPath || undefined,
-    color: answers.color,
+  const options: ProfileJsonOptions = {
+    model,
+    effort,
+    mode,
+    permissions,
+    enableGithubMcp,
+    maxContinues,
+    shellPath: shellPath || undefined,
+    color,
     icon: "copilot",
-    keybinding: answers.keybinding || undefined,
+    keybinding: keybinding || undefined,
   };
 
   const profile = buildProfileJson(options);
-  const profileName = answers.profileName?.trim() || buildDefaultName(answers.model, answers.effort);
+  const finalName = profileName?.trim() || defaultName;
 
-  // Format output
-  const jsonOutput = JSON.stringify({ [profileName]: profile }, null, 2);
+  const jsonOutput = JSON.stringify({ [finalName]: profile }, null, 2);
 
-  p.log.success(`${pc.bold("Generated profile:")}`);
+  logger.blank();
+  logger.success(chalk.bold("Generated profile:"));
   console.log();
-  console.log(pc.cyan(jsonOutput));
+  console.log(chalk.cyan(jsonOutput));
   console.log();
 
-  p.note(
-    `Add this to your ${pc.bold("settings.json")} under:\n` +
-    `  ${pc.cyan('"terminal.integrated.profiles.windows"')} ${pc.dim("(or linux/osx)")}\n\n` +
-    `${pc.bold("Command preview:")}\n` +
-    `  ${pc.dim(buildCopilotCommand(options))}`,
-    "Usage"
-  );
+  logger.header("Usage");
+  logger.info(`Add this to your ${chalk.bold("settings.json")} under:`);
+  logger.info(`  ${chalk.cyan('"terminal.integrated.profiles.windows"')} ${chalk.dim("(or linux/osx)")}`);
+  logger.blank();
+  logger.info(chalk.bold("Command preview:"));
+  logger.hint(buildCopilotCommand(options));
 
-  // Ask if user wants to generate more
-  const again = await p.confirm({
-    message: "Generate another profile?",
-    initialValue: false,
-  });
-
-  if (p.isCancel(again)) {
-    p.outro("Done!");
-    return;
-  }
+  const again = await askConfirm({ message: "Generate another profile?", default: false });
 
   if (again) {
     await runTerminalProfileBuilder();
     return;
   }
 
-  p.outro("Done! Paste the JSON into your VSCode settings.");
+  showOutro("Done! Paste the JSON into your VSCode settings.");
 }

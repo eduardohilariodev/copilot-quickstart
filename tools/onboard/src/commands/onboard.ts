@@ -10,6 +10,7 @@ import { VERSION, STAGING_DIR_NAME, ARCHITECTURES, PROVIDERS, SKILL_RECOMMENDATI
 import { scanRepo, type ScanResult } from "../core/repo-detect.js";
 import { buildProfile, buildArtifactPlan, type Artifact } from "../core/templates.js";
 import { stageArtifacts } from "../core/generate.js";
+import { stageCapsule } from "../core/capsule.js";
 import { askSelect, askMultiSelect, askConfirm, askText, showIntro, showOutro } from "../ui/prompts.js";
 import { logger } from "../ui/logger.js";
 import { EnvironmentError } from "../errors.js";
@@ -216,6 +217,14 @@ async function runOnboard(target: string, opts: OnboardOptions): Promise<void> {
   if (existsSync(stagingDir)) rmSync(stagingDir, { recursive: true });
 
   const { written, skipped } = stageArtifacts(target, finalArtifacts, profile, scan);
+
+  // Stage the standards capsule alongside other artifacts
+  const capsuleResult = stageCapsule(stagingDir, {
+    version: VERSION,
+    repo: "eduardohilariodev/copilot-quickstart",
+    docsBaseUrl: `https://github.com/eduardohilariodev/copilot-quickstart/tree/v${VERSION}/source-of-truth`,
+  });
+  for (const f of capsuleResult.files) written.push(f);
 
   logger.success(`Generated ${written.length} files`);
   logger.blank();

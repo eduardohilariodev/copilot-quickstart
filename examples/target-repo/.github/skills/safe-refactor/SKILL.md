@@ -1,3 +1,14 @@
+---
+name: safe-refactor
+description: >
+  Executes multi-file refactoring in controlled batches with test verification
+  gates between each batch to minimize risk of breaking changes. Use when a
+  refactor touches 3+ files or when rename, extract, or move operations span
+  multiple modules.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # safe-refactor
 
 <!--
@@ -9,7 +20,7 @@
 
 Executes multi-file refactoring operations in controlled batches with test verification gates between each batch. Minimizes risk of breaking changes.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user requests a refactor touching 3+ files

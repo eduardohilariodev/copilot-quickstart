@@ -1,3 +1,14 @@
+---
+name: plan-and-scope-change
+description: >
+  Structures a planning phase before any code change by producing a clear
+  scope, affected files list, risk assessment, and acceptance criteria.
+  Use when a task involves more than a trivial edit, or when asked to
+  plan, scope a change, or assess impact.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # plan-and-scope-change
 
 <!--
@@ -9,7 +20,7 @@
 
 Structures a planning phase before any code change. Produces a clear scope, affected files list, risk assessment, and acceptance criteria before implementation begins.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - A task involves more than a trivial one-file edit

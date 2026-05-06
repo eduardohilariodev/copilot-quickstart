@@ -1,3 +1,14 @@
+---
+name: ci-health-check
+description: >
+  Audits GitHub Actions workflows for security, performance, and reliability
+  issues including unpinned actions, missing permissions, and caching gaps.
+  Use when reviewing CI/CD configuration, when workflow files are added or
+  modified, or during periodic maintenance audits.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # ci-health-check
 
 <!--
@@ -9,7 +20,7 @@
 
 Audits GitHub Actions workflows for security, performance, and reliability issues. Checks for unpinned actions, missing permissions, excessive timeouts, and caching opportunities.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - The user asks to review CI/CD configuration

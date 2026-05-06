@@ -18,7 +18,7 @@ refactor, and test TypeScript code across the monorepo.
 - context-curator — gather context about affected files and dependencies
 - plan-change — plan change scope and identify test coverage gaps
 - safe-refactor — implement in small batches with test verification
-- test-generator — generate tests for new code
+- test-generate — generate tests for new code
 
 ## When to Invoke
 

@@ -1,14 +1,15 @@
 ---
-name: sync
+name: sync-config
 description: >
   Synchronize AI configuration across multiple providers from a single
   canonical source with explicit lossy mapping documentation. Use when
-  syncing, harmonizing, or porting configs between providers.
+  syncing configs, exporting to Claude, porting to Cursor, or harmonizing
+  configuration across providers.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# sync
+# sync-config
 ## Description
 
 Synchronizes AI configuration across multiple providers (GitHub Copilot, Claude/Anthropic, Cursor) from a single canonical source. Detects drift between providers, produces normalized diffs, and renders provider-specific output with explicit documentation of lossy mappings.

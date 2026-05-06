@@ -1,15 +1,17 @@
 ---
-name: shell-ops
+name: shell-safe
 description: >
-  Guidelines for executing shell commands safely: respect protected paths, use
-  dry-runs, never touch secrets, and prefer reversible operations. Use when
-  executing shell commands, running scripts, or performing system operations.
+  Validate and execute shell commands safely with dry-runs, protected-path
+  checks, and reversible operations. Use when asked to run this command,
+  open a terminal, execute a shell script, or validate command safety before
+  safe execution. Do not trigger for project-specific build or test commands
+  that have their own skills.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash Read
 ---
 
-# shell-ops
+# shell-safe
 
 ## Description
 

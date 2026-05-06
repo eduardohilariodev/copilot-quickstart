@@ -2,8 +2,9 @@
 name: audit-tool-safety
 description: >
   Scan skill definitions and agent configs for unsafe tool usage patterns,
-  dangerous permissions, and missing guardrails. Use when auditing security,
-  checking tool safety, or reviewing permissions.
+  dangerous permissions, and missing guardrails. Use when auditing tool
+  safety, checking allowed tools or tool permissions, reviewing security,
+  or performing a security audit on agent configurations.
 version: 1.0.0
 portability: requires-framework
 ---

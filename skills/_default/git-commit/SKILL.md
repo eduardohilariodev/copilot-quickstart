@@ -2,8 +2,9 @@
 name: git-commit
 description: >
   Generate conventional, descriptive commit messages from staged changes.
-  Use when committing changes, writing commit messages, or when staged
-  files need a well-formatted commit description.
+  Use when committing changes, writing commit messages, staging files,
+  or when a conventional commit description is needed. Do not trigger
+  for merge commits or automated version bumps.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash(git:*) Read

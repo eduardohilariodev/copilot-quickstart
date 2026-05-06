@@ -1,14 +1,15 @@
 ---
-name: upgrade
+name: upgrade-config
 description: >
   Migrate AI configuration files when upgrading host tools or standards
   versions — parse changelogs, map impact, and produce versioned patches.
-  Use when configs break after updates or when upgrading standards.
+  Use when upgrading config, migrating to a new standards version, or when
+  configs break after tool updates.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# upgrade
+# upgrade-config
 ## Description
 
 Helps migrate AI configuration files when upgrading host tools (Copilot, Claude Code, Cursor) or when standards evolve. Parses changelogs and deprecation notices, maps impact to existing configs, and produces versioned migration patches that maintain standards compliance.

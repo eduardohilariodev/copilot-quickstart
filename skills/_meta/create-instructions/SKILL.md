@@ -2,8 +2,9 @@
 name: create-instructions
 description: >
   Generate provider-specific instruction files for a target repository.
-  Use when creating AI instructions, generating copilot-instructions,
-  or setting up CLAUDE.md.
+  Use when creating new AI instructions, generating copilot-instructions,
+  setting up CLAUDE.md, adding an instructions file, or bootstrapping
+  provider configs.
 version: 1.0.0
 portability: requires-framework
 ---

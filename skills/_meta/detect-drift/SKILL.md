@@ -1,14 +1,15 @@
 ---
-name: drift
+name: detect-drift
 description: >
-  Detect configuration drift between instruction files across providers
-  and between configs and the actual codebase. Use when checking for
-  inconsistencies, comparing configs, or after codebase changes.
+  Detect configuration drift and inconsistencies between instruction files
+  across providers and between configs and the actual codebase. Use when
+  checking for drift, finding config mismatches, comparing Copilot vs
+  Claude configs, or after codebase changes that may invalidate references.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# drift
+# detect-drift
 ## Description
 
 Detects configuration drift between instruction files across providers and between configs and the actual codebase. Identifies inconsistencies where AGENTS.md, copilot-instructions, CLAUDE.md, and Cursor rules have diverged in meaning or reference outdated state.

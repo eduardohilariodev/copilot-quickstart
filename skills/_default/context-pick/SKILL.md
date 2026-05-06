@@ -2,8 +2,9 @@
 name: context-pick
 description: >
   Select and compress the minimum relevant context (files, docs, code) for a
-  specific task, avoiding context window waste. Use when starting complex
-  multi-file tasks or when the context window needs pruning.
+  specific task, avoiding context window waste. Use when determining what
+  files are relevant, which context to include, finding the minimal context
+  set, or when the context window needs pruning.
 version: 1.0.0
 portability: standalone
 allowed-tools: Read

@@ -3,8 +3,8 @@ name: ci-starter
 description: >
   Design and generate GitHub Actions workflows following CI/CD best
   practices including modular jobs, caching, security, and proper
-  permissions. Use when setting up CI/CD pipelines, configuring GitHub
-  Actions, or bootstrapping workflows for a new project.
+  permissions. Use when setting up a CI/CD pipeline, creating a GitHub
+  Actions workflow, or bootstrapping CI for a new project.
 version: 1.0.0
 portability: standalone
 allowed-tools: Read

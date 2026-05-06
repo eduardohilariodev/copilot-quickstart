@@ -130,7 +130,7 @@ export type Provider = (typeof PROVIDERS)[number];
 
 export const MAINTENANCE_SKILLS = [
   "detect-drift",
-  "health-check",
+  "health-dashboard",
   "audit-skills",
   "lint-instructions",
   "sync-config",
@@ -139,10 +139,11 @@ export const MAINTENANCE_SKILLS = [
 // ─── Skill Recommendations ──────────────────────────────────────────────────
 
 export const SKILL_RECOMMENDATIONS: Record<string, string[]> = {
-  ci: ["ci-health", "ci-starter"],
-  testing: ["test-generator", "test-diagnoser", "test-strategy"],
-  git: ["git-commit", "git-branch-pr", "git-cleanup"],
-  deployment: ["deploy-playbook", "infra-sanity"],
-  general: ["safe-refactor", "plan-change", "shell-ops"],
+  core: ["git-commit", "git-branch-pr", "plan-change", "context-pick", "review-self"],
+  git: ["git-commit", "git-branch-pr", "git-cleanup", "git-undo"],
+  testing: ["test-generate", "test-diagnose", "test-strategy"],
+  docs: ["doc-write", "doc-readme", "doc-adr", "doc-changelog"],
+  "ci-ops": ["ci-starter", "ci-health", "deploy-guide", "shell-safe"],
+  deployment: ["deploy-guide", "infra-sanity"],
   onboarding: ["project-onboard", "context-pick"],
 };

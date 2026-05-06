@@ -67,25 +67,25 @@ copilot-quickstart/
 │   │   │
 │   │   │ # Onboarding — Orchestration
 │   │   ├── onboard/SKILL.md                # Full onboarding decision tree
-│   │   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
+│   │   ├── diagnose-repo/SKILL.md         # Readiness scoring & repair plan
 │   │   └── configure-copilot/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
 │   │
 │   └── _default/                     # Starter skill pack (15 generic skills)
 │       ├── git-commit/               # Conventional commit messages
 │       ├── git-branch-pr/            # Branch naming + PR descriptions
 │       ├── git-cleanup/              # History hygiene (squash, prune)
-│       ├── test-generator/           # Unit test scaffolding
-│       ├── test-diagnoser/           # Failing test root-cause analysis
+│       ├── test-generate/            # Unit test scaffolding
+│       ├── test-diagnose/            # Failing test root-cause analysis
 │       ├── test-strategy/            # TESTING.md generation
 │       ├── ci-starter/               # GitHub Actions best practices
 │       ├── ci-health/                # Workflow security/perf audit
-│       ├── deploy-playbook/          # Deployment procedure docs
+│       ├── deploy-guide/             # Deployment procedure docs
 │       ├── infra-sanity/             # Infrastructure safety checks
 │       ├── plan-change/              # Structured planning before coding
 │       ├── context-pick/             # Minimal high-signal context selection
 │       ├── safe-refactor/            # Multi-file refactor with test gates
 │       ├── project-onboard/          # "How to work here" doc generator
-│       └── shell-ops/                # Safe shell command execution
+│       └── shell-safe/               # Safe shell command execution
 ├── agents/                           # Starter agent definitions (5 agents)
 │   ├── onboard-diagnose.agent.md     # Onboarding & diagnostics agent
 │   ├── coding-refactor.agent.md      # Day-to-day coding agent
@@ -221,12 +221,12 @@ The skill runs the same decision tree interactively:
 |--|-----------|------------|
 | **Trigger** | No AGENTS/instructions found | Existing configs detected |
 | **Approach** | Generate from templates + profile | Diagnose → repair → normalize |
-| **Skills used** | `create-*` | `evaluate`, `diagnose-brownfield`, `refactor-instructions`, `sync` |
+| **Skills used** | `create-*` | `evaluate`, `diagnose-repo`, `refactor-instructions`, `sync` |
 | **Risk** | Low (nothing to break) | Medium (must preserve conventions) |
 
 ### Readiness Scoring (Brownfield)
 
-The `diagnose-brownfield` skill scores repos on four dimensions:
+The `diagnose-repo` skill scores repos on four dimensions:
 
 | Dimension | Weight | What It Measures |
 |-----------|--------|-----------------|
@@ -246,18 +246,18 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 | **Git & Flow** | `git-commit` | Conventional commit messages from staged diffs |
 | | `git-branch-pr` | Branch naming + structured PR descriptions |
 | | `git-cleanup` | Squash, prune stale branches, audit history |
-| **Testing** | `test-generator` | Unit test scaffolds matching project conventions |
-| | `test-diagnoser` | Root-cause analysis for failing tests |
+| **Testing** | `test-generate` | Unit test scaffolds matching project conventions |
+| | `test-diagnose` | Root-cause analysis for failing tests |
 | | `test-strategy` | Generate/update TESTING.md |
 | **CI/CD** | `ci-starter` | GitHub Actions workflows (secure, cached, modular) |
 | | `ci-health` | Audit workflows for security/perf issues |
-| | `deploy-playbook` | Deployment procedures + rollback docs |
+| | `deploy-guide` | Deployment procedures + rollback docs |
 | | `infra-sanity` | Safety checks before destructive infra commands |
 | **Context & Planning** | `plan-change` | Structured planning before code changes |
 | | `context-pick` | Select minimal high-signal context for tasks |
 | | `safe-refactor` | Multi-file refactors with test gates per batch |
 | **Onboarding & Ops** | `project-onboard` | "How to work here" quickstart guide |
-| | `shell-ops` | Safe shell execution with protected-path guards |
+| | `shell-safe` | Safe shell execution with protected-path guards |
 
 #### Library vs Vendored
 
@@ -270,10 +270,10 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 
 | Agent | Role | Skills Used |
 |-------|------|-------------|
-| **Onboard & Diagnose** | First setup / reset / health checks | `onboard`, `evaluate`, `diagnose-brownfield`, `health` |
-| **Coding & Refactor** | Day-to-day development | `context-pick`, `plan-change`, `safe-refactor`, `test-generator` |
+| **Onboard & Diagnose** | First setup / reset / health checks | `onboard`, `evaluate`, `diagnose-repo`, `health` |
+| **Coding & Refactor** | Day-to-day development | `context-pick`, `plan-change`, `safe-refactor`, `test-generate` |
 | **PR & Code Review** | PR authoring + standards-based review | `git-commit`, `git-branch-pr`, `evaluate` |
-| **CI/CD & DevOps** | Pipeline design + deployment | `ci-starter`, `ci-health`, `deploy-playbook`, `infra-sanity` |
+| **CI/CD & DevOps** | Pipeline design + deployment | `ci-starter`, `ci-health`, `deploy-guide`, `infra-sanity` |
 | **Maintenance & Hygiene** | Config upkeep (never edits code) | `health`, `audit`, `drift`, `sync`, `prune` |
 
 Agents are defined in `agents/*.agent.md` and rendered per-provider by `sync`.
@@ -377,7 +377,7 @@ MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
 | **Governance** | `audit-tool-safety` | Tool permission and safety pattern audit |
 | | `check-policy` | Org-level policy conformance verification |
 | **Onboarding** | `onboard` | Full decision-tree onboarding orchestrator |
-| | `diagnose-brownfield` | Readiness scoring with 4-dimension analysis |
+| | `diagnose-repo` | Readiness scoring with 4-dimension analysis |
 
 ## Design Principles
 

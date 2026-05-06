@@ -1,9 +1,9 @@
 ---
 name: create-skill
 description: >
-  Generates a complete, standards-compliant SKILL.md file for a target
-  repository. Use when creating a new skill definition, generating skills,
-  or scaffolding new skill files.
+  Generate a complete, standards-compliant SKILL.md file for a target
+  repository. Use when creating a new skill, adding a skill definition,
+  scaffolding a new skill file, or generating skill templates.
 version: 1.0.0
 portability: requires-framework
 ---

@@ -1,14 +1,16 @@
 ---
-name: audit
+name: audit-skills
 description: >
-  Scan skill definitions for structural compliance, size violations, missing
-  sections, and cross-skill duplication. Use when auditing skill quality,
-  reviewing the skill catalog, or after adding new skills.
+  Scan skill definitions for structural compliance, size violations,
+  missing sections, and cross-skill duplication. Checks against
+  .framework/standards.md for quality and completeness. Use when auditing
+  skills, reviewing the skill catalog, checking skill quality, or after
+  adding new skills.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# audit
+# audit-skills
 ## Description
 
 Scans skill definitions (SKILL.md files) for structural compliance, size violations, missing sections, hardcoded project-specifics, and cross-skill duplication. Produces a per-skill audit card with compliance score and concrete fix recommendations.

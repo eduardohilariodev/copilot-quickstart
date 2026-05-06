@@ -31,7 +31,7 @@
 │       ├── git-commit/
 │       ├── plan-change/
 │       ├── safe-refactor/
-│       └── test-generator/
+│       └── test-generate/
 ├── AGENTS.md
 ├── CLAUDE.md
 ├── README.md

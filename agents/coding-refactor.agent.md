@@ -18,9 +18,9 @@ development tasks with context awareness and test verification.
 - context-curator — gather minimal high-signal context
 - plan-and-scope-change — structured planning before coding
 - safe-refactor — snapshot → batch → test → commit workflow
-- test-generator — generate tests for new code
-- test-failure-diagnoser — analyze and fix test failures
-- ci-health-check — verify CI pipeline health
+- test-generate — generate tests for new code
+- test-failure-diagnose — analyze and fix test failures
+- ci-health — verify CI pipeline health
 
 ## When to Invoke
 
@@ -37,7 +37,7 @@ development tasks with context awareness and test verification.
 4. Apply changes in small, verifiable batches.
 5. Run tests after each batch (fail fast).
 6. For refactors: use safe-refactor workflow (snapshot → batch → test → commit).
-7. Generate tests for new code using test-generator.
+7. Generate tests for new code using test-generate.
 
 ## Constraints
 

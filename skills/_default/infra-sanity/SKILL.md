@@ -1,9 +1,11 @@
 ---
 name: infra-sanity
 description: >
-  High-level infrastructure safety checks that prevent dangerous operations,
-  enforce dry-runs, and validate environment configurations. Use when running
-  infrastructure commands like terraform, kubectl, or database migrations.
+  Perform high-level infrastructure safety checks that prevent dangerous
+  operations, enforce dry-runs, and validate environment configurations.
+  Use when running terraform, kubectl, database migrations, or other
+  infrastructure commands. Do not trigger for application-level shell
+  commands — use shell-safe for that.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash Read

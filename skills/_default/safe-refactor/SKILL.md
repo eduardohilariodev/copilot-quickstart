@@ -2,8 +2,9 @@
 name: safe-refactor
 description: >
   Execute multi-file refactors safely using small batches, test verification
-  between steps, limited blast radius, and rollback paths. Use when renaming,
-  moving, restructuring, or refactoring code across multiple files.
+  between steps, limited blast radius, and rollback paths. Use when
+  refactoring, extracting, renaming, restructuring, moving code, or
+  splitting files across multiple locations.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash(git:*) Bash Read

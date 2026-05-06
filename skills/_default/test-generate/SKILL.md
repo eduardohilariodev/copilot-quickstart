@@ -1,15 +1,16 @@
 ---
-name: test-generator
+name: test-generate
 description: >
-  Generate unit test scaffolds for functions, modules, or classes following
-  the project's testing conventions and framework. Use when writing tests
-  for new or changed code, or when increasing test coverage.
+  Generate unit test scaffolds following the project's testing conventions
+  and framework. Use when asked to write tests, add test coverage, create
+  unit tests, or generate tests for new or changed code. Do not trigger for
+  diagnosing failing tests — use test-diagnose for that.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash Read
 ---
 
-# test-generator
+# test-generate
 
 ## Description
 

@@ -2,8 +2,9 @@
 name: check-policy
 description: >
   Verify that AI configurations conform to organization-level policies —
-  security requirements, compliance mandates, and review processes. Use
-  for policy checks, compliance verification, or governance audits.
+  security requirements, compliance mandates, governance rules, and review
+  processes. Use for policy checks, compliance verification, governance
+  audits, or security policy reviews.
 version: 1.0.0
 portability: requires-framework
 ---

@@ -1,9 +1,10 @@
 ---
 name: git-cleanup
 description: >
-  Maintain clean git history by squashing before merge, removing stale
-  branches, and auditing for large misc commits. Use when cleaning up
-  branches, preparing to merge, or checking for stale branches.
+  Maintain clean git history by squashing commits before merge, pruning
+  stale branches, and auditing for large miscellaneous commits. Use when
+  cleaning up branches, preparing to merge, checking for stale or merged
+  branches, or performing merge cleanup after feature completion.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash(git:*) Read

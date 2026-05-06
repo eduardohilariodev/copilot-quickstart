@@ -61,7 +61,7 @@ Layer 2: CONTENT (skills + agents + CLI) → skills/ + agents/ + instructions/ +
 ### Naming
 
 - **Meta-skills:** `verb-noun` pattern (e.g., `create-skill`, `audit`, `drift`)
-- **Starter skills:** Mixed — `noun-noun` or `verb-noun` (e.g., `git-commit`, `test-generator`)
+- **Starter skills:** Mixed — `noun-noun` or `verb-noun` (e.g., `git-commit`, `test-generate`)
 - **Agent definitions:** `role-scope` (e.g., `onboard-diagnose`, `coding-refactor`)
 - **All identifiers:** kebab-case, lowercase, hyphens only
 - See `.framework/standards.md` for full naming rules

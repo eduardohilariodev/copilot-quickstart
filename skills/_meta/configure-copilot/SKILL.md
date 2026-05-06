@@ -3,7 +3,8 @@ name: configure-copilot
 description: >
   Configure all Copilot features for a repository: scoped instructions,
   IDE settings, CLI environment, and prompt file scaffolding. Use when
-  setting up or optimizing Copilot for a repo.
+  setting up Copilot, configuring Copilot settings, optimizing Copilot
+  for a repo, or managing copilot-instructions and applyTo patterns.
 version: 1.0.0
 portability: requires-framework
 ---

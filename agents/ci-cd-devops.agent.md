@@ -16,8 +16,8 @@ GitHub Actions workflows and deployment pipelines.
 ## Skills Used
 
 - ci-cd-starter — generate secure, cached workflows for new setups
-- ci-health-check — audit existing pipelines and propose fixes
-- deploy-playbook — guide deployment procedures
+- ci-health — audit existing pipelines and propose fixes
+- deploy-guide — guide deployment procedures
 - infra-sanity — validate safety before infrastructure commands
 
 ## When to Invoke
@@ -33,8 +33,8 @@ GitHub Actions workflows and deployment pipelines.
 1. Read repo-profile.yml (especially build_commands and deployment sections).
 2. Scan .github/workflows/ for existing pipelines.
 3. For new setup: use ci-cd-starter to generate secure, cached workflows.
-4. For improvements: run ci-health-check and propose fixes.
-5. For deployment: read deploy-playbook and assist with procedures.
+4. For improvements: run ci-health and propose fixes.
+5. For deployment: read deploy-guide and assist with procedures.
 6. Before any infra commands: use infra-sanity to validate safety.
 
 ## Constraints

@@ -1,14 +1,15 @@
 ---
-name: onboard
+name: onboard-repo
 description: >
   Orchestrate complete repository onboarding — build repo profile, select
-  strategy, and generate AI configurations. Use when setting up a new repo
-  for AI assistance or initializing AI config.
+  strategy, and generate AI configurations. Use when onboarding a repo,
+  setting up Copilot, making a project AI-ready, or initializing AI
+  config for a new or existing repository.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# onboard
+# onboard-repo
 ## Description
 
 Orchestrates complete repository onboarding for AI assistance. Builds/updates `repo-profile.yml`, selects strategy (greenfield vs brownfield), then calls meta-skills in sequence to produce standards-compliant, provider-ready AI configuration. Single entry point for "make this repo AI-ready."
@@ -68,7 +69,7 @@ Has existing AI configs?
 
 ### Phase 4: Brownfield Execution
 
-1. **Diagnose** via `diagnose-brownfield` — score readiness, identify worst dimension
+1. **Diagnose** via `diagnose-repo` — score readiness, identify worst dimension
 2. **Evaluate** via `evaluate-config` scope="all" — find violations and contradictions
 3. **Detect drift** via `detect-drift` (if multiple providers) — find inconsistencies
 4. **Plan repairs:**

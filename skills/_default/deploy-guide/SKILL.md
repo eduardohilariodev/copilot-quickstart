@@ -1,15 +1,17 @@
 ---
-name: deploy-playbook
+name: deploy-guide
 description: >
-  Document and assist with deployment procedures based on repo-profile.yml
-  deployment configuration. Use when deploying, rolling back, or documenting
-  deployment steps for any environment.
+  Write deployment playbooks with preflight checklists, step-by-step deploy
+  commands, verification checks, and rollback procedures. Use when deploying,
+  planning a release, documenting rollout or deployment steps, or creating a
+  deployment playbook on how to deploy. Do not trigger for CI/CD pipeline
+  configuration — use ci-starter for that.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash Read
 ---
 
-# deploy-playbook
+# deploy-guide
 
 ## Description
 

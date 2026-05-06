@@ -1,5 +1,5 @@
 ---
-name: test-generator
+name: test-generate
 description: >
   Generate unit test scaffolds for functions and modules following the
   project's testing conventions and framework. Use when writing tests for
@@ -10,7 +10,7 @@ portability: standalone
 allowed-tools: Bash Read
 ---
 
-# test-generator
+# test-generate
 
 ## Description
 

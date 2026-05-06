@@ -1,14 +1,14 @@
 ---
-name: diagnose-brownfield
+name: diagnose-repo
 description: >
-  Score a repository's AI-readiness across four dimensions and produce a
-  prioritized repair checklist. Use when diagnosing setup maturity,
-  assessing config readiness, or before modifying existing AI config.
+  Score a repository's AI-readiness and produce a prioritized repair
+  checklist. Use for a health check, readiness score, diagnosing setup,
+  assessing maturity, or checking how AI-ready your config is.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# diagnose-brownfield
+# diagnose-repo
 
 ## Description
 

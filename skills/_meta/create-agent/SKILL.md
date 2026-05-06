@@ -2,8 +2,8 @@
 name: create-agent
 description: >
   Generate a complete agent definition (persona, tools, constraints,
-  escalation policy) for a target repository. Use when creating or
-  defining new agents.
+  escalation policy) for a target repository. Use when creating a new
+  agent, adding an agent definition, or scaffolding agent configurations.
 version: 1.0.0
 portability: requires-framework
 ---

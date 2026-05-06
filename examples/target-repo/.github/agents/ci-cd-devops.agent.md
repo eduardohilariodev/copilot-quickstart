@@ -17,7 +17,7 @@ Pipeline design and deployment assistance for acme/web-platform.
 
 - ci-cd-starter — generate secure, cached workflows for new setups
 - ci-health — audit existing pipelines and propose fixes
-- deploy-playbook — guide deployment procedures
+- deploy-guide — guide deployment procedures
 - infra-sanity — validate safety before infrastructure commands
 
 ## When to Invoke

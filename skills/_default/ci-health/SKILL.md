@@ -2,9 +2,9 @@
 name: ci-health
 description: >
   Audit GitHub Actions workflow files for common issues including missing
-  permissions, no caching, insecure patterns, and missing concurrency
-  controls. Use when reviewing CI/CD configuration, after adding new
-  workflows, or during periodic health checks.
+  permissions, no caching, insecure patterns, slow CI, and missing
+  concurrency controls. Use when auditing workflows, checking pipeline
+  health, reviewing CI/CD configuration, or performing a CI audit.
 version: 1.0.0
 portability: standalone
 allowed-tools: Read

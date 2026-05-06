@@ -3,7 +3,8 @@ name: check-compat
 description: >
   Verify that skill definitions and instruction files are compatible with
   current versions of host AI tools. Use after tool upgrades, when skills
-  stop working, or for periodic compatibility checks.
+  stop working after a version change, to check for breaking changes, or
+  for periodic compatibility and version checks.
 version: 1.0.0
 portability: requires-framework
 ---

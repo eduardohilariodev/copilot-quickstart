@@ -3,7 +3,9 @@ name: refactor-instructions
 description: >
   Identify oversized or poorly-structured instruction files and apply
   progressive disclosure by extracting details into focused child
-  documents. Use when cleaning up, refactoring, or slimming down configs.
+  documents. Use when refactoring instructions, splitting oversized
+  configs, restructuring instruction files, or slimming down AI
+  configuration.
 version: 1.0.0
 portability: requires-framework
 ---

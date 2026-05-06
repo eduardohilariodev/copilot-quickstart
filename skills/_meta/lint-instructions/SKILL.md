@@ -1,14 +1,15 @@
 ---
-name: lint
+name: lint-instructions
 description: >
   Lint instruction files against prompt-engineering standards — check
-  structure, rule quality, size budgets, and anti-patterns. Use when
-  linting, checking, or validating instruction files.
+  structure, rule quality, size budgets, and anti-patterns. Use for
+  quality checks on instructions, linting config files, validating
+  instruction quality, or checking instruction files for compliance.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# lint
+# lint-instructions
 ## Description
 
 Lints instruction files (AGENTS.md, copilot-instructions.md, CLAUDE.md, .cursor/rules/*.mdc) against prompt-engineering standards. Checks structure, section ordering, rule quality, size budgets, and flags anti-patterns — producing actionable fix suggestions for every issue found.

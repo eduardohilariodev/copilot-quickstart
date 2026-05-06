@@ -1,14 +1,15 @@
 ---
-name: batch
+name: batch-maintain
 description: >
   Orchestrate maintenance across multiple repositories — run health checks,
-  identify work, and create issues or PRs. Use for org-wide cleanup, batch
-  maintenance, or after standards updates.
+  identify work, and create issues or PRs for bulk updates. Use for batch
+  maintenance, org-wide cleanup, bulk updates to all skills, mass repair,
+  or after standards version bumps.
 version: 1.0.0
 portability: meta-only
 ---
 
-# batch
+# batch-maintain
 ## Description
 
 Orchestrates maintenance across multiple repositories in an organization. Runs health checks on each repo, identifies maintenance work, and creates GitHub issues or PRs assigned to human maintainers or Copilot agents with clear, scoped task descriptions.

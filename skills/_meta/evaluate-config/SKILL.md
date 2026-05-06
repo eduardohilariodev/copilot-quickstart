@@ -1,14 +1,15 @@
 ---
-name: evaluate
+name: evaluate-config
 description: >
-  Audit existing AI configuration files against the standards in .framework/standards.md
-  with actionable fix recommendations. Use when evaluating, auditing, or
-  reviewing AI configurations.
+  Audit existing AI configuration files against the standards in
+  .framework/standards.md with actionable fix recommendations. Use when
+  evaluating config, auditing instructions, checking compliance, or
+  reviewing AI configuration quality.
 version: 1.0.0
 portability: requires-framework
 ---
 
-# evaluate
+# evaluate-config
 ## Description
 
 Audits existing AI configuration files against the standards in .framework/standards.md. Produces a detailed compliance report with actionable fix recommendations. Works on any combination of Copilot instructions, CLAUDE.md, Cursor rules, AGENTS.md, and skill definitions.

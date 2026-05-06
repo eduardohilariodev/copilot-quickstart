@@ -1,15 +1,16 @@
 ---
-name: test-diagnoser
+name: test-diagnose
 description: >
   Analyze failing test output to identify root causes and suggest minimal
-  fixes without rewriting large code sections. Use when a test run produces
-  failures or when diagnosing why tests fail from error output.
+  fixes. Use when a test is failing, a red test appears, you need to know
+  why is this test broken, or you want to debug a test error. Do not trigger
+  for writing new tests — use test-generate for that.
 version: 1.0.0
 portability: standalone
 allowed-tools: Bash Read
 ---
 
-# test-diagnoser
+# test-diagnose
 
 ## Description
 

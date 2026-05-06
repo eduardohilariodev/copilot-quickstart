@@ -1,9 +1,10 @@
 ---
 name: test-strategy
 description: >
-  Create or update a TESTING.md that documents the project's test strategy
-  as a reference for agents and developers. Use when setting up test
-  documentation, planning a testing strategy, or capturing test conventions.
+  Create or update a TESTING.md that documents the project's testing
+  strategy, test plan, and test approach as a reference for agents and
+  developers. Use when planning what should be tested, setting up test
+  documentation, or capturing test conventions.
 version: 1.0.0
 portability: standalone
 allowed-tools: Read

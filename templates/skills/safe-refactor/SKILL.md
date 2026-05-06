@@ -1,10 +1,20 @@
+---
+name: safe-refactor
+description: >
+  Execute multi-file refactors safely using small batches, test verification
+  between steps, limited blast radius, and rollback paths. Use when renaming,
+  moving, restructuring, or refactoring code across multiple files.
+version: 1.0.0
+allowed-tools: Bash(git:*) Bash Read
+---
+
 # safe-refactor
 
 ## Description
 
 Execute multi-file refactors safely: small batches, test verification between steps, limited blast radius, and rollback path.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to rename, move, restructure, or refactor across multiple files
@@ -66,12 +76,3 @@ This skill activates when:
 - If tests fail after a batch: show diff, explain likely cause, offer revert
 - If scope is too large (>50 files): suggest incremental approach across multiple PRs
 - If circular dependencies are found: flag and propose resolution before continuing
-
-## Metadata
-
-```yaml
-name: safe-refactor
-version: 1.0.0
-standards_version: 1.0.0
-category: context-planning
-```

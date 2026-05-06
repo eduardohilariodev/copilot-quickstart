@@ -1,10 +1,20 @@
+---
+name: shell-ops
+description: >
+  Guidelines for executing shell commands safely: respect protected paths, use
+  dry-runs, never touch secrets, and prefer reversible operations. Use when
+  executing shell commands, running scripts, or performing system operations.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # shell-ops
 
 ## Description
 
 Guidelines for executing shell commands safely: respect protected paths, use dry-runs, never touch secrets, and prefer reversible operations.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - Agent needs to execute shell commands
@@ -68,12 +78,3 @@ This skill activates when:
 - If command fails: show error output, suggest fix, don't retry automatically
 - If command would affect protected paths: refuse and explain why
 - If working directory seems wrong: halt and verify with user
-
-## Metadata
-
-```yaml
-name: shell-ops
-version: 1.0.0
-standards_version: 1.0.0
-category: onboarding-ops
-```

@@ -1,10 +1,20 @@
+---
+name: plan-and-scope-change
+description: >
+  Force a structured plan before any code change: clarify intent, identify
+  impact, define success criteria, and outline steps. Use when making non-trivial
+  multi-file changes, features, refactors, or migrations.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # plan-and-scope-change
 
 ## Description
 
 Before any code change, force a structured plan: clarify intent, identify impact, define success criteria, and outline steps.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks to make a non-trivial code change (multi-file, architectural)
@@ -95,13 +105,4 @@ Steps:
 4. Hook email service into user registration
 5. Add unit tests for email service
 6. Add integration test for signup → email flow
-```
-
-## Metadata
-
-```yaml
-name: plan-and-scope-change
-version: 1.0.0
-standards_version: 1.0.0
-category: context-planning
 ```

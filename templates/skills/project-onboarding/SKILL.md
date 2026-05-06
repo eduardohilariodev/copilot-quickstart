@@ -1,10 +1,20 @@
+---
+name: project-onboarding
+description: >
+  Generate a "how to work here" guide for agents and new developers covering
+  install, run, test, debug, and where to look first. Use when onboarding to
+  a new project or when AGENTS.md needs a quickstart section.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # project-onboarding
 
 ## Description
 
 Generate a "how to work here" guide for agents and new developers: install, run, test, debug, and where to look first.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - New developer (or agent) joins a project
@@ -60,12 +70,3 @@ This skill activates when:
 
 - If build commands fail: note the failure and suggest fixes
 - If no clear setup exists: generate best-guess from file analysis and flag as unverified
-
-## Metadata
-
-```yaml
-name: project-onboarding
-version: 1.0.0
-standards_version: 1.0.0
-category: onboarding-ops
-```

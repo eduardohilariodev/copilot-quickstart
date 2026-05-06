@@ -1,10 +1,20 @@
+---
+name: infra-sanity
+description: >
+  High-level infrastructure safety checks that prevent dangerous operations,
+  enforce dry-runs, and validate environment configurations. Use when running
+  infrastructure commands like terraform, kubectl, or database migrations.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # infra-sanity
 
 ## Description
 
 High-level infrastructure safety checks: prevent dangerous operations, enforce dry-runs, and validate environment configurations.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User is about to run infrastructure commands (terraform, kubectl, migrations)
@@ -64,12 +74,3 @@ This skill activates when:
 - If environment cannot be determined: halt and ask explicitly
 - If dry-run shows unexpected changes: warn and suggest investigation
 - If command has no dry-run equivalent: explain risks and require explicit confirmation
-
-## Metadata
-
-```yaml
-name: infra-sanity
-version: 1.0.0
-standards_version: 1.0.0
-category: ci-cd
-```

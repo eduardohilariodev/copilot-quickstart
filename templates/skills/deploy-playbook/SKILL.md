@@ -1,10 +1,20 @@
+---
+name: deploy-playbook
+description: >
+  Document and assist with deployment procedures based on repo-profile.yml
+  deployment configuration. Use when deploying, rolling back, or documenting
+  deployment steps for any environment.
+version: 1.0.0
+allowed-tools: Bash Read
+---
+
 # deploy-playbook
 
 ## Description
 
 Document and assist with deployment procedures based on repo-profile.yml deployment configuration.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - User asks about deployment process
@@ -64,12 +74,3 @@ This skill activates when:
 - If deployment config is missing: ask user for platform/strategy details
 - If health check fails post-deploy: immediately suggest rollback procedure
 - If environment is unclear: ask before proceeding
-
-## Metadata
-
-```yaml
-name: deploy-playbook
-version: 1.0.0
-standards_version: 1.0.0
-category: ci-cd
-```

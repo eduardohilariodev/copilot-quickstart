@@ -1,10 +1,20 @@
+---
+name: context-curator
+description: >
+  Select and compress the minimum relevant context (files, docs, code) for a
+  specific task, avoiding context window waste. Use when starting complex
+  multi-file tasks or when the context window needs pruning.
+version: 1.0.0
+allowed-tools: Read
+---
+
 # context-curator
 
 ## Description
 
 Select and compress the minimum relevant context (files, docs, code) for a specific task, avoiding context window waste.
 
-## Trigger
+## When to Use This Skill
 
 This skill activates when:
 - Starting a complex task that requires understanding multiple files
@@ -66,12 +76,3 @@ This skill activates when:
 
 - If task is too broad: ask user to narrow scope
 - If context exceeds budget: prioritize by direct relevance, drop indirect deps
-
-## Metadata
-
-```yaml
-name: context-curator
-version: 1.0.0
-standards_version: 1.0.0
-category: context-planning
-```

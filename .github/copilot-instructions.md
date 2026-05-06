@@ -4,14 +4,14 @@
 
 ## Context
 
-This is a meta-copilot: standards corpus + meta-skills + CLI wizard that generates AI configurations for any Git repository. Three layers: Standards (source-of-truth/, schemas/), Orchestrator (meta-skills/, tools/, templates/), Target Output (examples/target-repo/).
+This is a meta-copilot: standards corpus + meta-skills + CLI wizard that generates AI configurations for any Git repository. Two layers: Framework (.framework/), Content (skills/, agents/, instructions/, tools/).
 
 ## Code Style
 
 - Write all JavaScript as pure ESM with `.mjs` extension.
 - Use `@clack/prompts` and `picocolors` for CLI UI — no other runtime dependencies.
 - Export pure functions from each module — avoid module-level side effects.
-- Name identifiers in kebab-case: meta-skills as `verb-noun`, template skills as `noun-noun` or `verb-ing-domain`.
+- Name identifiers in kebab-case: meta-skills as `verb-noun`, default skills as `noun-noun` or `verb-ing-domain`.
 - Use `{{placeholder}}` syntax in templates — never add a template engine.
 
 ## Writing Skills
@@ -24,17 +24,16 @@ This is a meta-copilot: standards corpus + meta-skills + CLI wizard that generat
 
 ## Architecture
 
-- Treat `source-of-truth/` and `schemas/` as immutable — never auto-modify these paths.
-- Read Layer 1 (Standards) to produce or repair Layer 3 (Target Output) artifacts.
+- Treat `.framework/` as immutable — never auto-modify this path.
+- Read Layer 1 (Framework) to produce or repair target output artifacts.
 - Route all generated file writes through staging (`ai-setup/`) — never overwrite target files directly.
-- Keep the three-layer separation strict: standards define, orchestrator executes, templates render.
+- Keep the two-layer separation strict: framework defines, content executes and renders.
 
 ## Protected Paths
 
 Do not modify without explicit human approval:
 
-- `source-of-truth/` — canonical specs
-- `schemas/` — JSON Schema contracts
+- `.framework/` — canonical specs and schemas
 - `examples/target-repo/` — curated reference output
 - `LICENSE`
 

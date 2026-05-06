@@ -4,128 +4,114 @@ A project-agnostic **standards corpus + meta-skills** for generating high-qualit
 
 ## What This Is
 
-A "meta-copilot" — instead of writing AI configurations by hand (and watching them drift), you use this repo as a **three-layer system**:
+A "meta-copilot" — instead of writing AI configurations by hand (and watching them drift), you use this repo as a **two-layer system**:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  Layer 1: STANDARDS (read-only specs & contracts)               │
-│  source-of-truth/ + schemas/                                    │
+│  Layer 1: FRAMEWORK (read-only specs & contracts)               │
+│  .framework/ (standards.md + schemas/)                          │
 ├─────────────────────────────────────────────────────────────────┤
-│  Layer 2: ORCHESTRATOR (meta-skills + CLI + templates)          │
-│  Reads standards, inspects target repo, generates/repairs       │
-│  meta-skills/ + tools/ + templates/                             │
-├─────────────────────────────────────────────────────────────────┤
-│  Layer 3: TARGET REPO (what Copilot/Claude actually consume)    │
-│  AGENTS.md, copilot-instructions, CLAUDE.md, skills             │
+│  Layer 2: CONTENT (skills + agents + CLI + tools)               │
+│  Reads framework, inspects target repo, generates/repairs       │
+│  skills/ + agents/ + instructions/ + tools/                     │
 │  (see examples/target-repo/ for reference output)               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-1. **Standards** — Immutable design rules, prompt-engineering guide, security governance (`source-of-truth/`, `schemas/`)
-2. **Orchestrator** — Meta-skills, CLI, and templates that read standards and produce/repair configs (`meta-skills/`, `tools/`, `templates/`)
+1. **Framework** — Immutable design rules, prompt-engineering guide, security governance (`.framework/`)
+2. **Content** — Skills, agents, instructions, CLI, and tools that read the framework and produce/repair configs (`skills/`, `agents/`, `instructions/`, `tools/`)
 3. **Target output** — The actual files your AI tools consume, always aligned with standards (`examples/target-repo/` is the reference)
 
 ## Repository Structure
 
 ```
 copilot-quickstart/
-├── source-of-truth/              # Immutable standards (read, never auto-write)
-│   ├── design-standards.md       # Agent/skill/instruction boundaries & taxonomy
-│   ├── prompt-engineering-guide.md  # Writing patterns, format, anti-patterns
-│   ├── security-governance.md    # Security constraints & governance policies
-│   ├── maintenance-principles.md # Lifecycle, pruning, size thresholds, drift prevention
-│   ├── anti-patterns.md          # What NOT to do (with examples)
-│   ├── copilot-config-features.md # Copilot-specific knobs, applyTo, CLI, IDE settings
-│   └── naming-conventions.md     # Naming patterns for skills, agents, instructions
-├── schemas/                      # Machine-readable contracts
-│   ├── repo-profile.schema.json  # Target repo intake specification
-│   ├── skill.schema.json         # Skill definition validation
-│   ├── agent.schema.json         # Agent definition validation
-│   └── instructions.schema.json  # Instruction file validation
-├── templates/                    # Ready-to-use templates ({{placeholder}} syntax)
-│   ├── AGENTS.md                 # Documentation template (with agent table + maintenance)
-│   ├── copilot-instructions.md   # Copilot instructions template (with review checklist)
-│   ├── SKILL.md                  # Skill definition template
-│   ├── agent-definition.agent.md  # Agent config template (generic)
-│   ├── eval-suite.md             # Evaluation checklist template
-│   ├── architecture.md           # Deep architecture grounding doc
-│   ├── tech-stack.md             # Technology stack declaration
-│   ├── agents/                   # Starter agent definitions (5 agents)
-│   │   ├── onboard-diagnose.agent.md  # Onboarding & diagnostics agent
-│   │   ├── coding-refactor.agent.md   # Day-to-day coding agent
-│   │   ├── pr-code-review.agent.md    # PR authoring & review agent
-│   │   ├── ci-cd-devops.agent.md      # CI/CD & DevOps agent
-│   │   └── maintenance-hygiene.agent.md # Config maintenance agent
-│   ├── instructions/             # Path-specific instruction templates (with applyTo)
-│   │   ├── typescript.instructions.md  # applyTo: **/*.ts,**/*.tsx
-│   │   ├── frontend.instructions.md   # applyTo: apps/web/**, components/**
-│   │   ├── backend.instructions.md    # applyTo: apps/api/**, services/**
-│   │   ├── infra.instructions.md      # applyTo: terraform/**, workflows/**
-│   │   └── tests.instructions.md      # applyTo: **/*.test.*, **/*.spec.*
-│   ├── vscode-settings.json      # VS Code config for instruction discovery
-│   └── skills/                   # Starter skill pack (15 generic skills)
-│       ├── git-commit-message/   # Conventional commit messages
-│       ├── git-branch-and-pr/    # Branch naming + PR descriptions
-│       ├── git-cleanup/          # History hygiene (squash, prune)
-│       ├── test-generator/       # Unit test scaffolding
-│       ├── test-failure-diagnoser/ # Failing test root-cause analysis
-│       ├── test-strategy-doc/    # TESTING.md generation
-│       ├── ci-cd-starter/        # GitHub Actions best practices
-│       ├── ci-health-check/      # Workflow security/perf audit
-│       ├── deploy-playbook/      # Deployment procedure docs
-│       ├── infra-sanity/         # Infrastructure safety checks
-│       ├── plan-and-scope-change/ # Structured planning before coding
-│       ├── context-curator/      # Minimal high-signal context selection
-│       ├── safe-refactor/        # Multi-file refactor with test gates
-│       ├── project-onboarding/   # "How to work here" doc generator
-│       └── shell-ops/            # Safe shell command execution
-├── meta-skills/                  # Skills that create and maintain configurations
+├── .framework/                       # Immutable standards (read, never auto-write)
+│   ├── standards.md                  # Consolidated standards (design, naming, prompts,
+│   │                                 #   security, maintenance, anti-patterns, config)
+│   └── schemas/                      # Machine-readable contracts
+│       ├── repo-profile.schema.json  # Target repo intake specification
+│       ├── skill.schema.json         # Skill definition validation
+│       ├── agent.schema.json         # Agent definition validation
+│       └── instructions.schema.json  # Instruction file validation
+├── skills/
+│   ├── _meta/                        # Skills that create and maintain configurations
+│   │   │
+│   │   │ # Bootstrap (create from scratch)
+│   │   ├── create-skill/SKILL.md     # Generates new skill definitions
+│   │   ├── create-instructions/SKILL.md  # Generates instruction files
+│   │   ├── create-agent/SKILL.md     # Generates agent definitions
+│   │   ├── evaluate/SKILL.md         # Audits existing configs against standards
+│   │   ├── sync/SKILL.md             # Syncs across Copilot/Claude/Cursor
+│   │   │
+│   │   │ # Maintenance — Instruction Cleanup
+│   │   ├── refactor-instructions/SKILL.md  # Progressive disclosure refactoring
+│   │   ├── lint/SKILL.md                   # Instruction file linter
+│   │   ├── drift/SKILL.md                  # Cross-provider drift detection
+│   │   │
+│   │   │ # Maintenance — Skill Hygiene
+│   │   ├── audit/SKILL.md                  # Skill catalog auditor
+│   │   ├── prune/SKILL.md                  # Skill lifecycle/deprecation manager
+│   │   ├── check-compat/SKILL.md           # Tool version compatibility checker
+│   │   │
+│   │   │ # Maintenance — Orchestration
+│   │   ├── health/SKILL.md                 # Config health report generator
+│   │   ├── batch/SKILL.md                  # Multi-repo batch maintenance
+│   │   │
+│   │   │ # Maintenance — Upgrade & Migration
+│   │   ├── upgrade/SKILL.md                # Model/tool upgrade helper
+│   │   │
+│   │   │ # Maintenance — Governance & Safety
+│   │   ├── audit-tool-safety/SKILL.md      # Tool/script safety auditor
+│   │   ├── check-policy/SKILL.md           # Org policy conformance checker
+│   │   │
+│   │   │ # Onboarding — Orchestration
+│   │   ├── onboard/SKILL.md                # Full onboarding decision tree
+│   │   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
+│   │   └── configure-copilot/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
 │   │
-│   │ # Bootstrap (create from scratch)
-│   ├── create-skill/SKILL.md     # Generates new skill definitions
-│   ├── create-instructions/SKILL.md  # Generates instruction files
-│   ├── create-agent/SKILL.md     # Generates agent definitions
-│   ├── evaluate-config/SKILL.md  # Audits existing configs against standards
-│   ├── sync-config/SKILL.md      # Syncs across Copilot/Claude/Cursor
-│   │
-│   │ # Maintenance — Instruction Cleanup
-│   ├── refactor-instructions/SKILL.md  # Progressive disclosure refactoring
-│   ├── lint-instructions/SKILL.md      # Instruction file linter
-│   ├── detect-drift/SKILL.md           # Cross-provider drift detection
-│   │
-│   │ # Maintenance — Skill Hygiene
-│   ├── audit-skills/SKILL.md           # Skill catalog auditor
-│   ├── prune-skills/SKILL.md           # Skill lifecycle/deprecation manager
-│   ├── check-compatibility/SKILL.md    # Tool version compatibility checker
-│   │
-│   │ # Maintenance — Orchestration
-│   ├── health-dashboard/SKILL.md       # Config health report generator
-│   ├── batch-maintain/SKILL.md         # Multi-repo batch maintenance
-│   │
-│   │ # Maintenance — Upgrade & Migration
-│   ├── upgrade-assistant/SKILL.md      # Model/tool upgrade helper
-│   │
-│   │ # Maintenance — Governance & Safety
-│   ├── audit-tool-safety/SKILL.md      # Tool/script safety auditor
-│   ├── check-policy/SKILL.md           # Org policy conformance checker
-│   │
-│   │ # Onboarding — Orchestration
-│   ├── onboard-repo/SKILL.md           # Full onboarding decision tree
-│   ├── diagnose-brownfield/SKILL.md    # Readiness scoring & repair plan
-│   └── configure-copilot/SKILL.md  # Copilot feature config (applyTo, IDE, CLI)
+│   └── _default/                     # Starter skill pack (15 generic skills)
+│       ├── git-commit/               # Conventional commit messages
+│       ├── git-branch-pr/            # Branch naming + PR descriptions
+│       ├── git-cleanup/              # History hygiene (squash, prune)
+│       ├── test-generator/           # Unit test scaffolding
+│       ├── test-diagnoser/           # Failing test root-cause analysis
+│       ├── test-strategy/            # TESTING.md generation
+│       ├── ci-starter/               # GitHub Actions best practices
+│       ├── ci-health/                # Workflow security/perf audit
+│       ├── deploy-playbook/          # Deployment procedure docs
+│       ├── infra-sanity/             # Infrastructure safety checks
+│       ├── plan-change/              # Structured planning before coding
+│       ├── context-pick/             # Minimal high-signal context selection
+│       ├── safe-refactor/            # Multi-file refactor with test gates
+│       ├── project-onboard/          # "How to work here" doc generator
+│       └── shell-ops/                # Safe shell command execution
+├── agents/                           # Starter agent definitions (5 agents)
+│   ├── onboard-diagnose.agent.md     # Onboarding & diagnostics agent
+│   ├── coding-refactor.agent.md      # Day-to-day coding agent
+│   ├── pr-code-review.agent.md       # PR authoring & review agent
+│   ├── ci-cd-devops.agent.md         # CI/CD & DevOps agent
+│   └── maintenance-hygiene.agent.md  # Config maintenance agent
+├── instructions/                     # Path-specific instruction templates (with applyTo)
+│   ├── typescript.instructions.md    # applyTo: **/*.ts,**/*.tsx
+│   ├── frontend.instructions.md     # applyTo: apps/web/**, components/**
+│   ├── backend.instructions.md      # applyTo: apps/api/**, services/**
+│   ├── infra.instructions.md        # applyTo: terraform/**, workflows/**
+│   └── tests.instructions.md        # applyTo: **/*.test.*, **/*.spec.*
 ├── tools/
-│   └── onboard/                  # Interactive CLI wizard
-│       ├── package.json          # @clack/prompts + picocolors
-│       ├── bin/cli.mjs           # Entry point (command routing)
-│       └── lib/
-│           ├── constants.mjs     # Paths, version, ignore rules
-│           ├── detect.mjs        # Repo scanning (languages, frameworks, etc.)
-│           ├── plan.mjs          # Shared plan model (profile + artifact plan)
-│           ├── generate.mjs      # File generation + staging
-│           └── doctor.mjs        # Read-only diagnostics + scoring
+│   └── onboard/                      # Interactive CLI wizard
+│       ├── package.json              # @clack/prompts + picocolors
+│       ├── bin/cli.mjs               # Entry point (command routing)
+│       ├── lib/
+│       │   ├── constants.mjs         # Paths, version, ignore rules
+│       │   ├── detect.mjs            # Repo scanning (languages, frameworks, etc.)
+│       │   ├── plan.mjs              # Shared plan model (profile + artifact plan)
+│       │   ├── generate.mjs          # File generation + staging
+│       │   └── doctor.mjs            # Read-only diagnostics + scoring
+│       └── templates/                # Generation templates (SKILL.md, AGENTS.md, etc.)
 └── examples/
-    └── target-repo/              # Fully populated example output
-        ├── repo-profile.yml      # Input profile
+    └── target-repo/                  # Fully populated example output
+        ├── repo-profile.yml          # Input profile
         ├── .github/copilot-instructions.md
         ├── AGENTS.md
         └── CLAUDE.md
@@ -135,7 +121,7 @@ copilot-quickstart/
 
 ### 1. Profile Your Repo
 
-Create a `repo-profile.yml` describing your target project (see `schemas/repo-profile.schema.json` for the full spec):
+Create a `repo-profile.yml` describing your target project (see `.framework/schemas/repo-profile.schema.json` for the full spec):
 
 ```yaml
 name: "my-org/my-repo"
@@ -156,21 +142,21 @@ providers: [copilot, claude]
 Use the meta-skills with your preferred AI tool:
 
 ```
-"Using copilot-quickstart/meta-skills/create-instructions, generate 
+"Using copilot-quickstart/skills/_meta/create-instructions, generate 
 copilot instructions for my repo based on the repo-profile.yml"
 ```
 
 ### 3. Evaluate Quality
 
 ```
-"Using copilot-quickstart/meta-skills/evaluate-config, audit my 
+"Using copilot-quickstart/skills/_meta/evaluate, audit my 
 .github/copilot-instructions.md against the standards"
 ```
 
 ### 4. Sync Across Providers
 
 ```
-"Using copilot-quickstart/meta-skills/sync-config, sync my Copilot 
+"Using copilot-quickstart/skills/_meta/sync, sync my Copilot 
 instructions to CLAUDE.md and Cursor rules"
 ```
 
@@ -222,7 +208,7 @@ Exit codes: `0` = success/healthy, `1` = needs work (doctor) or error.
 ### Option B: Copilot/Claude Skill
 
 ```
-"Run the onboard-repo skill from copilot-quickstart on this repository"
+"Run the onboard skill from copilot-quickstart on this repository"
 ```
 
 The skill runs the same decision tree interactively:
@@ -235,7 +221,7 @@ The skill runs the same decision tree interactively:
 |--|-----------|------------|
 | **Trigger** | No AGENTS/instructions found | Existing configs detected |
 | **Approach** | Generate from templates + profile | Diagnose → repair → normalize |
-| **Skills used** | `create-*` | `evaluate-config`, `diagnose-brownfield`, `refactor-instructions`, `sync-config` |
+| **Skills used** | `create-*` | `evaluate`, `diagnose-brownfield`, `refactor-instructions`, `sync` |
 | **Risk** | Low (nothing to break) | Medium (must preserve conventions) |
 
 ### Readiness Scoring (Brownfield)
@@ -257,25 +243,25 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 
 | Category | Skill | What It Does |
 |----------|-------|-------------|
-| **Git & Flow** | `git-commit-message` | Conventional commit messages from staged diffs |
-| | `git-branch-and-pr` | Branch naming + structured PR descriptions |
+| **Git & Flow** | `git-commit` | Conventional commit messages from staged diffs |
+| | `git-branch-pr` | Branch naming + structured PR descriptions |
 | | `git-cleanup` | Squash, prune stale branches, audit history |
 | **Testing** | `test-generator` | Unit test scaffolds matching project conventions |
-| | `test-failure-diagnoser` | Root-cause analysis for failing tests |
-| | `test-strategy-doc` | Generate/update TESTING.md |
-| **CI/CD** | `ci-cd-starter` | GitHub Actions workflows (secure, cached, modular) |
-| | `ci-health-check` | Audit workflows for security/perf issues |
+| | `test-diagnoser` | Root-cause analysis for failing tests |
+| | `test-strategy` | Generate/update TESTING.md |
+| **CI/CD** | `ci-starter` | GitHub Actions workflows (secure, cached, modular) |
+| | `ci-health` | Audit workflows for security/perf issues |
 | | `deploy-playbook` | Deployment procedures + rollback docs |
 | | `infra-sanity` | Safety checks before destructive infra commands |
-| **Context & Planning** | `plan-and-scope-change` | Structured planning before code changes |
-| | `context-curator` | Select minimal high-signal context for tasks |
+| **Context & Planning** | `plan-change` | Structured planning before code changes |
+| | `context-pick` | Select minimal high-signal context for tasks |
 | | `safe-refactor` | Multi-file refactors with test gates per batch |
-| **Onboarding & Ops** | `project-onboarding` | "How to work here" quickstart guide |
+| **Onboarding & Ops** | `project-onboard` | "How to work here" quickstart guide |
 | | `shell-ops` | Safe shell execution with protected-path guards |
 
 #### Library vs Vendored
 
-- **Library** (default): skills stay in `copilot-quickstart/templates/skills/` — agents reference them
+- **Library** (default): skills stay in `copilot-quickstart/skills/_default/` — agents reference them
 - **Vendored** (`--skills` flag): copied into your repo at `.github/skills/` — you own and evolve them
 
 ### Starter Agents
@@ -284,13 +270,13 @@ Readiness levels: **Basic** (0–4) → **Ready** (4–7) → **Advanced** (7–
 
 | Agent | Role | Skills Used |
 |-------|------|-------------|
-| **Onboard & Diagnose** | First setup / reset / health checks | `onboard-repo`, `evaluate-config`, `diagnose-brownfield`, `health-dashboard` |
-| **Coding & Refactor** | Day-to-day development | `context-curator`, `plan-and-scope-change`, `safe-refactor`, `test-generator` |
-| **PR & Code Review** | PR authoring + standards-based review | `git-commit-message`, `git-branch-and-pr`, `evaluate-config` |
-| **CI/CD & DevOps** | Pipeline design + deployment | `ci-cd-starter`, `ci-health-check`, `deploy-playbook`, `infra-sanity` |
-| **Maintenance & Hygiene** | Config upkeep (never edits code) | `health-dashboard`, `audit-skills`, `detect-drift`, `sync-config`, `prune-skills` |
+| **Onboard & Diagnose** | First setup / reset / health checks | `onboard`, `evaluate`, `diagnose-brownfield`, `health` |
+| **Coding & Refactor** | Day-to-day development | `context-pick`, `plan-change`, `safe-refactor`, `test-generator` |
+| **PR & Code Review** | PR authoring + standards-based review | `git-commit`, `git-branch-pr`, `evaluate` |
+| **CI/CD & DevOps** | Pipeline design + deployment | `ci-starter`, `ci-health`, `deploy-playbook`, `infra-sanity` |
+| **Maintenance & Hygiene** | Config upkeep (never edits code) | `health`, `audit`, `drift`, `sync`, `prune` |
 
-Agents are defined in `templates/agents/*.agent.md` and rendered per-provider by `sync-config`.
+Agents are defined in `agents/*.agent.md` and rendered per-provider by `sync`.
 
 ### Path-Specific Instructions
 
@@ -324,7 +310,7 @@ Use the `configure-copilot` meta-skill to configure all of the above based on yo
 "Run configure-copilot on this repo to set up scoped instructions and IDE settings"
 ```
 
-See `source-of-truth/copilot-config-features.md` for the full reference.
+See `.framework/standards.md` for the full reference.
 
 ## Maintenance Workflow
 
@@ -340,10 +326,10 @@ MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
 
 ```
 # Check overall health (weekly)
-"Run health-dashboard on my repo and show priorities"
+"Run health on my repo and show priorities"
 
 # Lint instruction quality
-"Run lint-instructions on my .github/copilot-instructions.md"
+"Run lint on my .github/copilot-instructions.md"
 
 # Detect drift between providers
 "Check for drift between my Copilot and Claude configs"
@@ -359,17 +345,17 @@ MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
 
 ```
 # Check compatibility with new versions
-"Run check-compatibility after my Copilot extension update"
+"Run check-compat after my Copilot extension update"
 
 # Migrate configs to new standards
-"Run upgrade-assistant to migrate from standards v1.0 to v1.1"
+"Run upgrade to migrate from standards v1.0 to v1.1"
 ```
 
 ### Organization-Wide
 
 ```
 # Batch maintenance across repos
-"Run batch-maintain on all repos in my org with health + lint checks"
+"Run batch on all repos in my org with health + lint checks"
 
 # Policy conformance (before audit)
 "Check policy conformance for acme/api-service"
@@ -380,17 +366,17 @@ MEASURE → IDENTIFY → PROPOSE → REVIEW → APPLY → VALIDATE
 | Category | Skill | Purpose |
 |----------|-------|---------|
 | **Instruction Cleanup** | `refactor-instructions` | Progressive disclosure — split oversized files |
-| | `lint-instructions` | Quality lint with rule-level fix suggestions |
-| | `detect-drift` | Find inconsistencies across providers + codebase |
-| **Skill Hygiene** | `audit-skills` | Structural audit of skill catalog |
-| | `prune-skills` | Lifecycle management: deprecate, archive, merge |
-| | `check-compatibility` | Verify configs work with current tool versions |
-| **Orchestration** | `health-dashboard` | Aggregate health report with scores and priorities |
-| | `batch-maintain` | Multi-repo maintenance with issue/PR creation |
-| **Upgrade** | `upgrade-assistant` | Migration helper for tool/standards version bumps |
+| | `lint` | Quality lint with rule-level fix suggestions |
+| | `drift` | Find inconsistencies across providers + codebase |
+| **Skill Hygiene** | `audit` | Structural audit of skill catalog |
+| | `prune` | Lifecycle management: deprecate, archive, merge |
+| | `check-compat` | Verify configs work with current tool versions |
+| **Orchestration** | `health` | Aggregate health report with scores and priorities |
+| | `batch` | Multi-repo maintenance with issue/PR creation |
+| **Upgrade** | `upgrade` | Migration helper for tool/standards version bumps |
 | **Governance** | `audit-tool-safety` | Tool permission and safety pattern audit |
 | | `check-policy` | Org-level policy conformance verification |
-| **Onboarding** | `onboard-repo` | Full decision-tree onboarding orchestrator |
+| **Onboarding** | `onboard` | Full decision-tree onboarding orchestrator |
 | | `diagnose-brownfield` | Readiness scoring with 4-dimension analysis |
 
 ## Design Principles
@@ -417,7 +403,7 @@ Instructions (behavioral rules)
 
 ### Provider Mapping
 
-See [`source-of-truth/design-standards.md`](source-of-truth/design-standards.md#provider-mapping) for the canonical provider mapping.
+See [`.framework/standards.md`](.framework/standards.md) for the canonical provider mapping.
 
 **Token budgets (approximate):**
 
@@ -432,16 +418,16 @@ See [`source-of-truth/design-standards.md`](source-of-truth/design-standards.md#
 ```
 repo-profile.yml → meta-skill → standards check → render → validate → output
      ↑                              ↑                            ↑
-  (your repo)          (source-of-truth/)              (schemas/*.json)
+  (your repo)              (.framework/)              (.framework/schemas/)
 ```
 
 ## Standards Versioning
 
-All source-of-truth documents include a `Version: X.Y.Z` header. Generated artifacts include provenance:
+All `.framework/standards.md` sections include a `Version: X.Y.Z` header. Generated artifacts include provenance:
 
 ```markdown
 <!--
-  Generated by: copilot-quickstart/meta-skills/create-instructions
+  Generated by: copilot-quickstart/skills/_meta/create-instructions
   Standards version: 1.0.0
   Input hash: sha256:abc123...
 -->

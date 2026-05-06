@@ -2,19 +2,20 @@
 
 ## Before You Start
 
-1. Read `source-of-truth/design-standards.md` to understand artifact boundaries
-2. Read `source-of-truth/naming-conventions.md` for naming rules
+1. Read `.framework/standards.md` to understand artifact boundaries
+2. Read `.framework/standards.md` for naming rules
 3. Run `npm run validate` to see the baseline state
 
-## Three-Layer Model
+## Two-Layer Model
 
-Every change falls into one of three layers:
+Every change falls into one of two layers:
 
 | Layer | Directories | Rules |
 |-------|-------------|-------|
-| 1. Standards | `source-of-truth/`, `schemas/` | Immutable without discussion. Requires versioning. |
-| 2. Orchestrator | `meta-skills/`, `tools/`, `templates/` | Must conform to Layer 1. Read standards before editing. |
-| 3. Target Output | `examples/target-repo/` | Reference only. Manually curated to match template output. |
+| 1. Framework | `.framework/` | Immutable without discussion. Requires versioning. |
+| 2. Content | `skills/`, `agents/`, `instructions/`, `tools/` | Must conform to Layer 1. Read standards before editing. |
+
+> `examples/target-repo/` is reference output — manually curated to match generated output.
 
 ## Making Changes
 
@@ -26,22 +27,21 @@ Every change falls into one of three layers:
 ## Adding a Meta-Skill
 
 1. Name it `verb-noun` (e.g., `audit-configs`, `sync-providers`).
-2. Create `meta-skills/<name>/SKILL.md` using `templates/SKILL.md` as the base.
+2. Create `skills/_meta/<name>/SKILL.md` using `tools/onboard/templates/SKILL.md` as the base.
 3. Include required sections: Description, Trigger, Inputs, Behavior (Steps + Constraints).
-4. Follow `source-of-truth/prompt-engineering-guide.md` for all instruction text.
+4. Follow `.framework/standards.md` for all instruction text.
 
-## Adding a Template Skill
+## Adding a Default Skill
 
-1. Name it per `source-of-truth/naming-conventions.md` (prefer `verb-ing-domain`).
-2. Create `templates/skills/<name>/SKILL.md`.
+1. Name it per `.framework/standards.md` (prefer `verb-ing-domain`).
+2. Create `skills/_default/<name>/SKILL.md`.
 3. Use `{{placeholder}}` syntax for customizable fields — no template engine.
 
 ## Protected Paths
 
 Do not modify without explicit discussion:
 
-- `source-of-truth/` — canonical specs
-- `schemas/` — versioned contracts
+- `.framework/` — canonical specs and schemas
 - `examples/target-repo/` — curated reference
 - `LICENSE`
 

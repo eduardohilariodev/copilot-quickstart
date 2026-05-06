@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "validate": "node tools/onboard/bin/cli.mjs validate",
-    "onboard": "node tools/onboard/bin/cli.mjs",
-    "doctor": "node tools/onboard/bin/cli.mjs doctor",
-    "apply": "node tools/onboard/bin/cli.mjs apply",
-    "reset": "node tools/onboard/bin/cli.mjs reset"
+    "validate": "npx tsx tools/onboard/src/cli.ts validate",
+    "onboard": "npx tsx tools/onboard/src/cli.ts onboard",
+    "doctor": "npx tsx tools/onboard/src/cli.ts doctor",
+    "apply": "npx tsx tools/onboard/src/cli.ts apply",
+    "reset": "npx tsx tools/onboard/src/cli.ts reset"
   }
 }

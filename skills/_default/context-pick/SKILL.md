@@ -1,14 +1,15 @@
 ---
-name: context-curator
+name: context-pick
 description: >
   Select and compress the minimum relevant context (files, docs, code) for a
   specific task, avoiding context window waste. Use when starting complex
   multi-file tasks or when the context window needs pruning.
 version: 1.0.0
+portability: standalone
 allowed-tools: Read
 ---
 
-# context-curator
+# context-pick
 
 ## Description
 

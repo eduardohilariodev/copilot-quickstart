@@ -5,6 +5,7 @@ description: >
   between steps, limited blast radius, and rollback paths. Use when renaming,
   moving, restructuring, or refactoring code across multiple files.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash(git:*) Bash Read
 ---
 

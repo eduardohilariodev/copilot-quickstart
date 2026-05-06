@@ -1,14 +1,15 @@
 ---
-name: git-branch-and-pr
+name: git-branch-pr
 description: >
   Create well-named branches and structured pull request descriptions
   following team conventions. Use when starting a new task that needs a
   branch or when ready to open a pull request.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash(git:*) Bash(gh:*) Read
 ---
 
-# git-branch-and-pr
+# git-branch-pr
 
 ## Description
 

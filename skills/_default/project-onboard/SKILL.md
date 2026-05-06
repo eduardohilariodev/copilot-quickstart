@@ -1,14 +1,15 @@
 ---
-name: project-onboarding
+name: project-onboard
 description: >
   Generate a "how to work here" guide for agents and new developers covering
   install, run, test, debug, and where to look first. Use when onboarding to
   a new project or when AGENTS.md needs a quickstart section.
 version: 1.0.0
+portability: standalone
 allowed-tools: Read
 ---
 
-# project-onboarding
+# project-onboard
 
 ## Description
 

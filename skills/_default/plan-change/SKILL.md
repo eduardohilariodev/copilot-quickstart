@@ -1,14 +1,15 @@
 ---
-name: plan-and-scope-change
+name: plan-change
 description: >
   Force a structured plan before any code change: clarify intent, identify
   impact, define success criteria, and outline steps. Use when making non-trivial
   multi-file changes, features, refactors, or migrations.
 version: 1.0.0
+portability: standalone
 allowed-tools: Read
 ---
 
-# plan-and-scope-change
+# plan-change
 
 ## Description
 

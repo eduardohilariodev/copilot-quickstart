@@ -5,6 +5,7 @@ description: >
   dry-runs, never touch secrets, and prefer reversible operations. Use when
   executing shell commands, running scripts, or performing system operations.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

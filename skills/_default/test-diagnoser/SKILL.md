@@ -1,14 +1,15 @@
 ---
-name: test-failure-diagnoser
+name: test-diagnoser
 description: >
   Analyze failing test output to identify root causes and suggest minimal
   fixes without rewriting large code sections. Use when a test run produces
   failures or when diagnosing why tests fail from error output.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 
-# test-failure-diagnoser
+# test-diagnoser
 
 ## Description
 

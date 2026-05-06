@@ -5,6 +5,7 @@ description: >
   the project's testing conventions and framework. Use when writing tests
   for new or changed code, or when increasing test coverage.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

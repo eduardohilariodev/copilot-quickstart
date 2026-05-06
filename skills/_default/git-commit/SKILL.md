@@ -1,14 +1,15 @@
 ---
-name: git-commit-message
+name: git-commit
 description: >
   Generate conventional, descriptive commit messages from staged changes.
   Use when committing changes, writing commit messages, or when staged
   files need a well-formatted commit description.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash(git:*) Read
 ---
 
-# git-commit-message
+# git-commit
 
 ## Description
 

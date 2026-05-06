@@ -5,6 +5,7 @@ description: >
   deployment configuration. Use when deploying, rolling back, or documenting
   deployment steps for any environment.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

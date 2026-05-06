@@ -5,6 +5,7 @@ description: >
   enforce dry-runs, and validate environment configurations. Use when running
   infrastructure commands like terraform, kubectl, or database migrations.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash Read
 ---
 

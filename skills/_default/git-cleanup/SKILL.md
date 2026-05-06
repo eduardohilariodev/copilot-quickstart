@@ -5,6 +5,7 @@ description: >
   branches, and auditing for large misc commits. Use when cleaning up
   branches, preparing to merge, or checking for stale branches.
 version: 1.0.0
+portability: standalone
 allowed-tools: Bash(git:*) Read
 ---
 
